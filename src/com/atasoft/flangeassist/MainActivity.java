@@ -62,6 +62,17 @@ public class MainActivity extends Activity {
 		case (1): // 300
 			setVals(fSizeIndex, R.array.f_stats300);
 			break;
+		case (2): // 400
+			setVals(fSizeIndex, R.array.f_stats400);
+			break;
+		case (3): // 600
+			setVals(fSizeIndex, R.array.f_stats600);
+			break;
+		case (4): //900
+			setVals(fSizeIndex, R.array.f_stats900);
+			break;
+		case (5): //1500
+			setVals(fSizeIndex, R.array.f_stats1500);
 		}
 	}
 
