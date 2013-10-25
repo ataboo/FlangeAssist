@@ -10,9 +10,14 @@
 	<string name="drift_text">Drift Pin</string>
 	<string name="sCount_text">Stud Count</string>
 	<string name="sLength_text">Stud Length</string>
-
-
-	<string name="default_value">-</string><string name="flange_header">ASME Flange Reference</string><string-array name = "f_ratings">
+	<string name="default_value">-</string>
+	<string name="flange_header">ASME Flange Reference</string>
+	<string name="but_call146">View 146 Callout</string>
+	
+	<string name="main_header">Boilermaker Toolkit</string>
+	<string name="but_flange">ASME Flange Tables</string>
+	
+	<string-array name = "f_ratings">
 	    <item>150</item>
 		<item>300</item>
 		<item>400</item>
