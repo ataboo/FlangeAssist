@@ -14,14 +14,4 @@
 		android:autoLink="email"
 		android:linksClickable="true"
 		android:textSize="18sp" />
-	<TextView
-		android:id="@+id/emaillink"
-		android:layout_below="@id/aboutblurb"
-		android:layout_height="wrap_content"
-		android:layout_width="fill_parent"
-		android:autoLink="email"
-		android:linksClickable="true"
-		android:text="@string/email_link2"
-		android:textSize="18sp" />
-	
 </RelativeLayout>
