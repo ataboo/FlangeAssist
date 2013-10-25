@@ -78,21 +78,33 @@ public class MainActivity extends Activity {
 
 	private void setVals(int fSizeIndex, int statArrInt) {
 		String[] statArr = getResources().getStringArray(statArrInt);
-
+        String[] studArr = getResources().getStringArray(R.array.stud_sizes);
+		int studIndex = 0;
 		TextView sDiamVal = (TextView) findViewById(R.id.sDiamVal);
 		TextView wrenchVal = (TextView) findViewById(R.id.wrenchVal);
 		TextView driftVal = (TextView) findViewById(R.id.driftVal);
 		TextView sCountVal = (TextView) findViewById(R.id.sCountVal);
 		TextView sLengthVal = (TextView) findViewById(R.id.sLengthVal);
 
-		String[] statSplit = statArr[fSizeIndex].split(",");
-
-		// statSplit[stud diam, wrench, drift, count, length]
+		String[] statSplit = statArr[fSizeIndex].split(",");  
+		if(statSplit.length > 4 || statSplit.length < 1) {
+			sDiamVal.setText("resource err");
+			return;
+		}
+		// statSplit[stud string, stud index, count, length]
+		
+		try {
+			studIndex = Integer.parseInt(statSplit[1]);
+		} catch(NumberFormatException nfe) {
+			System.out.println("Could not parse " + nfe);
+		}
+		String[] studSplit = studArr[studIndex].split(",");
+		// studSplit [diam string, wrench size, drift size]
 
 		sDiamVal.setText(statSplit[0] + "\"");
-		wrenchVal.setText(statSplit[1] + "\"");
-		driftVal.setText(statSplit[2] + "\"");
-		sCountVal.setText(statSplit[3]);
-		sLengthVal.setText(statSplit[4] + "\"");
+		wrenchVal.setText(studSplit[1]);
+		driftVal.setText(studSplit[2]);
+		sCountVal.setText(statSplit[2]);
+		sLengthVal.setText(statSplit[3] + "\"");
 	}
 }

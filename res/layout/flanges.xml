@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp" >
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/flange_header" />
+    <Spinner
+        android:id="@+id/sizeSpinner"
+        android:layout_width="96dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/title"
+        android:layout_alignParentLeft="true" />
+    <Spinner
+        android:id="@+id/rateSpinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/sizeSpinner"
+        android:layout_below="@id/title" />
+
+	<!-- Description Boxes -->
+	<TextView
+        android:id="@+id/sDiamText"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="left"
+        android:text="@string/sDiam_text"
+        android:textSize="20sp"
+		android:layout_below="@id/sizeSpinner" />
+    <TextView
+        android:id="@+id/wrenchText"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="left"
+        android:text="@string/wrench_text"
+        android:textSize="20sp" 
+        android:layout_below="@id/sDiamText" />
+    <TextView
+        android:id="@+id/driftText"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="left"
+        android:text="@string/drift_text"
+        android:textSize="20sp"
+        android:layout_below="@id/wrenchText" />
+    <TextView
+        android:id="@+id/sCountText"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="left"
+        android:text="@string/sCount_text"
+        android:textSize="20sp"
+    	android:layout_below="@id/driftText" />
+    <TextView
+        android:id="@+id/sLengthText"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="left"
+        android:text="@string/sLength_text"
+        android:textSize="20sp" 
+        android:layout_below="@id/sCountText" />
+
+    <!-- Stats Boxes -->
+    <TextView
+        android:id="@+id/sDiamVal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:freezesText="true"
+        android:gravity="right"
+        android:text="@string/default_value"
+        android:textSize="20sp"
+        android:textStyle="bold"
+    	android:layout_below="@id/sizeSpinner" />
+    <TextView
+        android:id="@+id/wrenchVal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:freezesText="true"
+        android:gravity="right"
+        android:text="@string/default_value"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:layout_below="@id/sDiamVal" />
+    <TextView
+        android:id="@+id/driftVal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:freezesText="true"
+        android:gravity="right"
+        android:text="@string/default_value"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:layout_below="@id/wrenchVal" />
+    <TextView
+        android:id="@+id/sCountVal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:freezesText="true"
+        android:gravity="right"
+        android:text="@string/default_value"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:layout_below="@id/driftVal" />
+    <TextView
+        android:id="@+id/sLengthVal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:freezesText="true"
+        android:gravity="right"
+        android:text="@string/default_value"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:layout_below="@id/sCountVal" />
+
+</RelativeLayout>
