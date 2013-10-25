@@ -2,7 +2,7 @@
 <resources>
 
     <string name="hello">Hello World, MainActivity!</string>
-    <string name="app_name">Flange Assist</string>
+    <string name="app_name">Boilermaker Toolkit</string>
 	<string name="test_text">-</string>
 
 	<string name="sDiam_text">Stud Diameter</string>
@@ -14,7 +14,7 @@
 	<string name="flange_header">ASME Flange Reference</string>
 	<string name="but_call146">View 146 Callout</string>
 	
-	<string name="main_header">Boilermaker Toolkit</string>
+	<string name="main_header">Main Menu</string>
 	<string name="but_flange">ASME Flange Tables</string>
 	
 	<string-array name = "f_ratings">
