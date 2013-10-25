@@ -1,6 +1,71 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical">
-    
-</LinearLayout>
+	android:paddingTop="16dp"
+	android:paddingBottom="16dp"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp" >
+    <TextView
+        android:id="@+id/weekTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/week_header" />
+	<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+		android:id="@+id/daylintop"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:layout_below="@id/weekTitle"
+		android:weightSum="7"
+		android:orientation="horizontal"> 
+		<TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+			android:layout_weight="1"
+            android:text="@string/sunday"/>
+	    <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+			android:layout_weight="1" 
+			android:text="@string/monday" />
+		<TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+			android:layout_weight="1" 
+			android:text="@string/tuesday" />
+		<TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+			android:layout_weight="1" 
+			android:text="@string/wednesday" />
+		<TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+			android:layout_weight="1" 
+			android:text="@string/thursday" />
+		<TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+			android:layout_weight="1" 
+			android:text="@string/friday" />
+		<TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+			android:layout_weight="1" 
+			android:text="@string/saturday" />
+	</LinearLayout>
+	<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:layout_below="@id/daylintop"
+		android:orientation="horizontal">
+		<Spinner
+            android:id="@+id/sunSpin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <Spinner
+            android:id="@+id/monSpin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+	</LinearLayout>
+</RelativeLayout>

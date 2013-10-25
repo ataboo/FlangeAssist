@@ -25,6 +25,13 @@
 		android:onClick="calloutEdm"
 	    android:layout_below="@id/flangebut" />
 	<Button
+		android:id="@+id/calcbut"
+		android:layout_height="wrap_content"
+		android:layout_width="fill_parent"
+		android:text="@string/pay_header"
+		android:onClick="payCalc"
+	    android:layout_below="@id/calloutedmbut" />
+	<Button
 		android:id="@+id/aboutbut"
 		android:layout_height="wrap_content"
 		android:layout_width="fill_parent"

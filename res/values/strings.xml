@@ -20,6 +20,16 @@
 	<string name="but_about">About</string>
 	<string name="about_header">About Boilermaker Toolbox</string>
 	
+	<string name="pay_header">Paycheck Estimation</string>
+	<string name="week_header">Work-week</string>
+	<string name="sunday">Sun</string>
+	<string name="monday">Mon</string>
+	<string name="tuesday">Tue</string>
+	<string name="wednesday">Wed</string>
+	<string name="thursday">Thu</string>
+	<string name="friday">Fri</string>
+	<string name="saturday">Sat</string>
+	
 	<string name="about_blurb">Boilermaker Toolbox is a free reference tool geared towards industry in Alberta.  This tool is not affiliated with any associations and should be used for reference only.\n\nFeel free to mail bmtoolkit@gmail.com with any comments or suggestions.</string>
 	
 	<string-array name = "f_ratings">

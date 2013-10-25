@@ -27,4 +27,8 @@ public class MainActivity extends Activity {
 		Intent intent = new Intent(this, AboutPage.class);
 		startActivity(intent);
 	}
+	public void payCalc(View view) {
+		Intent intent = new Intent(this, PayCalculator.class);
+		startActivity(intent);
+	}
 }
