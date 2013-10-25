@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp" 
+	android:paddingBottom="16dp" >
+	<TextView
+		android:id="@+id/aboutblurb"
+		android:layout_alignParentTop="true"
+		android:layout_height="wrap_content"
+		android:layout_width="fill_parent"
+		android:text="@string/about_blurb"
+		android:autoLink="email"
+		android:linksClickable="true"
+		android:textSize="18sp" />
+	<TextView
+		android:id="@+id/emaillink"
+		android:layout_below="@id/aboutblurb"
+		android:layout_height="wrap_content"
+		android:layout_width="fill_parent"
+		android:autoLink="email"
+		android:linksClickable="true"
+		android:text="@string/email_link2"
+		android:textSize="18sp" />
+	
+</RelativeLayout>

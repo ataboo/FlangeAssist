@@ -28,6 +28,13 @@
 				android:name="android.support.PARENT_ACTIVITY"
 				android:value="com.atasoft.flangeassist.MainActivity" />
         </activity>
+		<activity
+            android:name="com.atasoft.flangeassist.AboutPage"
+            android:label="@string/about_header" >
+			<meta-data
+				android:name="android.support.PARENT_ACTIVITY"
+				android:value="com.atasoft.flangeassist.MainActivity" />
+        </activity>
     </application>
 
 </manifest>

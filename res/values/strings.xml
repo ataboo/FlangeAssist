@@ -13,9 +13,15 @@
 	<string name="default_value">-</string>
 	<string name="flange_header">ASME Flange Reference</string>
 	<string name="but_call146">View 146 Callout</string>
+	<string name="email_link">Support: <a href="mailto:bmtoolkit@gmail.com">click here</a></string>
+	<string name="email_link2">mailto:bmtoolkit@gmail.com</string>
 	
 	<string name="main_header">Main Menu</string>
 	<string name="but_flange">ASME Flange Tables</string>
+	<string name="but_about">About</string>
+	<string name="about_header">About Boilermaker Toolkit</string>
+	
+	<string name="about_blurb">Boilermaker Toolkit is a free reference tool for industry in Alberta and beyond.  This tool is not affiliated with any associations and should be used for reference only.  Email bmtoolkit@gmail.com with any comments or suggestions.</string>
 	
 	<string-array name = "f_ratings">
 	    <item>150</item>

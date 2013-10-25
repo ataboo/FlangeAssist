@@ -22,4 +22,9 @@ public class MainActivity extends Activity {
 	public void calloutEdm(View view) {
 		startActivity(new Intent(Intent.ACTION_VIEW).setData(Uri.parse("http://boilermakers.ca/content/callout.html")));
     }
+	
+	public void aboutPage(View view) {
+		Intent intent = new Intent(this, AboutPage.class);
+		startActivity(intent);
+	}
 }

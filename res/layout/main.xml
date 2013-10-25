@@ -3,7 +3,8 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:paddingLeft="16dp"
-    android:paddingRight="16dp" >
+    android:paddingRight="16dp" 
+	android:paddingBottom="16dp" >
     <TextView
         android:id="@+id/maintitle"
         android:layout_width="fill_parent"
@@ -23,5 +24,13 @@
 		android:text="@string/but_call146"
 		android:onClick="calloutEdm"
 	    android:layout_below="@id/flangebut" />
-
+	<Button
+		android:id="@+id/aboutbut"
+		android:layout_height="wrap_content"
+		android:layout_width="fill_parent"
+		android:text="@string/but_about"
+		android:onClick="aboutPage"
+	    android:layout_alignParentBottom="true" />
+	
+	
 </RelativeLayout>
