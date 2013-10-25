@@ -20,7 +20,7 @@
 	<string name="but_about">About</string>
 	<string name="about_header">About Boilermaker Toolbox</string>
 	
-	<string name="about_blurb">Boilermaker Toolbox is a free reference tool for industry in Alberta and elsewhere.  This tool is not affiliated with any associations and should be used for reference only.  Feel free to mail bmtoolkit@gmail.com with any comments or suggestions.</string>
+	<string name="about_blurb">Boilermaker Toolbox is a free reference tool geared towards industry in Alberta.  This tool is not affiliated with any associations and should be used for reference only.\n\nFeel free to mail bmtoolkit@gmail.com with any comments or suggestions.</string>
 	
 	<string-array name = "f_ratings">
 	    <item>150</item>
