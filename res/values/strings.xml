@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+<!-- Update Values (last checked Oct.26/13) -->
+	<string name="maint_wage">41.84</string>
+	<string name="loa_rate">195</string>
+	<string name="meal_rate">40</string>
 
 <!-- Main Menu -->
     <string name="app_name">Boilermaker Toolbox</string>
@@ -18,6 +22,14 @@
 	<string name="thursday">Thu</string>
 	<string name="friday">Fri</string>
 	<string name="saturday">Sat</string>
+
+	<string name="fourtens_but">Four-Tens</string>
+	<string name="nights_but">Nightshift</string>
+	<string name="clr_but">Clear</string>
+	<string name="tens_but">Set 10s</string>
+	<string name="twelves_but">Set 12s</string>
+	<string name="meal_text">Meals</string>
+	<string name="loa_text">L.O.A</string>
 	
 <!-- About Page -->
 	<string name="about_blurb">Boilermaker Toolbox is a free reference tool geared towards industry in Alberta.  
