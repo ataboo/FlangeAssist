@@ -3,7 +3,6 @@ package com.atasoft.flangeassist;
 import android.app.*;
 import android.os.*;
 import android.view.*;
-import android.widget.*;
 import android.content.Intent;
 import android.net.Uri;
 

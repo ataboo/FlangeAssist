@@ -11,7 +11,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/week_header" />
-	<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	<LinearLayout
 		android:id="@+id/daylintop"
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content"
@@ -54,18 +54,46 @@
 			android:layout_weight="1" 
 			android:text="@string/saturday" />
 	</LinearLayout>
-	<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	<LinearLayout
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content"
 		android:layout_below="@id/daylintop"
+		android:weightSum="7"
 		android:orientation="horizontal">
 		<Spinner
             android:id="@+id/sunSpin"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-        <Spinner
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+		<Spinner
             android:id="@+id/monSpin"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+		<Spinner
+            android:id="@+id/tueSpin"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+		<Spinner
+            android:id="@+id/wedSpin"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+		<Spinner
+            android:id="@+id/thuSpin"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+		<Spinner
+            android:id="@+id/friSpin"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+		<Spinner
+            android:id="@+id/satSpin"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
 	</LinearLayout>
 </RelativeLayout>

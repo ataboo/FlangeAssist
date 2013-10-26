@@ -1,13 +1,15 @@
 package com.atasoft.flangeassist;
 
+import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
 import android.app.*;
 import android.os.*;
 import android.view.*;
-import android.widget.*;
-import android.text.method.*;
 
 public class AboutPage extends Activity {
-    @Override
+    @SuppressLint("NewApi")
+	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
+	@Override
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

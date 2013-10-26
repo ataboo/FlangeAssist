@@ -1,13 +1,14 @@
 package com.atasoft.flangeassist;
 
+import android.annotation.SuppressLint;
 import android.app.*;
 import android.os.*;
 import android.view.*;
-import android.widget.*;
-import android.text.method.*;
 
+@SuppressLint("NewApi")
 public class PayCalculator extends Activity {
-    @Override
+    @SuppressLint("NewApi")
+	@Override
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

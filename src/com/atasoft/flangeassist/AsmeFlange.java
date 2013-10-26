@@ -1,13 +1,15 @@
 package com.atasoft.flangeassist;
 
+import android.annotation.SuppressLint;
 import android.app.*;
 import android.os.*;
 import android.view.*;
 import android.widget.*;
-import android.support.v4.app.NavUtils;
 
+@SuppressLint("NewApi")
 public class AsmeFlange extends Activity {
-    @Override
+    @SuppressLint("NewApi")
+	@Override
 	
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
