@@ -34,7 +34,7 @@ public class PayCalculator extends Activity {
 				return super.onOptionsItemSelected(item);
         }
 	}
-	
+
 	private void setupSpinners(){
         String workHrs[] = {"0","10","12","13","9","8","7","6","5","4","3","2","1"};
         Spinner sunSpin = (Spinner) findViewById(R.id.sunSpin);
@@ -142,6 +142,10 @@ public class PayCalculator extends Activity {
 		TextView dTimeText = (TextView) findViewById(R.id.doub_val);
 		TextView grossVal = (TextView) findViewById(R.id.gross_val);
 		TextView exemptVal = (TextView) findViewById(R.id.exempt_val);
+		TextView taxVal = (TextView) findViewById(R.id.tax_val);
+		TextView cppVal = (TextView) findViewById(R.id.cpp_val);
+		TextView eiVal = (TextView) findViewById(R.id.ei_val);
+		TextView duesVal = (TextView) findViewById(R.id.dues_val);
 		TextView dedVal = (TextView) findViewById(R.id.deduct_val);
 		TextView netVal = (TextView) findViewById(R.id.net_val);
 		ToggleButton fourToggle = (ToggleButton) findViewById(R.id.four_but);
@@ -155,6 +159,7 @@ public class PayCalculator extends Activity {
 		float wage = Float.parseFloat(getString(R.string.maint_wage));
 		float loaRate = Float.parseFloat(getString(R.string.loa_rate));
 		float mealRate = Float.parseFloat(getString(R.string.meal_rate));
+		float vacationPay = Float.parseFloat(getString(R.string.vacation_pay));
 		int timeSum[] = {0,0,0};
 		
         Spinner sunSpin = (Spinner) findViewById(R.id.sunSpin);
@@ -176,8 +181,6 @@ public class PayCalculator extends Activity {
 		weekDays[4] = Integer.parseInt(friSpin.getSelectedItem().toString());
 		int loaCount = Integer.parseInt(loaSpin.getSelectedItem().toString());
 		int mealCount = Integer.parseInt(mealSpin.getSelectedItem().toString());
-		
-		
 		
 		if(fourTens){
 			for (int i=0; i<4; i++) {
@@ -209,21 +212,35 @@ public class PayCalculator extends Activity {
 		double grossPay = wage * (timeSum[0] + (1.5 * timeSum[1]) + (2 * timeSum[2]));
 		if(nightShift) {grossPay = grossPay + (timeSum[0] + timeSum[1] + timeSum[2]) * 3;}
 		
-		double grossAnnual = 52 * grossPay;
-		double deductions = taxCalc(grossAnnual) / 52;
+		grossPay = grossPay * (vacationPay + 1);
 
-		double exempt = loaCount * loaRate + mealCount * mealRate;
-		double netPay = grossPay - deductions + exempt;
-
+		double[] deductions = taxCalc(grossPay);  //returns [fed, ab, dues, cpp, ei]
+		double deductionsSum = deductions[0] + deductions[1] + deductions[2] + deductions[3] + deductions[4];
 		
+		
+		double exempt = loaCount * loaRate + mealCount * mealRate;
+		double netPay = grossPay - deductionsSum + exempt;
+		
+		/*  For debugging
+		double[] deductions2 = taxCalc(2700);
+		grossPay = deductions2[0];
+		deductionsSum = deductions2[1];
+		exempt = deductions2[2];
+		netPay = deductions2[0] + deductions2[1] + deductions2[2];
+		*/
 		
 		grossVal.setText("Gross: " + String.format("%.2f", grossPay) + "$");
 		exemptVal.setText("Tax Exempt: " + String.format("%.2f", exempt) + "$");
-		dedVal.setText("Deductions: " + String.format("%.2f", deductions) + "$");
+		taxVal.setText("Income Tax: " + String.format("%.2f", deductions[0] + deductions[1]) + "$");
+		eiVal.setText("CPP: " + String.format("%.2f", deductions[3]) + "$");
+		cppVal.setText("EI: " + String.format("%.2f", deductions[4]) + "$");
+		duesVal.setText("Dues: " + String.format("%.2f", deductions[2]) + "$");
+		dedVal.setText("Deductions: " + String.format("%.2f", deductionsSum) + "$");
 		netVal.setText("Takehome: " + String.format("%.2f", netPay) + "$");
 		sTimeText.setText("1.0x: " + Integer.toString(timeSum[0]));
 		hTimeText.setText("1.5x: " + Integer.toString(timeSum[1]));
 		dTimeText.setText("2.0x: " + Integer.toString(timeSum[2]));
+		
 		
 		
 	}
@@ -314,28 +331,58 @@ public class PayCalculator extends Activity {
 		return new int[]{sTime, hTime, dTime};	
 	}
 	
-	private double taxCalc(double gross){
-		double bracket[] = {43561,87123,135054};
-		double diff[] = {43561, 87123 - 43561, 135054 - 87123};
-		double rate[] = {0.25,0.32,0.36,0.39};
+	private double[] taxCalc(double gross){
+		double anGross = gross * 52;
+		double bracket[] = {0,0,0,0};
+		double diff[] = {0,0,0};
+		double rate[] = {0, 0, 0, 0};
+		double fedConst[] = {0,0,0,0};
+		double fedTax = 0;
+		double abTax = 0;
+
+		String brackStr[] = getResources().getStringArray(R.array.tax_brackets);
+		String rateStr[] = getResources().getStringArray(R.array.tax_rates);
+		String fedCStr[] = getResources().getStringArray(R.array.fed_const);
+		double fedTaxCred = Double.parseDouble(getString(R.string.fed_taxcred));
+		double abTaxCred = Double.parseDouble(getString(R.string.ab_taxcred));
+		double duesRate = Double.parseDouble(getString(R.string.dues_rate));
+		double cppRate = Double.parseDouble(getString(R.string.cpp_rate));
+		double eiRate = Double.parseDouble(getString(R.string.ei_rate));
 		
-		if(gross < bracket[0]) {
-			return gross * rate[0];
+		for(int i=0; i<4; i++){
+			bracket[i] = Double.parseDouble(brackStr[i]);
+			rate[i] = Double.parseDouble(rateStr[i]);
+			fedConst[i] = Double.parseDouble(fedCStr[i]);
+			
+			if(i < 3){
+				diff[i] = bracket[i + 1] - bracket [i];
+			}
 		}
-		if(gross < bracket[1]) {
-			return (rate[0] * diff[0] + 
-					((gross - bracket[0]) * rate[1]));
+		
+		if(anGross < bracket[1]) {
+			fedTax = anGross * rate[0] - fedConst[0] - fedTaxCred;
 		}
-		if(gross < bracket[2]) {
-			return ((rate[0] * diff[0]) +
-					(rate[1] * diff[1]) +
-					((gross - bracket[1]) * rate[2]));	
-		} else {
-			return ((rate[0] * diff[0]) +
-					(rate[1] * diff[1]) +
-					(rate[2] * diff[2]) +
-					((gross - bracket[2]) * rate[3]));	
+		if(anGross < bracket[2]) {
+			fedTax = anGross * rate[1] - fedConst[1] - fedTaxCred;
 		}
+		if(anGross < bracket[3]) {
+			fedTax = anGross * rate[2] - fedConst[2] - fedTaxCred;	
+		}
+		if(anGross >= bracket[3]) {
+			fedTax = anGross * rate[3] - fedConst[3] - fedTaxCred;
+		}
+		
+		abTax = (anGross * 0.1) - abTaxCred;
+		double dues = anGross * duesRate;
+		
+		if(abTax < 0){abTax = 0;}
+		if(fedTax < 0){fedTax = 0;}
+		
+		return new double[]{fedTax / 52, 
+				abTax / 52, 
+				dues / 52, 
+				gross * cppRate, 
+				gross * eiRate};
 	}
 }
 

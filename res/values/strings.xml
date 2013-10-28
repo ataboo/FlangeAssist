@@ -4,6 +4,35 @@
 	<string name="maint_wage">41.84</string>
 	<string name="loa_rate">195</string>
 	<string name="meal_rate">40</string>
+	<string name="vacation_pay">0.10</string>
+	<string name="dues_rate">0.0375</string>
+	<string name="cpp_rate">0.0486</string> <!-- calculated out not from source -->
+	<string name="ei_rate">0.0188</string>
+	
+<!-- TD1 amount + ei + cpp + employment credit * 15% (lowest bracket) -->
+	<string name="fed_taxcred">2310.35</string>
+<!-- TD1AB amount + cpp * 10% -->
+	<string name="ab_taxcred">2084.03</string>
+	<string-array name="tax_brackets">
+	    <item>0</item>
+	    <item>43561</item>
+	    <item>87123</item>
+	    <item>135054</item>
+	</string-array>
+	<string-array name="tax_rates">
+	    <item>0.15</item>
+	    <item>0.22</item>
+	    <item>0.26</item>
+	    <item>0.29</item>
+	</string-array>
+<!-- Pulled from CRA site -->
+	<string-array name="fed_const">
+	    <item>0</item>
+	    <item>3049</item>
+	    <item>6534</item>
+	    <item>10586</item>
+	    
+	</string-array>
 
 <!-- Main Menu -->
     <string name="app_name">Boilermaker Toolbox</string>

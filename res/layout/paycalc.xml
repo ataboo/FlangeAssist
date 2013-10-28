@@ -6,23 +6,13 @@
 	android:paddingBottom="16dp"
     android:paddingLeft="2dp"
     android:paddingRight="2dp" >
-
-    <TextView
-        android:id="@+id/weekTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingLeft="4dp"
-        android:text="@string/week_header" />
-
 	<LinearLayout
 	    android:id="@+id/daylintop"
 	    android:layout_width="fill_parent"
 	    android:layout_height="wrap_content"
-	    android:layout_below="@id/weekTitle"
 	    android:orientation="horizontal"
 	    android:paddingLeft="4dp"
 	    android:weightSum="7" >
- 
 		<TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -101,6 +91,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1" />
+            
 	</LinearLayout>
 	<ToggleButton
 	    android:id="@+id/four_but"
@@ -167,19 +158,44 @@
 	    android:layout_below="@id/daylinbot" />
 	<TextView
 	    android:id="@+id/gross_val"
-	    android:textSize="20sp"
+	    android:textSize="14sp"
 	    android:layout_width="wrap_content"
 	    android:layout_height="wrap_content"
 	    android:layout_below="@id/doub_val"/>
 	<TextView
-	    android:id="@+id/deduct_val"
-	    android:textSize="20sp"
+	    android:id="@+id/tax_val"
+	    android:textSize="14sp"
 	    android:layout_width="wrap_content"
 	    android:layout_height="wrap_content"
-	    android:layout_below="@id/gross_val"/>
+	    android:layout_below="@id/gross_val" />
+	<TextView
+	    android:id="@+id/cpp_val"
+	    android:textSize="14sp"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_below="@id/tax_val" />
+	<TextView
+	    android:id="@+id/ei_val"
+	    android:textSize="14sp"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_below="@id/cpp_val" />
+	<TextView
+	    android:id="@+id/dues_val"
+	    android:textSize="14sp"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_below="@id/ei_val" />
+	
+	<TextView
+	    android:id="@+id/deduct_val"
+	    android:textSize="14sp"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_below="@id/dues_val"/>
 	<TextView
 	    android:id="@+id/exempt_val"
-	    android:textSize="20sp"
+	    android:textSize="14sp"
 	    android:layout_width="wrap_content"
 	    android:layout_height="wrap_content"
 	    android:layout_below="@id/deduct_val"/>
@@ -189,7 +205,7 @@
 	    android:layout_width="wrap_content"
 	    android:layout_height="wrap_content"
 	    android:layout_below="@id/exempt_val" 
-	    android:paddingBottom="24dp" />
+	    android:paddingBottom="10dp" />
 	<Button
 	    android:id="@+id/clr_but"
 	    android:text="@string/clr_but"
