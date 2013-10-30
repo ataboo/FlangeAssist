@@ -150,16 +150,17 @@ public class PayCalculator extends Activity {
 		TextView netVal = (TextView) findViewById(R.id.net_val);
 		ToggleButton fourToggle = (ToggleButton) findViewById(R.id.four_but);
 		ToggleButton nightToggle = (ToggleButton) findViewById(R.id.night_but);
+		ToggleButton travelToggle = (ToggleButton) findViewById(R.id.travel_but);
 		
 		int weekends[] = {0,0};
 		int weekDays[] = {0,0,0,0,0};
 		int splitArr[] = {0,0,0};
 		boolean fourTens = fourToggle.isChecked();
-		boolean nightShift = nightToggle.isChecked();
 		float wage = Float.parseFloat(getString(R.string.maint_wage));
 		float loaRate = Float.parseFloat(getString(R.string.loa_rate));
 		float mealRate = Float.parseFloat(getString(R.string.meal_rate));
 		float vacationPay = Float.parseFloat(getString(R.string.vacation_pay));
+		double travelRate = Double.parseDouble(getString(R.string.travel_rate));
 		int timeSum[] = {0,0,0};
 		
         Spinner sunSpin = (Spinner) findViewById(R.id.sunSpin);
@@ -210,7 +211,8 @@ public class PayCalculator extends Activity {
 		}
 		
 		double grossPay = wage * (timeSum[0] + (1.5 * timeSum[1]) + (2 * timeSum[2]));
-		if(nightShift) {grossPay = grossPay + (timeSum[0] + timeSum[1] + timeSum[2]) * 3;}
+		
+		if(nightToggle.isChecked()) {grossPay = grossPay + (timeSum[0] + timeSum[1] + timeSum[2]) * 3;}
 		
 		grossPay = grossPay * (vacationPay + 1);
 
@@ -219,6 +221,8 @@ public class PayCalculator extends Activity {
 		
 		
 		double exempt = loaCount * loaRate + mealCount * mealRate;
+		if(travelToggle.isChecked()) {exempt = exempt + travelRate;}
+		
 		double netPay = grossPay - deductionsSum + exempt;
 		
 		/*  For debugging

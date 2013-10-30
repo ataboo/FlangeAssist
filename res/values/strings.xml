@@ -8,6 +8,7 @@
 	<string name="dues_rate">0.0375</string>
 	<string name="cpp_rate">0.0486</string> <!-- calculated out not from source -->
 	<string name="ei_rate">0.0188</string>
+	<string name="travel_rate">216</string>
 	
 <!-- TD1 amount + ei + cpp + employment credit * 15% (lowest bracket) -->
 	<string name="fed_taxcred">2310.35</string>
@@ -54,6 +55,7 @@
 
 	<string name="fourtens_but">Four-Tens</string>
 	<string name="nights_but">Nightshift</string>
+	<string name="travel_but">Travel</string>
 	<string name="clr_but">Clear</string>
 	<string name="tens_but">Set 10s</string>
 	<string name="twelves_but">Set 12s</string>

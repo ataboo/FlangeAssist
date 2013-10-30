@@ -111,9 +111,18 @@
 	    android:textOff="@string/nights_but"
 	    android:layout_width="100dp"
 	    android:layout_height="wrap_content" />
+	<ToggleButton
+	    android:id="@+id/travel_but"
+	    android:layout_below="@id/night_but"
+	    android:layout_alignParentRight="true"
+	    android:onClick="pushBootan"
+	    android:textOn="@string/travel_but"
+	    android:textOff="@string/travel_but"
+	    android:layout_width="100dp"
+	    android:layout_height="wrap_content" />
 	<Spinner
 	    android:id="@+id/meals_spin"
-	    android:layout_below="@id/night_but"
+	    android:layout_below="@id/travel_but"
 	    android:layout_alignParentRight="true"
 	    android:layout_width="wrap_content"
 	    android:layout_height="wrap_content" />
@@ -129,7 +138,7 @@
 	    android:layout_width="wrap_content"
 	    android:layout_height="wrap_content"
 	    android:layout_toLeftOf="@id/meals_spin"
-	    android:layout_below="@id/night_but" />
+	    android:layout_below="@id/travel_but" />
 	<TextView
 	    android:id="@+id/loa_text"
 	    android:text="@string/loa_text"
