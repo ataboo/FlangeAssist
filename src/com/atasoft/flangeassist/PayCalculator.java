@@ -11,6 +11,10 @@ public class PayCalculator extends Activity {
     @SuppressLint("NewApi")
 	@Override
 	
+	//added these here because the arr is parsed on setupSpinners but needed in pushbootan
+
+	
+	float wageRates[] = new float[12];
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.paycalc);
@@ -60,6 +64,22 @@ public class PayCalculator extends Activity {
         		new String[]{"0","1","2","3","4","5","6","7"});
         loaSpin.setAdapter(weekCount);
         mealSpin.setAdapter(weekCount);
+		
+		String wageArr[] = getResources().getStringArray(R.array.wage_rates);
+		String wageStrings[] = new String[wageArr.length];
+		for(int i=0; i<wageArr.length; i++) {
+			String wageSplit[] = wageArr[i].split(",");
+			wageStrings[i] = wageSplit[0];
+			wageRates[i] = Float.parseFloat(wageSplit[1]);
+		}
+		
+		
+		Spinner wageSpin = (Spinner) findViewById(R.id.wageSpin);
+		
+		ArrayAdapter<String> wageAdapt = new ArrayAdapter<String>(this, 
+		    android.R.layout.simple_spinner_item, wageStrings);
+		wageSpin.setAdapter(wageAdapt);
+		
         
 		sunSpin.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 	        public void onItemSelected(AdapterView<?> parent, View view,
@@ -133,6 +153,15 @@ public class PayCalculator extends Activity {
 			public void onNothingSelected(AdapterView<?> parent) {
 			}
 		});
+		wageSpin.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+			public void onItemSelected(AdapterView<?> parent, View view,
+									   int pos, long id) {
+				pushBootan(view);
+			}
+		public void onNothingSelected(AdapterView<?> parent) {
+			}
+		});
+		
 	}
 	
 	public void pushBootan(View view){
@@ -156,7 +185,7 @@ public class PayCalculator extends Activity {
 		int weekDays[] = {0,0,0,0,0};
 		int splitArr[] = {0,0,0};
 		boolean fourTens = fourToggle.isChecked();
-		float wage = Float.parseFloat(getString(R.string.maint_wage));
+		//float wage = Float.parseFloat(String(R.string.maint_wage));
 		float loaRate = Float.parseFloat(getString(R.string.loa_rate));
 		float mealRate = Float.parseFloat(getString(R.string.meal_rate));
 		float vacationPay = Float.parseFloat(getString(R.string.vacation_pay));
@@ -172,6 +201,7 @@ public class PayCalculator extends Activity {
         Spinner satSpin = (Spinner) findViewById(R.id.satSpin);
 		Spinner mealSpin = (Spinner) findViewById(R.id.meals_spin);
 		Spinner loaSpin = (Spinner) findViewById(R.id.loa_spin);
+		Spinner wageSpin = (Spinner) findViewById(R.id.wageSpin);
         
 		weekends[0] = Integer.parseInt(satSpin.getSelectedItem().toString());
 		weekends[1] = Integer.parseInt(sunSpin.getSelectedItem().toString());
@@ -182,6 +212,7 @@ public class PayCalculator extends Activity {
 		weekDays[4] = Integer.parseInt(friSpin.getSelectedItem().toString());
 		int loaCount = Integer.parseInt(loaSpin.getSelectedItem().toString());
 		int mealCount = Integer.parseInt(mealSpin.getSelectedItem().toString());
+		float wageRate = wageRates[wageSpin.getSelectedItemPosition()];
 		
 		if(fourTens){
 			for (int i=0; i<4; i++) {
@@ -210,7 +241,7 @@ public class PayCalculator extends Activity {
 			timeSum[2] = splitArr[2] + timeSum[2];
 		}
 		
-		double grossPay = wage * (timeSum[0] + (1.5 * timeSum[1]) + (2 * timeSum[2]));
+		double grossPay = wageRate * (timeSum[0] + (1.5 * timeSum[1]) + (2 * timeSum[2]));
 		
 		if(nightToggle.isChecked()) {grossPay = grossPay + (timeSum[0] + timeSum[1] + timeSum[2]) * 3;}
 		
@@ -225,14 +256,6 @@ public class PayCalculator extends Activity {
 		
 		double netPay = grossPay - deductionsSum + exempt;
 		
-		/*  For debugging
-		double[] deductions2 = taxCalc(2700);
-		grossPay = deductions2[0];
-		deductionsSum = deductions2[1];
-		exempt = deductions2[2];
-		netPay = deductions2[0] + deductions2[1] + deductions2[2];
-		*/
-		
 		grossVal.setText("Gross: " + String.format("%.2f", grossPay) + "$");
 		exemptVal.setText("Tax Exempt: " + String.format("%.2f", exempt) + "$");
 		taxVal.setText("Income Tax: " + String.format("%.2f", deductions[0] + deductions[1]) + "$");
@@ -244,9 +267,6 @@ public class PayCalculator extends Activity {
 		sTimeText.setText("1.0x: " + Integer.toString(timeSum[0]));
 		hTimeText.setText("1.5x: " + Integer.toString(timeSum[1]));
 		dTimeText.setText("2.0x: " + Integer.toString(timeSum[2]));
-		
-		
-		
 	}
 	
 	public void setClr(View view){  //called by clear button

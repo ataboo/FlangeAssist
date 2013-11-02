@@ -101,8 +101,11 @@
 	    android:textOn="@string/fourtens_but"
 	    android:textOff="@string/fourtens_but"
 	    android:layout_width="100dp"
-	    android:layout_height="wrap_content" />
+	    android:layout_height="wrap_content"
+		android:paddingBottom="2dp"  />
 	<ToggleButton
+		android:paddingTop="2dp"
+		android:paddingBottom="2dp"
 	    android:id="@+id/night_but"
 	    android:layout_below="@id/four_but"
 	    android:layout_alignParentRight="true"
@@ -129,6 +132,12 @@
 	<Spinner
 	    android:id="@+id/loa_spin"
 	    android:layout_below="@id/meals_spin"
+	    android:layout_alignParentRight="true"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content" />
+	<Spinner
+	    android:id="@+id/wageSpin"
+	    android:layout_below="@id/loa_spin"
 	    android:layout_alignParentRight="true"
 	    android:layout_width="wrap_content"
 	    android:layout_height="wrap_content" />
