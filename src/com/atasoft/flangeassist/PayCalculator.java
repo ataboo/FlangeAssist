@@ -75,11 +75,10 @@ public class PayCalculator extends Activity {
 		
 		
 		Spinner wageSpin = (Spinner) findViewById(R.id.wageSpin);
-		
 		ArrayAdapter<String> wageAdapt = new ArrayAdapter<String>(this, 
 		    android.R.layout.simple_spinner_item, wageStrings);
 		wageSpin.setAdapter(wageAdapt);
-		
+		wageSpin.setSelection(4);
         
 		sunSpin.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 	        public void onItemSelected(AdapterView<?> parent, View view,
@@ -245,18 +244,18 @@ public class PayCalculator extends Activity {
 		
 		if(nightToggle.isChecked()) {grossPay = grossPay + (timeSum[0] + timeSum[1] + timeSum[2]) * 3;}
 		
-		grossPay = grossPay * (vacationPay + 1);
+		double grossVac = grossPay * (vacationPay + 1);
 
-		double[] deductions = taxCalc(grossPay);  //returns [fed, ab, dues, cpp, ei]
+		double[] deductions = taxCalc(grossVac, grossPay);  //returns [fed, ab, dues, cpp, ei]
 		double deductionsSum = deductions[0] + deductions[1] + deductions[2] + deductions[3] + deductions[4];
 		
 		
 		double exempt = loaCount * loaRate + mealCount * mealRate;
 		if(travelToggle.isChecked()) {exempt = exempt + travelRate;}
 		
-		double netPay = grossPay - deductionsSum + exempt;
+		double netPay = grossVac - deductionsSum + exempt;
 		
-		grossVal.setText("Gross: " + String.format("%.2f", grossPay) + "$");
+		grossVal.setText("Gross: " + String.format("%.2f", grossVac) + "$");
 		exemptVal.setText("Tax Exempt: " + String.format("%.2f", exempt) + "$");
 		taxVal.setText("Income Tax: " + String.format("%.2f", deductions[0] + deductions[1]) + "$");
 		eiVal.setText("CPP: " + String.format("%.2f", deductions[3]) + "$");
@@ -355,7 +354,7 @@ public class PayCalculator extends Activity {
 		return new int[]{sTime, hTime, dTime};	
 	}
 	
-	private double[] taxCalc(double gross){
+	private double[] taxCalc(double gross, double grossNoVac){
 		double anGross = gross * 52;
 		double bracket[] = {0,0,0,0};
 		double diff[] = {0,0,0};
@@ -397,14 +396,14 @@ public class PayCalculator extends Activity {
 		}
 		
 		abTax = (anGross * 0.1) - abTaxCred;
-		double dues = anGross * duesRate;
+		double dues = grossNoVac * duesRate;
 		
 		if(abTax < 0){abTax = 0;}
 		if(fedTax < 0){fedTax = 0;}
 		
 		return new double[]{fedTax / 52, 
 				abTax / 52, 
-				dues / 52, 
+				dues, 
 				gross * cppRate, 
 				gross * eiRate};
 	}

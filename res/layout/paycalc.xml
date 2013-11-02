@@ -2,8 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-	android:paddingTop="16dp"
-	android:paddingBottom="16dp"
+	android:paddingTop="8dp"
+	android:paddingBottom="8dp"
     android:paddingLeft="2dp"
     android:paddingRight="2dp" >
 	<LinearLayout
@@ -101,11 +101,9 @@
 	    android:textOn="@string/fourtens_but"
 	    android:textOff="@string/fourtens_but"
 	    android:layout_width="100dp"
-	    android:layout_height="wrap_content"
-		android:paddingBottom="2dp"  />
+	    android:layout_height="40sp"
+		android:height="20sp"/>
 	<ToggleButton
-		android:paddingTop="2dp"
-		android:paddingBottom="2dp"
 	    android:id="@+id/night_but"
 	    android:layout_below="@id/four_but"
 	    android:layout_alignParentRight="true"
@@ -113,7 +111,7 @@
 	    android:textOn="@string/nights_but"
 	    android:textOff="@string/nights_but"
 	    android:layout_width="100dp"
-	    android:layout_height="wrap_content" />
+	    android:layout_height="40sp" />
 	<ToggleButton
 	    android:id="@+id/travel_but"
 	    android:layout_below="@id/night_but"
@@ -122,7 +120,7 @@
 	    android:textOn="@string/travel_but"
 	    android:textOff="@string/travel_but"
 	    android:layout_width="100dp"
-	    android:layout_height="wrap_content" />
+	    android:layout_height="40sp" />
 	<Spinner
 	    android:id="@+id/meals_spin"
 	    android:layout_below="@id/travel_but"
