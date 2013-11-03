@@ -8,12 +8,13 @@ import android.widget.*;
 
 @SuppressLint("NewApi")
 public class PayCalculator extends Activity {
-    @SuppressLint("NewApi")
-	@Override
+	
+	@SuppressLint("NewApi")
+	
 
 	//used in setupspinners and pushbootan
 	float wageRates[] = new float[12];
-	
+	@Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.paycalc);
@@ -27,7 +28,6 @@ public class PayCalculator extends Activity {
         setupSpinners(); 
     }
 
-	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
 			case android.R.id.home:
