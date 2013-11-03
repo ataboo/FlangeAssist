@@ -10,11 +10,10 @@ import android.widget.*;
 public class PayCalculator extends Activity {
     @SuppressLint("NewApi")
 	@Override
-	
-	//added these here because the arr is parsed on setupSpinners but needed in pushbootan
 
-	
+	//used in setupspinners and pushbootan
 	float wageRates[] = new float[12];
+	
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.paycalc);

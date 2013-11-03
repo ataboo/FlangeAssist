@@ -4,33 +4,29 @@
     android:layout_height="fill_parent"
     android:paddingLeft="16dp"
     android:paddingRight="16dp" 
-	android:paddingBottom="16dp" >
-    <TextView
-        android:id="@+id/maintitle"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/main_header" />
+	android:paddingBottom="16dp"
+	android:paddingTop="16dp">
 	<Button
 		android:id="@+id/flangebut"
 		android:layout_height="wrap_content"
 		android:layout_width="fill_parent"
 		android:text="@string/but_flange"
 		android:onClick="flangeLaunch"
-	    android:layout_below="@id/maintitle" />
-	<Button
-		android:id="@+id/calloutedmbut"
-		android:layout_height="wrap_content"
-		android:layout_width="fill_parent"
-		android:text="@string/but_call146"
-		android:onClick="calloutEdm"
-	    android:layout_below="@id/flangebut" />
+	    android:layout_alignParentTop="true" />
 	<Button
 		android:id="@+id/calcbut"
 		android:layout_height="wrap_content"
 		android:layout_width="fill_parent"
 		android:text="@string/pay_header"
 		android:onClick="payCalc"
-	    android:layout_below="@id/calloutedmbut" />
+	    android:layout_below="@id/flangebut" />
+	<Button
+		android:id="@+id/calloutedmbut"
+		android:layout_height="wrap_content"
+		android:layout_width="fill_parent"
+		android:text="@string/but_call146"
+		android:onClick="calloutEdm"
+	    android:layout_below="@id/calcbut" />
 	<Button
 		android:id="@+id/aboutbut"
 		android:layout_height="wrap_content"
