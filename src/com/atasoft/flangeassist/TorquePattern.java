@@ -63,7 +63,7 @@ public class TorquePattern extends Activity {
 		EditText studBox = (EditText) findViewById(R.id.studBox);
 		int studInt = parseInputInt(studBox);
 		
-		if (studInt < 8 || studInt > 250) return errInt;
+		if (studInt < 8 || studInt > 200) return errInt;
 		int rem = studInt % 2;
 		if (rem > 0) return errEven;
 

@@ -81,7 +81,7 @@
     <string name="torque_header">Torque Pattern Generator</string>	
 	<string name="torque_but">Ok</string>
 	<string name="torqueInstruction">Enter the stud count amd hit OK.</string>
-	<string name="errInt">Error: Stud Count must be higher then 8 and lower than 250.</string>
+	<string name="errInt">Error: Stud Count must be higher then 8 and lower than 200.</string>
 	<string name="errEven">Error: Stud Count must be an even number.</string>
 	
 <!-- Flange Reference -->
