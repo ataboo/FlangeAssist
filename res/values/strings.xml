@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 <!-- Update Values (last checked Oct.26/13) -->
-	<string name="version_info">Boilermaker Toolbox v0.1\nLast updated Nov 2/13\nWage rate as of: Nov 3/13</string>
+	<string name="version_info">Boilermaker Toolbox v0.11\nLast updated Nov 4/13\nWage rate as of: Nov 3/13</string>
 	<string name="loa_rate">195</string>
 	<string name="meal_rate">40</string>
 	<string name="vacation_pay">0.10</string>
@@ -79,7 +79,7 @@
 
 <!-- Torque Pattern Gen -->
     <string name="torque_header">Torque Pattern Generator</string>	
-	<string name="torque_but">Ok</string>
+	<string name="torque_but">OK</string>
 	<string name="torqueInstruction">Enter the stud count amd hit OK.</string>
 	<string name="errInt">Error: Stud Count must be higher then 8 and lower than 200.</string>
 	<string name="errEven">Error: Stud Count must be an even number.</string>
@@ -91,6 +91,8 @@
 	<string name="drift_text">Drift Pin</string>
 	<string name="sCount_text">Stud Count</string>
 	<string name="sLength_text">Stud Length</string>
+	<string name="b7_text">B7 Torque</string>
+	<string name="b7m_text">B7M Torque</string>
 	
 	<string-array name = "f_ratings">
 	    <item>150</item>
@@ -123,24 +125,24 @@
 	</string-array>
 	
 	<string-array name = "stud_sizes">
-	    <item>1/2,7/8,9/16</item>
-		<item>5/8,1-1/16,11/16</item>
-		<item>3/4,1-1/4,13/16</item>
-		<item>7/8,1-7/16,15/16</item>
-		<item>1,1-5/8,1-1/16</item>
-		<item>1-1/8,1-13/16,1-3/16</item>
-		<item>1-1/4,2,1-5/16</item>
-		<item>1-3/8,2-3/16,1-7/16</item>
-		<item>1-1/2,2-3/8,1-9/16</item>
-		<item>1-5/8,2-9/16,1-11/16</item>
-		<item>1-3/4,2-3/4,1-13/16</item>
-		<item>1-7/8,2-15/16,1-15/16</item>
-		<item>2,3-1/8,2-1/16</item>
-		<item>2-1/4,3-1/2,2-13/16</item>
-		<item>2-1/2,3-7/8,2-9/16</item>
-		<item>2-3/4,4-1/4,2-13/16</item>
-		<item>3,4-5/8,3-1/16</item>
-		<item>3-1/2,5-3/8,3-9/16</item>
+	    <item>1/2,7/8,9/16,45,59</item>
+		<item>5/8,1-1/16,11/16,88,115</item>
+		<item>3/4,1-1/4,13/16,153,200</item>
+		<item>7/8,1-7/16,15/16,243,319</item>
+		<item>1,1-5/8,1-1/16,361,474</item>
+		<item>1-1/8,1-13/16,1-3/16,523,686</item>
+		<item>1-1/4,2,1-5/16,726,953</item>
+		<item>1-3/8,2-3/16,1-7/16,976,1281</item>
+		<item>1-1/2,2-3/8,1-9/16,1278,1677</item>
+		<item>1-5/8,2-9/16,1-11/16,1635,2146</item>
+		<item>1-3/4,2-3/4,1-13/16,2054,2696</item>
+		<item>1-7/8,2-15/16,1-15/16,2539,3332</item>
+		<item>2,3-1/8,2-1/16,3094,4061</item>
+		<item>2-1/4,3-1/2,2-13/16,4436,5822</item>
+		<item>2-1/2,3-7/8,2-9/16,6118,8030</item>
+		<item>2-3/4,4-1/4,2-13/16,9712,9712</item>
+		<item>3,4-5/8,3-1/16,12654,12654</item>
+		<item>3-1/2,5-3/8,3-9/16,20527,20527</item>
 	</string-array>
 	
 	<string-array name = "f_stats150">

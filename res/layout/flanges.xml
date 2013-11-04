@@ -63,6 +63,22 @@
         android:text="@string/sLength_text"
         android:textSize="20sp" 
         android:layout_below="@id/sCountText" />
+        <TextView
+        android:id="@+id/b7Text"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="left"
+        android:text="@string/b7_text"
+        android:textSize="20sp" 
+        android:layout_below="@id/sLengthText" />
+            <TextView
+        android:id="@+id/b7MText"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="left"
+        android:text="@string/b7m_text"
+        android:textSize="20sp" 
+        android:layout_below="@id/b7Text" />
 
     <!-- Stats Boxes -->
     <TextView
@@ -115,5 +131,25 @@
         android:textSize="20sp"
         android:textStyle="bold"
         android:layout_below="@id/sCountVal" />
+        <TextView
+        android:id="@+id/b7Val"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:freezesText="true"
+        android:gravity="right"
+        android:text="@string/default_value"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:layout_below="@id/sLengthVal" />
+            <TextView
+        android:id="@+id/b7MVal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:freezesText="true"
+        android:gravity="right"
+        android:text="@string/default_value"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:layout_below="@id/b7Val" />
 
 </RelativeLayout>
