@@ -7,8 +7,6 @@ import android.widget.*;
 
 public class TorquePattern extends Activity {
     @SuppressLint("NewApi")
-	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
-	@Override
 	
 	int[] patBase;
 
