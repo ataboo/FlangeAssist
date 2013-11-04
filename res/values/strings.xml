@@ -48,6 +48,7 @@
 	<string name="main_header">Main Menu</string>
 	<string name="but_about">About</string>
 	<string name="but_flange">ASME Flange Tables</string>
+	<string name="but_torque">Torque Pattern Generator</string>
 	<string name="pay_header">Paycheck Estimation</string>
 	
 <!-- Pay Calculator -->	
@@ -76,6 +77,13 @@
 	<string name="about_header">About Boilermaker Toolbox</string>
 	<string name="but_call146">View 146 Callout</string>
 
+<!-- Torque Pattern Gen -->
+    <string name="torque_header">Torque Pattern Generator</string>	
+	<string name="torque_but">Ok</string>
+	<string name="torqueInstruction">Enter the stud count amd hit OK.</string>
+	<string name="errInt">Error: Stud Count must be higher then 8 and lower than 250.</string>
+	<string name="errEven">Error: Stud Count must be an even number.</string>
+	
 <!-- Flange Reference -->
 	<string name="flange_header">ASME Flange Reference</string>
 	<string name="sDiam_text">Stud Diameter</string>

@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.atasoft.flangeassist"
     android:versionCode="1"
-    android:versionName="0.1" >
+    android:versionName="0.11" >
 
     <uses-sdk
         android:minSdkVersion="11"
@@ -38,6 +38,13 @@
 		<activity
             android:name="com.atasoft.flangeassist.PayCalculator"
             android:label="@string/pay_header" >
+			<meta-data
+				android:name="android.support.PARENT_ACTIVITY"
+				android:value="com.atasoft.flangeassist.MainActivity" />
+        </activity>
+		<activity
+            android:name="com.atasoft.flangeassist.TorquePattern"
+            android:label="@string/torque_header" >
 			<meta-data
 				android:name="android.support.PARENT_ACTIVITY"
 				android:value="com.atasoft.flangeassist.MainActivity" />

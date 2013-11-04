@@ -21,12 +21,19 @@
 		android:onClick="payCalc"
 	    android:layout_below="@id/flangebut" />
 	<Button
+		android:id="@+id/torqueBut"
+		android:layout_height="wrap_content"
+		android:layout_width="fill_parent"
+		android:text="@string/but_torque"
+		android:onClick="torqueGen"
+	    android:layout_below="@id/calcbut" />
+	<Button
 		android:id="@+id/calloutedmbut"
 		android:layout_height="wrap_content"
 		android:layout_width="fill_parent"
 		android:text="@string/but_call146"
 		android:onClick="calloutEdm"
-	    android:layout_below="@id/calcbut" />
+	    android:layout_below="@id/torqueBut" />
 	<Button
 		android:id="@+id/aboutbut"
 		android:layout_height="wrap_content"
@@ -34,6 +41,4 @@
 		android:text="@string/but_about"
 		android:onClick="aboutPage"
 	    android:layout_alignParentBottom="true" />
-	
-	
 </RelativeLayout>
