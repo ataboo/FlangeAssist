@@ -104,7 +104,9 @@ public class AsmeFlange extends Activity {
 		TextView driftVal = (TextView) findViewById(R.id.driftVal);
 		TextView sCountVal = (TextView) findViewById(R.id.sCountVal);
 		TextView sLengthVal = (TextView) findViewById(R.id.sLengthVal);
-
+		TextView b7Val = (TextView) findViewById(R.id.b7Val);
+		TextView b7mVal = (TextView) findViewById(R.id.b7MVal);
+		
 		String[] statSplit = statArr[fSizeIndex].split(",");  
 		if(statSplit.length > 4 || statSplit.length < 1) {
 			sDiamVal.setText("resource err");
@@ -118,12 +120,14 @@ public class AsmeFlange extends Activity {
 			System.out.println("Could not parse " + nfe);
 		}
 		String[] studSplit = studArr[studIndex].split(",");
-		// studSplit [diam string, wrench size, drift size]
+		// studSplit [diam string, wrench size, drift size, b7 torque, b7m torque]
 
 		sDiamVal.setText(statSplit[0] + "\"");
-		wrenchVal.setText(studSplit[1]);
-		driftVal.setText(studSplit[2]);
+		wrenchVal.setText(studSplit[1] + "\"");
+		driftVal.setText(studSplit[2] + "\"");
 		sCountVal.setText(statSplit[2]);
 		sLengthVal.setText(statSplit[3] + "\"");
+		b7Val.setText(studSplit[3] + " ft-lbs");
+		b7mVal.setText(studSplit[4] + " ft-lbs");
 	}
 }
