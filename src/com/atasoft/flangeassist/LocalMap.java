@@ -7,9 +7,7 @@ import android.graphics.drawable.*;
 import android.os.*;
 import android.util.*;
 import android.view.*;
-import android.view.ViewTreeObserver.*;
 import android.widget.*;
-import android.widget.RadioGroup.*;
 
 public class LocalMap extends Activity
  {
@@ -43,12 +41,13 @@ public class LocalMap extends Activity
 	}
 	
 	private void setupViews() {
-		int imageWidth = 500;
+		int imageWidth = 700;
 		ImageView mapView = (ImageView) findViewById(R.id.map_backgrnd);
 		scaleView(mapView, imageWidth);
 	}
 	
 	
+	@SuppressWarnings("deprecation")
 	private void scaleView(ImageView view, int imgWidth)
 	{
 		Drawable drawing = view.getDrawable();
