@@ -41,7 +41,7 @@ public class LocalMap extends Activity
 	}
 	
 	private void setupViews() {
-		int imageWidth = 700;
+		int imageWidth = 1080;
 		ImageView mapView = (ImageView) findViewById(R.id.map_backgrnd);
 		scaleView(mapView, imageWidth);
 	}
