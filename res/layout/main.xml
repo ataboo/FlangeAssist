@@ -35,6 +35,13 @@
 		android:onClick="calloutEdm"
 	    android:layout_below="@id/torqueBut" />
 	<Button
+		android:id="@+id/mapbut"
+		android:layout_height="wrap_content"
+		android:layout_width="fill_parent"
+		android:text="@string/but_map"
+		android:onClick="mapLaunch"
+	    android:layout_below="@id/calloutedmbut" />
+	<Button
 		android:id="@+id/aboutbut"
 		android:layout_height="wrap_content"
 		android:layout_width="fill_parent"

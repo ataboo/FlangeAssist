@@ -49,7 +49,11 @@
 	<string name="but_about">About</string>
 	<string name="but_flange">ASME Flange Tables</string>
 	<string name="but_torque">Torque Pattern Generator</string>
+	<string name="map_header">Local Links</string>
 	<string name="pay_header">Paycheck Estimation</string>
+	<string name="but_map">Local Links</string>
+	
+<!-- Local Map -->	
 	
 <!-- Pay Calculator -->	
 	<string name="week_header">Work-week</string>
@@ -83,6 +87,22 @@
 	<string name="torqueInstruction">Enter the stud count amd hit OK.</string>
 	<string name="errInt">Error: Stud Count must be higher then 8 and lower than 200.</string>
 	<string name="errEven">Error: Stud Count must be an even number.</string>
+
+<!-- Callouts -->
+	<string-array name="locals">
+		<item>73,http://www.boilermaker73.ca</item>
+		<item>128,http://128.boilermaker.ca</item>
+		<item>146,http://boilermakers.ca/content/</item>
+		<item>191,http://www.boilermaker.ca/191.htm</item>
+		<item>203,http://www.boilermaker.ca/203.htm</item>
+		<item>271,http://www.boilermaker.ca/271.htm</item>
+		<item>359,http://www.boilermakers359.org</item>
+		<item>451,http://www.boilermaker.ca/451.htm</item>
+		<item>532,http://www.boilermaker.ca/532.htm</item>
+		<item>555,http://www.boilermakerslocal555.org</item>
+		<item>580,http://www.boilermaker.ca/580.htm</item>
+		<item>600,http://www.boilermaker.ca/600.htm</item>
+	</string-array>
 	
 <!-- Flange Reference -->
 	<string name="flange_header">ASME Flange Reference</string>

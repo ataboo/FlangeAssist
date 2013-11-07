@@ -34,4 +34,8 @@ public class MainActivity extends Activity {
 		Intent intent = new Intent(this, TorquePattern.class);
 		startActivity(intent);
 	}
+	public void mapLaunch(View view) {
+		Intent intent = new Intent(this, LocalMap.class);
+		startActivity(intent);
+	}
 }
