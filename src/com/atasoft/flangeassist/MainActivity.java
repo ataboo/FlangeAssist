@@ -1,41 +1,73 @@
 package com.atasoft.flangeassist;
 
-import android.app.*;
-import android.os.*;
-import android.view.*;
-import android.content.Intent;
-import android.net.Uri;
+import com.atasoft.adapters.TabsPagerAdapter;
+import com.atasoft.flangeassist.R;
+import android.app.ActionBar;
+import android.app.ActionBar.Tab;
+import android.app.FragmentTransaction;
+import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.view.ViewPager;
+import android.view.Menu;
 
-public class MainActivity extends Activity {
+public class MainActivity extends FragmentActivity implements ActionBar.TabListener {
+
+	private ViewPager viewPager;
+	private TabsPagerAdapter mAdapter;
+	private ActionBar actionBar;
+	// Tab titles
+	private String[] tabs = { "Top Rated", "Games", "Movies" };
+
 	@Override
-	public void onCreate(Bundle savedInstanceState) {
+	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.main);
+		setContentView(R.layout.main_activity);
+
+		// Initilization
+		viewPager = (ViewPager) findViewById(R.id.pager);
+		actionBar = getActionBar();
+		mAdapter = new TabsPagerAdapter(getSupportFragmentManager());
+
+		viewPager.setAdapter(mAdapter);
+		actionBar.setHomeButtonEnabled(false);
+		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);        
+		// Adding Tabs
+		for (String tab_name : tabs) {
+			actionBar.addTab(actionBar.newTab().setText(tab_name)
+					.setTabListener(this));
+        }
+		
+		viewPager.setOnPageChangeListener (new ViewPager.OnPageChangeListener() {
+
+				@Override
+				public void onPageSelected(int position) {
+					// on changing the page
+					// make respected tab selected
+					actionBar.setSelectedNavigationItem(position);
+				}
+				@Override
+				public void onPageScrolled(int arg0, float arg1, int arg2) {
+				}
+
+				@Override
+				public void onPageScrollStateChanged(int arg0) {
+				}
+			});
 	}
 	
-	public void flangeLaunch(View view){
-		Intent intent = new Intent(this, AsmeFlange.class);
-		startActivity(intent);
-	}
-	
-	public void calloutEdm(View view) {
-		startActivity(new Intent(Intent.ACTION_VIEW).setData(Uri.parse("http://boilermakers.ca/content/callout.html")));
+	@Override
+    public void onTabReselected(Tab tab, FragmentTransaction ft) {
     }
-	
-	public void aboutPage(View view) {
-		Intent intent = new Intent(this, AboutPage.class);
-		startActivity(intent);
-	}
-	public void payCalc(View view) {
-		Intent intent = new Intent(this, PayCalculator.class);
-		startActivity(intent);
-	}
-	public void torqueGen(View view) {
-		Intent intent = new Intent(this, TorquePattern.class);
-		startActivity(intent);
-	}
-	public void mapLaunch(View view) {
-		Intent intent = new Intent(this, LocalMap.class);
-		startActivity(intent);
-	}
+
+    @Override
+    public void onTabSelected(Tab tab, FragmentTransaction ft) {
+        // on tab selected
+        // show respected fragment view
+        viewPager.setCurrentItem(tab.getPosition());
+    }
+
+    @Override
+    public void onTabUnselected(Tab tab, FragmentTransaction ft) {
+    }
 }
+
