@@ -1,14 +1,15 @@
 package com.atasoft.flangeassist;
 
-import com.atasoft.adapters.TabsPagerAdapter;
-import com.atasoft.flangeassist.R;
-import android.app.ActionBar;
-import android.app.ActionBar.Tab;
+import android.app.*;
+import android.app.ActionBar.*;
+import android.os.*;
+import android.support.v4.app.*;
+import android.support.v4.view.*;
+import android.view.*;
+import com.atasoft.adapters.*;
+import com.atasoft.flangeassist.*;
+
 import android.app.FragmentTransaction;
-import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.view.ViewPager;
-import android.view.Menu;
 
 public class MainActivity extends FragmentActivity implements ActionBar.TabListener {
 
@@ -16,7 +17,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 	private TabsPagerAdapter mAdapter;
 	private ActionBar actionBar;
 	// Tab titles
-	private String[] tabs = { "Top Rated", "Games", "Movies" };
+	private String[] tabs = {"Paycheque\nCalculator", "Flange\nTables", "Torque\nPattern", "Hall\nLinks", "About"};
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -54,18 +55,15 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 				}
 			});
 	}
-	
 	@Override
     public void onTabReselected(Tab tab, FragmentTransaction ft) {
     }
-
     @Override
     public void onTabSelected(Tab tab, FragmentTransaction ft) {
         // on tab selected
         // show respected fragment view
         viewPager.setCurrentItem(tab.getPosition());
     }
-
     @Override
     public void onTabUnselected(Tab tab, FragmentTransaction ft) {
     }

@@ -1,6 +1,6 @@
 package com.atasoft.adapters;
 
-import com.atasoft.flangeassist.GamesFragment;
+import com.atasoft.flangeassist.AboutFragment;
 import com.atasoft.flangeassist.MoviesFragment;
 import com.atasoft.flangeassist.TopRatedFragment;
 import android.support.v4.app.Fragment;
@@ -22,7 +22,7 @@ public class TabsPagerAdapter extends FragmentPagerAdapter {
 				return new TopRatedFragment();
 			case 1:
 				// Games fragment activity
-				return new GamesFragment();
+				return new AboutFragment();
 			case 2:
 				// Movies fragment activity
 				return new MoviesFragment();
