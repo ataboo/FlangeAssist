@@ -1,16 +1,15 @@
 package com.atasoft.flangeassist;
 
+import android.annotation.SuppressLint;
 import android.app.*;
 import android.app.ActionBar.*;
 import android.os.*;
 import android.support.v4.app.*;
 import android.support.v4.view.*;
-import android.view.*;
 import com.atasoft.adapters.*;
-import com.atasoft.flangeassist.*;
-
 import android.app.FragmentTransaction;
 
+@SuppressLint("NewApi")
 public class MainActivity extends FragmentActivity implements ActionBar.TabListener {
 
 	private ViewPager viewPager;

@@ -87,6 +87,7 @@
 	<string name="torqueInstruction">Enter the stud count amd hit OK.</string>
 	<string name="errInt">Error: Stud Count must be higher then 8 and lower than 200.</string>
 	<string name="errEven">Error: Stud Count must be an even number.</string>
+	<string name="studCount">Stud Count</string>
 
 <!-- Callouts -->
 	<string-array name="locals">
