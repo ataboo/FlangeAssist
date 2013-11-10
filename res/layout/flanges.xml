@@ -29,7 +29,7 @@
         android:layout_height="wrap_content"
         android:gravity="left"
         android:text="@string/sDiam_text"
-        android:textSize="20sp"
+        android:textSize="18sp"
 		android:layout_below="@id/sizeSpinner" />
     <TextView
         android:id="@+id/wrenchText"
@@ -37,7 +37,7 @@
         android:layout_height="wrap_content"
         android:gravity="left"
         android:text="@string/wrench_text"
-        android:textSize="20sp" 
+        android:textSize="18sp" 
         android:layout_below="@id/sDiamText" />
     <TextView
         android:id="@+id/driftText"
@@ -45,7 +45,7 @@
         android:layout_height="wrap_content"
         android:gravity="left"
         android:text="@string/drift_text"
-        android:textSize="20sp"
+        android:textSize="18sp"
         android:layout_below="@id/wrenchText" />
     <TextView
         android:id="@+id/sCountText"
@@ -53,7 +53,7 @@
         android:layout_height="wrap_content"
         android:gravity="left"
         android:text="@string/sCount_text"
-        android:textSize="20sp"
+        android:textSize="18sp"
     	android:layout_below="@id/driftText" />
     <TextView
         android:id="@+id/sLengthText"
@@ -61,7 +61,7 @@
         android:layout_height="wrap_content"
         android:gravity="left"
         android:text="@string/sLength_text"
-        android:textSize="20sp" 
+        android:textSize="18sp" 
         android:layout_below="@id/sCountText" />
         <TextView
         android:id="@+id/b7Text"
@@ -69,7 +69,7 @@
         android:layout_height="wrap_content"
         android:gravity="left"
         android:text="@string/b7_text"
-        android:textSize="20sp" 
+        android:textSize="18sp" 
         android:layout_below="@id/sLengthText" />
             <TextView
         android:id="@+id/b7MText"
@@ -77,7 +77,7 @@
         android:layout_height="wrap_content"
         android:gravity="left"
         android:text="@string/b7m_text"
-        android:textSize="20sp" 
+        android:textSize="18sp" 
         android:layout_below="@id/b7Text" />
 
     <!-- Stats Boxes -->
@@ -88,7 +88,7 @@
         android:freezesText="true"
         android:gravity="right"
         android:text="@string/default_value"
-        android:textSize="20sp"
+        android:textSize="18sp"
         android:textStyle="bold"
     	android:layout_below="@id/sizeSpinner" />
     <TextView
@@ -98,7 +98,7 @@
         android:freezesText="true"
         android:gravity="right"
         android:text="@string/default_value"
-        android:textSize="20sp"
+        android:textSize="18sp"
         android:textStyle="bold"
         android:layout_below="@id/sDiamVal" />
     <TextView
@@ -108,7 +108,7 @@
         android:freezesText="true"
         android:gravity="right"
         android:text="@string/default_value"
-        android:textSize="20sp"
+        android:textSize="18sp"
         android:textStyle="bold"
         android:layout_below="@id/wrenchVal" />
     <TextView
@@ -118,7 +118,7 @@
         android:freezesText="true"
         android:gravity="right"
         android:text="@string/default_value"
-        android:textSize="20sp"
+        android:textSize="18sp"
         android:textStyle="bold"
         android:layout_below="@id/driftVal" />
     <TextView
@@ -128,7 +128,7 @@
         android:freezesText="true"
         android:gravity="right"
         android:text="@string/default_value"
-        android:textSize="20sp"
+        android:textSize="18sp"
         android:textStyle="bold"
         android:layout_below="@id/sCountVal" />
         <TextView
@@ -138,7 +138,7 @@
         android:freezesText="true"
         android:gravity="right"
         android:text="@string/default_value"
-        android:textSize="20sp"
+        android:textSize="18sp"
         android:textStyle="bold"
         android:layout_below="@id/sLengthVal" />
             <TextView
@@ -148,7 +148,7 @@
         android:freezesText="true"
         android:gravity="right"
         android:text="@string/default_value"
-        android:textSize="20sp"
+        android:textSize="18sp"
         android:textStyle="bold"
         android:layout_below="@id/b7Val" />
 
