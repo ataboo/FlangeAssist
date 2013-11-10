@@ -53,7 +53,7 @@
 	<string name="pay_header">Paycheck Estimation</string>
 	<string name="but_map">Local Links</string>
 	
-<!-- Local Map -->	
+<!-- Hall Links -->	
 	
 <!-- Pay Calculator -->	
 	<string name="week_header">Work-week</string>
@@ -91,18 +91,18 @@
 
 <!-- Callouts -->
 	<string-array name="locals">
-		<item>73,http://www.boilermaker73.ca</item>
-		<item>128,http://128.boilermaker.ca</item>
-		<item>146,http://boilermakers.ca/content/</item>
-		<item>191,http://www.boilermaker.ca/191.htm</item>
-		<item>203,http://www.boilermaker.ca/203.htm</item>
-		<item>271,http://www.boilermaker.ca/271.htm</item>
-		<item>359,http://www.boilermakers359.org</item>
-		<item>451,http://www.boilermaker.ca/451.htm</item>
-		<item>532,http://www.boilermaker.ca/532.htm</item>
-		<item>555,http://www.boilermakerslocal555.org</item>
-		<item>580,http://www.boilermaker.ca/580.htm</item>
-		<item>600,http://www.boilermaker.ca/600.htm</item>
+	    <!-- Display, Homepage URL, Callout URL, Phone -->
+		<item>73 - Atlantic,http://www.boilermaker73.ca,5066347386</item>
+		<item>128 - Ontario,http://128.boilermaker.ca,9053320128</item>
+		<item>146 - Edmonton,http://boilermakers.ca,7804515992,http://boilermakers.ca/content/callout.html</item>
+		<item>191 - Victoria,http://www.boilermaker.ca/191.htm,2503834196 </item>
+		<item>203 - Newfoundland,http://www.boilermaker.ca/203.htm,7092297355</item>
+		<item>271 - Montréal,http://www.boilermaker.ca/271.htm,5143276135</item>
+		<item>359 - B.C,http://www.boilermakers359.org,7783693590,http://www.boilermakers359.org/dispatch.mp3</item>
+		<item>451 - Flin Flon,http://www.boilermaker.ca/451.htm,2046875168</item>
+		<item>532 - Regina,http://www.boilermaker.ca/532.htm,3065457581</item>
+		<item>555 - Praries,http://www.boilermakerslocal555.org,2049879200,2049879205</item>
+		<item>600 - Saskatoon,http://www.boilermaker.ca/600.htm,3066525008</item>
 	</string-array>
 	
 <!-- Flange Reference -->
