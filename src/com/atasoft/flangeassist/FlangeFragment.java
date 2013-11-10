@@ -1,72 +1,62 @@
 package com.atasoft.flangeassist;
 
-import android.annotation.SuppressLint;
-import android.app.*;
+import android.*;
 import android.os.*;
+import android.support.v4.app.*;
 import android.view.*;
+import android.view.View.*;
 import android.widget.*;
 
-@SuppressLint("NewApi")
-public class AsmeFlange extends Activity {
-    @SuppressLint("NewApi")
-	@Override
-	
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.flanges);
+public class FlangeFragment extends Fragment {
+    View thisFrag;
 
-        // Make sure we're running on Honeycomb or higher to use ActionBar APIs
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-            // Show the Up button in the action bar.
-            getActionBar().setDisplayHomeAsUpEnabled(true);
-        }
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+							 Bundle savedInstanceState) {
+
+        View v = inflater.inflate(R.layout.flanges, container, false);
+        thisFrag = v;
+        setupSpinners();
+
+        return v;
+    }
+	
+    private void setupSpinners() {
 		String fSizes[] = getResources().getStringArray(R.array.f_sizes);
 		String fRates[] = getResources().getStringArray(R.array.f_ratings);
 
-		Spinner rateS = (Spinner) findViewById(R.id.rateSpinner);
-		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+		Spinner rateS = (Spinner) thisFrag.findViewById(R.id.rateSpinner);
+		ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity().getApplicationContext(),
 																android.R.layout.simple_spinner_item, fRates);
 		rateS.setAdapter(adapter);
 
-		Spinner sizeS = (Spinner) findViewById(R.id.sizeSpinner);
-		ArrayAdapter<String> adaptor2 = new ArrayAdapter<String>(this,
+		Spinner sizeS = (Spinner) thisFrag.findViewById(R.id.sizeSpinner);
+		ArrayAdapter<String> adaptor2 = new ArrayAdapter<String>(getActivity().getApplicationContext(),
 																 android.R.layout.simple_spinner_item, fSizes);
 		sizeS.setAdapter(adaptor2);
 
 		rateS.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 		        public void onItemSelected(AdapterView<?> parent, View view,
 										   int pos, long id) {
-					spinSend(view);
+					spinSend();
 				}
 
 				public void onNothingSelected(AdapterView<?> parent) {
 				}
 			});
 		sizeS.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-				public void onItemSelected(AdapterView<?> parent, View view,
+			public void onItemSelected(AdapterView<?> parent, View view,
 										   int pos, long id) {
-					spinSend(view);
-				}
+				spinSend();
+			}
 
-				public void onNothingSelected(AdapterView<?> parent) {
-				}
-			});	
+			public void onNothingSelected(AdapterView<?> parent) {
+			}
+		});		
 	}
-	
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-			case android.R.id.home:
-				super.finish();
-				return true;
-			default:
-				return super.onOptionsItemSelected(item);
-        }
-	}
-	
-	public void spinSend(View view) {
-		Spinner rateS = (Spinner) findViewById(R.id.rateSpinner);
-		Spinner sizeS = (Spinner) findViewById(R.id.sizeSpinner);
+	private void spinSend() {
+		Spinner rateS = (Spinner) thisFrag.findViewById(R.id.rateSpinner);
+		Spinner sizeS = (Spinner) thisFrag.findViewById(R.id.sizeSpinner);
 
 		int fSizeIndex = sizeS.getSelectedItemPosition();
 
@@ -88,21 +78,21 @@ public class AsmeFlange extends Activity {
 				break;
 			case (5): //1500
 				setVals(fSizeIndex, R.array.f_stats1500);
-		}
+		}	
 	}
-
+	
 	private void setVals(int fSizeIndex, int statArrInt) {
 		String[] statArr = getResources().getStringArray(statArrInt);
         String[] studArr = getResources().getStringArray(R.array.stud_sizes);
 		int studIndex = 0;
-		TextView sDiamVal = (TextView) findViewById(R.id.sDiamVal);
-		TextView wrenchVal = (TextView) findViewById(R.id.wrenchVal);
-		TextView driftVal = (TextView) findViewById(R.id.driftVal);
-		TextView sCountVal = (TextView) findViewById(R.id.sCountVal);
-		TextView sLengthVal = (TextView) findViewById(R.id.sLengthVal);
-		TextView b7Val = (TextView) findViewById(R.id.b7Val);
-		TextView b7mVal = (TextView) findViewById(R.id.b7MVal);
-		
+		TextView sDiamVal = (TextView) thisFrag.findViewById(R.id.sDiamVal);
+		TextView wrenchVal = (TextView) thisFrag.findViewById(R.id.wrenchVal);
+		TextView driftVal = (TextView) thisFrag.findViewById(R.id.driftVal);
+		TextView sCountVal = (TextView) thisFrag.findViewById(R.id.sCountVal);
+		TextView sLengthVal = (TextView) thisFrag.findViewById(R.id.sLengthVal);
+		TextView b7Val = (TextView) thisFrag.findViewById(R.id.b7Val);
+		TextView b7mVal = (TextView) thisFrag.findViewById(R.id.b7MVal);
+
 		String[] statSplit = statArr[fSizeIndex].split(",");  
 		if(statSplit.length > 4 || statSplit.length < 1) {
 			sDiamVal.setText("resource err");

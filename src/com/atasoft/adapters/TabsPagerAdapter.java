@@ -19,20 +19,20 @@ public class TabsPagerAdapter extends FragmentPagerAdapter {
 
         switch (index) {
 			case 0:
-				// Pay
-				return new PaychequeFragment();
+				// About
+				return new AboutFragment();
 			case 1:
 				// Flange Tables
-				return new AboutFragment();
+				return new FlangeFragment();
 			case 2:
 				// Torque Pattern
 				return new TorqueFragment();
 			case 3:
+				// Paycheck Calc
+				return new PaychequeFragment();
+			case 4:
 				// Hall Links
 				return new TopRatedFragment();
-			case 4:
-				// About
-				return new AboutFragment();
         }
 
         return null;
