@@ -6,7 +6,6 @@ import android.util.*;
 import android.view.*;
 import android.widget.*;
 import com.atasoft.adapters.*;
-import java.security.acl.*;
 
 public class HallFragment extends Fragment {
     View thisFrag;
