@@ -32,7 +32,7 @@ public class TabsPagerAdapter extends FragmentPagerAdapter {
 				return new PaychequeFragment();
 			case 4:
 				// Hall Links
-				return new AboutFragment();
+				return new HallFragment();
         }
 
         return null;

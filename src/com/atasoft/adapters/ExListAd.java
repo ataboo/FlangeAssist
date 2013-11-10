@@ -39,9 +39,12 @@ public class ExListAd extends BaseExpandableListAdapter {
 		}
 		text = (TextView) convertView.findViewById(R.id.textView1);
 		text.setText(children);
+		// change pic
+		// if(linkOrNot(children))
 		convertView.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
+					//add logic for phone/link
 					Toast.makeText(activity, children,
 								   Toast.LENGTH_SHORT).show();
 				}
@@ -88,6 +91,7 @@ public class ExListAd extends BaseExpandableListAdapter {
 		ExpandableGroup group = (ExpandableGroup) getGroup(groupPosition);
 		((CheckedTextView) convertView).setText(group.string);
 		((CheckedTextView) convertView).setChecked(isExpanded);
+		// change pic here
 		return convertView;
 	}
 

@@ -15,20 +15,26 @@ public class HallFragment extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 							 Bundle savedInstanceState) {
-	View v = inflater.inflate(R.layout.flanges, container, false);
+	View v = inflater.inflate(R.layout.halllinks, container, false);
     thisFrag = v;
 
 	createData();
 	ExpandableListView listView = (ExpandableListView) thisFrag.findViewById(R.id.listView);
 	ExListAd adapter = new ExListAd(getActivity(),
-																	  groups);
+										groups);
 	listView.setAdapter(adapter);
 	
     return v;					 
 	}
 	
     private void createData() {
-		
+		for (int j = 0; j < 5; j++) {
+			ExpandableGroup group = new ExpandableGroup("Test " + j);
+			for (int i = 0; i < 5; i++) {
+				group.children.add("Sub Item" + i);
+			}
+			groups.append(j, group);
+		}
 		
 	}	
 	
