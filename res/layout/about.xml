@@ -3,9 +3,17 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
 	android:padding="16dp" >
+	<ImageView
+		android:id="@+id/about_logo"
+		android:layout_width="120dp"
+		android:layout_height="120dp"
+		android:scaleType="fitCenter"
+		android:src="@drawable/ic_launcherbig"
+		android:layout_alignParentTop="true" 
+		android:layout_alignParentLeft="true"/>
 	<TextView
 		android:id="@+id/aboutblurb"
-		android:layout_alignParentTop="true"
+		android:layout_below="@id/about_logo"
 		android:layout_height="wrap_content"
 		android:layout_width="fill_parent"
 		android:text="@string/about_blurb"
