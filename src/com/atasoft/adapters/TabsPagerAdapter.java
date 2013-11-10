@@ -6,6 +6,7 @@ import com.atasoft.flangeassist.TorqueFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import com.atasoft.flangeassist.*;
 
 public class TabsPagerAdapter extends FragmentPagerAdapter {
 
@@ -19,7 +20,7 @@ public class TabsPagerAdapter extends FragmentPagerAdapter {
         switch (index) {
 			case 0:
 				// Pay
-				return new TopRatedFragment();
+				return new PaychequeFragment();
 			case 1:
 				// Flange Tables
 				return new AboutFragment();

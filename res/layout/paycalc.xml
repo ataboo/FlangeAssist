@@ -97,7 +97,6 @@
 	    android:id="@+id/four_but"
 	    android:layout_below="@id/daylinbot"
 	    android:layout_alignParentRight="true"
-	    android:onClick="pushBootan"
 	    android:textOn="@string/fourtens_but"
 	    android:textOff="@string/fourtens_but"
 	    android:layout_width="100dp"
@@ -107,7 +106,6 @@
 	    android:id="@+id/night_but"
 	    android:layout_below="@id/four_but"
 	    android:layout_alignParentRight="true"
-	    android:onClick="pushBootan"
 	    android:textOn="@string/nights_but"
 	    android:textOff="@string/nights_but"
 	    android:layout_width="100dp"
@@ -116,7 +114,6 @@
 	    android:id="@+id/travel_but"
 	    android:layout_below="@id/night_but"
 	    android:layout_alignParentRight="true"
-	    android:onClick="pushBootan"
 	    android:textOn="@string/travel_but"
 	    android:textOff="@string/travel_but"
 	    android:layout_width="100dp"
@@ -225,7 +222,6 @@
 	<Button
 	    android:id="@+id/clr_but"
 	    android:text="@string/clr_but"
-	    android:onClick="setClr"
 	    android:layout_width="wrap_content"
 	    android:layout_height="wrap_content"
 	    android:layout_below="@id/net_val"
@@ -233,7 +229,6 @@
 	<Button
 	    android:id="@+id/tens_but"
 	    android:text="@string/tens_but"
-	    android:onClick="setTens"
 	    android:layout_width="wrap_content"
 	    android:layout_height="wrap_content"
 	    android:layout_below="@id/net_val"
@@ -241,7 +236,6 @@
 	<Button
 	    android:id="@+id/twelves_but"
 	    android:text="@string/twelves_but"
-	    android:onClick="setTwelves"
 	    android:layout_width="wrap_content"
 	    android:layout_height="wrap_content"
 	    android:layout_below="@id/net_val"
