@@ -17,7 +17,7 @@ public class HallFragment extends Fragment {
 	View v = inflater.inflate(R.layout.halllinks, container, false);
     thisFrag = v;
 
-	createData();
+	setLinks();
 	ExpandableListView listView = (ExpandableListView) thisFrag.findViewById(R.id.listView);
 	ExListAd adapter = new ExListAd(getActivity(),
 										groups);
@@ -34,8 +34,26 @@ public class HallFragment extends Fragment {
 			}
 			groups.append(j, group);
 		}
-		
 	}	
+	
+	private void setLinks() {
+		String[] rawArr = getResources().getStringArray(R.array.locals);
+		String[] rawSplit;
+		
+		for(int i = 0; i < rawArr.length; i++) {
+			// Display, Home, Phone, Callout
+			rawSplit = rawArr[i].split(",");
+			ExpandableGroup group = new ExpandableGroup(rawSplit[0]);
+			
+			for(int j = 1; j < rawSplit.length; j++) {
+				group.children.add(suffixAdd(rawSplit[j]));
+			}
+			groups.append(i, group);
+		}
+	}
+	String suffixAdd(String inString) {	
+		return inString;
+	}
 	
 } 
 

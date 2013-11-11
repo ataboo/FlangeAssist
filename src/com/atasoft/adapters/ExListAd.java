@@ -1,6 +1,9 @@
 package com.atasoft.adapters;
 
 import android.app.*;
+import android.content.*;
+import android.graphics.drawable.*;
+import android.net.*;
 import android.util.*;
 import android.view.*;
 import android.view.View.*;
@@ -38,18 +41,30 @@ public class ExListAd extends BaseExpandableListAdapter {
 			convertView = inflater.inflate(R.layout.listrow_details, null);
 		}
 		text = (TextView) convertView.findViewById(R.id.textView1);
-		text.setText(children);
-		// change pic
-		// if(linkOrNot(children))
+		
 		convertView.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					//add logic for phone/link
-					Toast.makeText(activity, children,
-								   Toast.LENGTH_SHORT).show();
+				    switch (linkType(children, text)) {
+						case 0:  // phone
+						    
+							break;
+						case 1:  // link
+						    
+						    break;
+						
+						
+					}
+					
 				}
 			});
+			
+		text = parseLink(text, children);
 		return convertView;
+		
+		// change pic
+		// if(linkOrNot(children))
+		
 	}
 
 	@Override
@@ -91,7 +106,7 @@ public class ExListAd extends BaseExpandableListAdapter {
 		ExpandableGroup group = (ExpandableGroup) getGroup(groupPosition);
 		((CheckedTextView) convertView).setText(group.string);
 		((CheckedTextView) convertView).setChecked(isExpanded);
-		// change pic here
+		convertView = setLocalDraw((CheckedTextView) convertView, group.string);
 		return convertView;
 	}
 
@@ -103,5 +118,38 @@ public class ExListAd extends BaseExpandableListAdapter {
 	@Override
 	public boolean isChildSelectable(int groupPosition, int childPosition) {
 		return false;
+	}
+	
+	private int linkType(String children, TextView text) {
+		boolean isCallout = false;
+		if(children.startsWith("call_") {
+			children = children.split("_")[1];
+			isCallout = true;
+		}
+		if(children.startsWith("(")) {
+			if(isCallout) {
+                
+				return 0;
+			} else {
+				
+				return 0;
+			}
+		}
+		if(children.startsWith("http") && isCallout) {
+			
+			return 1;   
+		}
+		
+		return 1;
+	}
+	
+	
+	private CheckedTextView setLocalDraw(CheckedTextView textViewIn, String groupString) {
+		groupString = "logo" + (groupString.substring(0, 3)).trim();
+		Context context = textViewIn.getContext();
+		int id = context.getResources().getIdentifier(groupString, "drawable", context.getPackageName());
+		Drawable logo = (Drawable) context.getResources().getDrawable(R.drawable.logo128);
+		textViewIn.setCompoundDrawables(logo, null, null, null);
+		return textViewIn;
 	}
 } 

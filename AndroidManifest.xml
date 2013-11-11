@@ -21,41 +21,6 @@
             	<category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-		<activity
-            android:name="com.atasoft.flangeassist.AsmeFlange"
-            android:label="@string/flange_header" >
-			<meta-data
-				android:name="android.support.PARENT_ACTIVITY"
-				android:value="com.atasoft.flangeassist.MainActivity" />
-        </activity>
-		<activity
-            android:name="com.atasoft.flangeassist.AboutPage"
-            android:label="@string/about_header" >
-			<meta-data
-				android:name="android.support.PARENT_ACTIVITY"
-				android:value="com.atasoft.flangeassist.MainActivity" />
-        </activity>
-		<activity
-            android:name="com.atasoft.flangeassist.PayCalculator"
-            android:label="@string/pay_header" >
-			<meta-data
-				android:name="android.support.PARENT_ACTIVITY"
-				android:value="com.atasoft.flangeassist.MainActivity" />
-        </activity>
-		<activity
-            android:name="com.atasoft.flangeassist.TorquePattern"
-            android:label="@string/torque_header" >
-			<meta-data
-				android:name="android.support.PARENT_ACTIVITY"
-				android:value="com.atasoft.flangeassist.MainActivity" />
-        </activity>
-		<activity
-            android:name="com.atasoft.flangeassist.LocalMap"
-            android:label="@string/map_header" >
-			<meta-data
-				android:name="android.support.PARENT_ACTIVITY"
-				android:value="com.atasoft.flangeassist.MainActivity" />
-        </activity>
     </application>
 
 </manifest>
