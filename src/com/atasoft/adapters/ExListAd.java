@@ -155,6 +155,7 @@ public class ExListAd extends BaseExpandableListAdapter {
 				catIcon = activity.getResources().getDrawable(R.drawable.phoneicon);  // placeholder
 				break;
 			case 1:
+				//bananana
 			    text.setText("Phone Office");
 				catIcon = activity.getResources().getDrawable(R.drawable.phoneicon);  // placeholder
 				break;
