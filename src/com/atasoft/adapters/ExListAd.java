@@ -53,10 +53,6 @@ public class ExListAd extends BaseExpandableListAdapter {
 			
 		text = makeOption(children, text);
 		return convertView;
-		
-		// change pic
-		// if(linkOrNot(children))
-		
 	}
 
 	@Override
@@ -96,7 +92,7 @@ public class ExListAd extends BaseExpandableListAdapter {
 			convertView = inflater.inflate(R.layout.listrow_group, null);
 		}
 		ExpandableGroup group = (ExpandableGroup) getGroup(groupPosition);
-		((CheckedTextView) convertView).setText(group.string);
+		((CheckedTextView) convertView).setText("   " + group.string); // Don't judge me.
 		((CheckedTextView) convertView).setChecked(isExpanded);
 		convertView = setLocalDraw((CheckedTextView) convertView, group.string);
 		return convertView;
@@ -151,20 +147,27 @@ public class ExListAd extends BaseExpandableListAdapter {
 	}
 	
 	private TextView makeOption(String children, TextView text) {
+		Drawable catIcon;
+		
 		switch (linkType(children)) {
 			case 0:
 			    text.setText("Phone Callout");
+				catIcon = activity.getResources().getDrawable(R.drawable.logo128);  // placeholder
 				break;
 			case 1:
 			    text.setText("Phone Office");
+				catIcon = activity.getResources().getDrawable(R.drawable.logo73);  // placeholder
 				break;
 			case 2:
 			    text.setText("Browse Callout");
+				catIcon = activity.getResources().getDrawable(R.drawable.logo359);  // placeholder
 				break;
-			case 3:
+			default:
 			    text.setText("Browse Homepage");
+				catIcon = activity.getResources().getDrawable(R.drawable.logo146);  // placeholder
 				break;
 		}
+		text.setCompoundDrawablesWithIntrinsicBounds(catIcon, null, null, null);
 		return text;
 	}
 	
@@ -172,8 +175,8 @@ public class ExListAd extends BaseExpandableListAdapter {
 		groupString = "logo" + (groupString.substring(0, 3)).trim();
 		Context context = textViewIn.getContext();
 		int id = context.getResources().getIdentifier(groupString, "drawable", context.getPackageName());
-		Drawable logo = (Drawable) context.getResources().getDrawable(R.drawable.logo128);
-		textViewIn.setCompoundDrawables(logo, null, null, null);
+		Drawable logo = activity.getResources().getDrawable(id);
+		textViewIn.setCompoundDrawablesWithIntrinsicBounds(logo, null, null, null);
 		return textViewIn;
 	}
 } 
