@@ -92,7 +92,7 @@ public class ExListAd extends BaseExpandableListAdapter {
 			convertView = inflater.inflate(R.layout.listrow_group, null);
 		}
 		ExpandableGroup group = (ExpandableGroup) getGroup(groupPosition);
-		((CheckedTextView) convertView).setText("   " + group.string); // Don't judge me.
+		((CheckedTextView) convertView).setText("  " + group.string); // Don't judge me.
 		((CheckedTextView) convertView).setChecked(isExpanded);
 		convertView = setLocalDraw((CheckedTextView) convertView, group.string);
 		return convertView;

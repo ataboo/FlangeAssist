@@ -91,14 +91,14 @@
 
 <!-- Callouts -->
 	<string-array name="locals">
-	    <!-- Display, Homepage URL, Phone, Callout -->
+	    <!-- Display, Homepage URL, Callout URL, Phone office, Phone callout -->
 		<item>73 - Atlantic,http://www.boilermaker73.ca,(506)634-7386</item>
 		<item>128 - Ontario,http://128.boilermaker.ca,(905)332-0128</item>
-		<item>146 - Edmonton,http://boilermakers.ca,(780)451-5992,call_http://boilermakers.ca/content/callout.html</item>
+		<item>146 - Edmonton,http://boilermakers.ca,call_http://boilermakers.ca/content/callout.html,(780)451-5992,call_(780)414-6860</item>
 		<item>191 - Victoria,http://www.boilermaker.ca/191.htm,(250)383-4196 </item>
 		<item>203 - Newfoundland,http://www.boilermaker.ca/203.htm,(709)229-7355</item>
 		<item>271 - Montréal,http://www.boilermaker.ca/271.htm,(514)327-6135</item>
-		<item>359 - B.C,http://www.boilermakers359.org,(778)369-3590,call_http://www.boilermakers359.org/dispatch.mp3</item>
+		<item>359 - B.C,http://www.boilermakers359.org,call_http://www.boilermakers359.org/dispatch.mp3,(778)369-3590</item>
 		<item>451 - Flin Flon,http://www.boilermaker.ca/451.htm,(204)687-5168</item>
 		<item>532 - Regina,http://www.boilermaker.ca/532.htm,(306)545-7581</item>
 		<item>555 - Praries,http://www.boilermakerslocal555.org,(204)987-9200,call_(204)987-9205</item>
