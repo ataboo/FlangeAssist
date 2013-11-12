@@ -42,24 +42,16 @@ public class ExListAd extends BaseExpandableListAdapter {
 		}
 		text = (TextView) convertView.findViewById(R.id.textView1);
 		
+		
 		convertView.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
-				    switch (linkType(children, text)) {
-						case 0:  // phone
-						    
-							break;
-						case 1:  // link
-						    
-						    break;
-						
-						
-					}
+					runLink(children);
 					
 				}
 			});
 			
-		text = parseLink(text, children);
+		text = makeOption(children, text);
 		return convertView;
 		
 		// change pic
@@ -120,29 +112,61 @@ public class ExListAd extends BaseExpandableListAdapter {
 		return false;
 	}
 	
-	private int linkType(String children, TextView text) {
+	private int linkType(String children) {
 		boolean isCallout = false;
-		if(children.startsWith("call_") {
-			children = children.split("_")[1];
+		if(children.startsWith("call_")) {
 			isCallout = true;
+			children = children.split("_")[1];
 		}
 		if(children.startsWith("(")) {
 			if(isCallout) {
-                
 				return 0;
 			} else {
-				
-				return 0;
+				return 1;
 			}
 		}
 		if(children.startsWith("http") && isCallout) {
-			
-			return 1;   
+			return 2;   
 		}
-		
-		return 1;
+		return 3;
 	}
 	
+	private void runLink (String inString) {
+		int type = linkType(inString);
+		Intent intent;
+		String uri;
+		if (inString.startsWith("call")) inString = inString.split("_")[1];
+		
+		uri = inString;
+		intent = new Intent(Intent.ACTION_VIEW);
+	    
+		if (type == 0 || type == 1) {	
+			uri = "tel:" + inString ;
+			intent = new Intent(Intent.ACTION_DIAL);
+		}
+			
+		intent.setData(Uri.parse(uri));
+		activity.startActivity(intent);	
+		return;
+	}
+	
+	private TextView makeOption(String children, TextView text) {
+		switch (linkType(children)) {
+			case 0:
+			    text.setText("Phone Callout");
+				break;
+			case 1:
+			    text.setText("Phone Office");
+				break;
+			case 2:
+			    text.setText("Browse Callout");
+				break;
+			case 3:
+			    text.setText("Browse Homepage");
+				break;
+		}
+		return text;
+	}
 	
 	private CheckedTextView setLocalDraw(CheckedTextView textViewIn, String groupString) {
 		groupString = "logo" + (groupString.substring(0, 3)).trim();
