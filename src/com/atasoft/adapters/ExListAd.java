@@ -152,19 +152,19 @@ public class ExListAd extends BaseExpandableListAdapter {
 		switch (linkType(children)) {
 			case 0:
 			    text.setText("Phone Callout");
-				catIcon = activity.getResources().getDrawable(R.drawable.logo128);  // placeholder
+				catIcon = activity.getResources().getDrawable(R.drawable.phoneicon);  // placeholder
 				break;
 			case 1:
 			    text.setText("Phone Office");
-				catIcon = activity.getResources().getDrawable(R.drawable.logo73);  // placeholder
+				catIcon = activity.getResources().getDrawable(R.drawable.phoneicon);  // placeholder
 				break;
 			case 2:
 			    text.setText("Browse Callout");
-				catIcon = activity.getResources().getDrawable(R.drawable.logo359);  // placeholder
+				catIcon = activity.getResources().getDrawable(R.drawable.linkicon);  // placeholder
 				break;
 			default:
 			    text.setText("Browse Homepage");
-				catIcon = activity.getResources().getDrawable(R.drawable.logo146);  // placeholder
+				catIcon = activity.getResources().getDrawable(R.drawable.linkicon);  // placeholder
 				break;
 		}
 		text.setCompoundDrawablesWithIntrinsicBounds(catIcon, null, null, null);
