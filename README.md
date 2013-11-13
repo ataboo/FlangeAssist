@@ -16,7 +16,6 @@ Features to come:
 
 Feel free to send feedback or suggestions to bmtoolbox@gmail.com
 
-
 Changes:
 ============
 v0.12:

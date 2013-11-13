@@ -5,11 +5,29 @@ import android.support.v4.app.*;
 import android.view.*;
 import android.view.View.*;
 import android.widget.*;
+import com.atasoft.adapters.*;
 
 public class PaychequeFragment extends Fragment implements OnClickListener
 {
 	float wageRates[] = new float[12];
     View thisFrag;
+	Spinner sunSpin;
+	Spinner monSpin;
+	Spinner tueSpin;
+	Spinner wedSpin;
+	Spinner thuSpin;
+	Spinner friSpin;
+	Spinner satSpin;
+	
+	Spinner mealSpin;
+	Spinner loaSpin;
+	Spinner wageSpin;
+	
+	CheckBox taxVal;
+	CheckBox eiVal;
+	CheckBox cppVal;
+	CheckBox duesVal;
+	
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -25,6 +43,14 @@ public class PaychequeFragment extends Fragment implements OnClickListener
 		Button bFour = (Button) v.findViewById(R.id.four_but);
 		Button bNight = (Button) v.findViewById(R.id.night_but);
 		Button bTravel = (Button) v.findViewById(R.id.travel_but);
+		taxVal = (CheckBox) v.findViewById(R.id.tax_val);
+		cppVal = (CheckBox) v.findViewById(R.id.cpp_val);
+		eiVal = (CheckBox) v.findViewById(R.id.ei_val);
+		duesVal = (CheckBox) v.findViewById(R.id.dues_val);
+		taxVal.setChecked(true);
+		cppVal.setChecked(true);
+		eiVal.setChecked(true);
+		duesVal.setChecked(true);
 		
 		bClr.setOnClickListener(this);
 		bTens.setOnClickListener(this);
@@ -32,6 +58,10 @@ public class PaychequeFragment extends Fragment implements OnClickListener
 		bFour.setOnClickListener(this);
 		bNight.setOnClickListener(this);
 		bTravel.setOnClickListener(this);
+		taxVal.setOnClickListener(this);
+		cppVal.setOnClickListener(this);
+		eiVal.setOnClickListener(this);
+		duesVal.setOnClickListener(this);
 		
 
         return v;
@@ -58,16 +88,20 @@ public class PaychequeFragment extends Fragment implements OnClickListener
 
 	private void setupSpinners() {
 		String workHrs[] = {"0","10","12","13","9","8","7","6","5","4","3","2","1"};
-        Spinner sunSpin = (Spinner) thisFrag.findViewById(R.id.sunSpin);
-        Spinner monSpin = (Spinner) thisFrag.findViewById(R.id.monSpin);
-        Spinner tueSpin = (Spinner) thisFrag.findViewById(R.id.tueSpin);
-        Spinner wedSpin = (Spinner) thisFrag.findViewById(R.id.wedSpin);
-        Spinner thuSpin = (Spinner) thisFrag.findViewById(R.id.thuSpin);
-        Spinner friSpin = (Spinner) thisFrag.findViewById(R.id.friSpin);
-        Spinner satSpin = (Spinner) thisFrag.findViewById(R.id.satSpin);
         ArrayAdapter<String> weekAd = new ArrayAdapter<String>(getActivity().getApplicationContext(),
-															   android.R.layout.simple_spinner_item, workHrs);
-        monSpin.setAdapter(weekAd);
+	        android.R.layout.simple_spinner_item, workHrs);
+        sunSpin = (Spinner) thisFrag.findViewById(R.id.sunSpin);
+		monSpin = (Spinner) thisFrag.findViewById(R.id.monSpin);
+		tueSpin = (Spinner) thisFrag.findViewById(R.id.tueSpin);
+		wedSpin = (Spinner) thisFrag.findViewById(R.id.wedSpin);
+		thuSpin = (Spinner) thisFrag.findViewById(R.id.thuSpin);
+		friSpin = (Spinner) thisFrag.findViewById(R.id.friSpin);
+		satSpin = (Spinner) thisFrag.findViewById(R.id.satSpin);
+
+		mealSpin = (Spinner) thisFrag.findViewById(R.id.meals_spin);
+		loaSpin = (Spinner) thisFrag.findViewById(R.id.loa_spin);
+		wageSpin = (Spinner) thisFrag.findViewById(R.id.wageSpin);
+		monSpin.setAdapter(weekAd);
         tueSpin.setAdapter(weekAd);
         wedSpin.setAdapter(weekAd);
         thuSpin.setAdapter(weekAd);
@@ -75,8 +109,6 @@ public class PaychequeFragment extends Fragment implements OnClickListener
         satSpin.setAdapter(weekAd);
         sunSpin.setAdapter(weekAd);
 
-        Spinner loaSpin = (Spinner) thisFrag.findViewById(R.id.loa_spin);
-        Spinner mealSpin = (Spinner) thisFrag.findViewById(R.id.meals_spin);
         ArrayAdapter<String> weekCount = new ArrayAdapter<String>(getActivity().getApplicationContext(), android.R.layout.simple_spinner_item, 
 																  new String[]{"0","1","2","3","4","5","6","7"});
         loaSpin.setAdapter(weekCount);
@@ -90,7 +122,6 @@ public class PaychequeFragment extends Fragment implements OnClickListener
 			wageRates[i] = Float.parseFloat(wageSplit[1]);
 	    }
 
-		Spinner wageSpin = (Spinner) thisFrag.findViewById(R.id.wageSpin);
 		ArrayAdapter<String> wageAdapt = new ArrayAdapter<String>(getActivity().getApplicationContext(), 
 																  android.R.layout.simple_spinner_item, wageStrings);
 		wageSpin.setAdapter(wageAdapt);
@@ -184,10 +215,6 @@ public class PaychequeFragment extends Fragment implements OnClickListener
 		TextView dTimeText = (TextView) thisFrag.findViewById(R.id.doub_val);
 		TextView grossVal = (TextView) thisFrag.findViewById(R.id.gross_val);
 		TextView exemptVal = (TextView) thisFrag.findViewById(R.id.exempt_val);
-		TextView taxVal = (TextView) thisFrag.findViewById(R.id.tax_val);
-		TextView cppVal = (TextView) thisFrag.findViewById(R.id.cpp_val);
-		TextView eiVal = (TextView) thisFrag.findViewById(R.id.ei_val);
-		TextView duesVal = (TextView) thisFrag.findViewById(R.id.dues_val);
 		TextView dedVal = (TextView) thisFrag.findViewById(R.id.deduct_val);
 		TextView netVal = (TextView) thisFrag.findViewById(R.id.net_val);
 		ToggleButton fourToggle = (ToggleButton) thisFrag.findViewById(R.id.four_but);
@@ -204,17 +231,6 @@ public class PaychequeFragment extends Fragment implements OnClickListener
 		float vacationPay = Float.parseFloat(getString(R.string.vacation_pay));
 		double travelRate = Double.parseDouble(getString(R.string.travel_rate));
 		int timeSum[] = {0,0,0};
-
-        Spinner sunSpin = (Spinner) thisFrag.findViewById(R.id.sunSpin);
-        Spinner monSpin = (Spinner) thisFrag.findViewById(R.id.monSpin);
-        Spinner tueSpin = (Spinner) thisFrag.findViewById(R.id.tueSpin);
-        Spinner wedSpin = (Spinner) thisFrag.findViewById(R.id.wedSpin);
-        Spinner thuSpin = (Spinner) thisFrag.findViewById(R.id.thuSpin);
-        Spinner friSpin = (Spinner) thisFrag.findViewById(R.id.friSpin);
-        Spinner satSpin = (Spinner) thisFrag.findViewById(R.id.satSpin);
-		Spinner mealSpin = (Spinner) thisFrag.findViewById(R.id.meals_spin);
-		Spinner loaSpin = (Spinner) thisFrag.findViewById(R.id.loa_spin);
-		Spinner wageSpin = (Spinner) thisFrag.findViewById(R.id.wageSpin);
 
 		weekends[0] = Integer.parseInt(satSpin.getSelectedItem().toString());
 		weekends[1] = Integer.parseInt(sunSpin.getSelectedItem().toString());
@@ -261,8 +277,11 @@ public class PaychequeFragment extends Fragment implements OnClickListener
 		double grossVac = grossPay * (vacationPay + 1);
 
 		double[] deductions = taxCalc(grossVac, grossPay);  //returns [fed, ab, dues, cpp, ei]
-		double deductionsSum = deductions[0] + deductions[1] + deductions[2] + deductions[3] + deductions[4];
-
+		double deductionsSum = 0;
+		if(taxVal.isChecked()) deductionsSum = deductions[0] + deductions[1];
+		if(duesVal.isChecked()) deductionsSum += deductions[2];
+		if(cppVal.isChecked()) deductionsSum += deductions[3];
+		if(eiVal.isChecked()) deductionsSum += deductions[4];
 
 		double exempt = loaCount * loaRate + mealCount * mealRate;
 		if(travelToggle.isChecked()) {exempt = exempt + travelRate;}
@@ -282,16 +301,6 @@ public class PaychequeFragment extends Fragment implements OnClickListener
 		dTimeText.setText("2.0x: " + Integer.toString(timeSum[2]));
 	}
 	private void preSets(int index){
-		Spinner sunSpin = (Spinner) thisFrag.findViewById(R.id.sunSpin);
-        Spinner monSpin = (Spinner) thisFrag.findViewById(R.id.monSpin);
-        Spinner tueSpin = (Spinner) thisFrag.findViewById(R.id.tueSpin);
-        Spinner wedSpin = (Spinner) thisFrag.findViewById(R.id.wedSpin);
-        Spinner thuSpin = (Spinner) thisFrag.findViewById(R.id.thuSpin);
-        Spinner friSpin = (Spinner) thisFrag.findViewById(R.id.friSpin);
-        Spinner satSpin = (Spinner) thisFrag.findViewById(R.id.satSpin);
-        Spinner mealSpin = (Spinner) thisFrag.findViewById(R.id.meals_spin);
-        Spinner loaSpin = (Spinner) thisFrag.findViewById(R.id.loa_spin);
-
         if(index == 0) {
         	sunSpin.setSelection(0, false);
         	monSpin.setSelection(0, false);

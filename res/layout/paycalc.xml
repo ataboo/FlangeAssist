@@ -175,25 +175,25 @@
 	    android:layout_width="wrap_content"
 	    android:layout_height="wrap_content"
 	    android:layout_below="@id/doub_val"/>
-	<TextView
+	<CheckBox
 	    android:id="@+id/tax_val"
 	    android:textSize="14sp"
 	    android:layout_width="wrap_content"
 	    android:layout_height="wrap_content"
 	    android:layout_below="@id/gross_val" />
-	<TextView
+	<CheckBox
 	    android:id="@+id/cpp_val"
 	    android:textSize="14sp"
 	    android:layout_width="wrap_content"
 	    android:layout_height="wrap_content"
 	    android:layout_below="@id/tax_val" />
-	<TextView
+	<CheckBox
 	    android:id="@+id/ei_val"
 	    android:textSize="14sp"
 	    android:layout_width="wrap_content"
 	    android:layout_height="wrap_content"
 	    android:layout_below="@id/cpp_val" />
-	<TextView
+	<CheckBox
 	    android:id="@+id/dues_val"
 	    android:textSize="14sp"
 	    android:layout_width="wrap_content"
