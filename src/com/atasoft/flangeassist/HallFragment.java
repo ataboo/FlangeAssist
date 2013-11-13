@@ -26,16 +26,6 @@ public class HallFragment extends Fragment {
     return v;					 
 	}
 	
-    private void createData() {
-		for (int j = 0; j < 5; j++) {
-			ExpandableGroup group = new ExpandableGroup("Test " + j);
-			for (int i = 0; i < 5; i++) {
-				group.children.add("Sub Item" + i);
-			}
-			groups.append(j, group);
-		}
-	}	
-	
 	private void setLinks() {
 		String[] rawArr = getResources().getStringArray(R.array.locals);
 		String[] rawSplit;

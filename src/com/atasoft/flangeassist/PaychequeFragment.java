@@ -5,7 +5,6 @@ import android.support.v4.app.*;
 import android.view.*;
 import android.view.View.*;
 import android.widget.*;
-import com.atasoft.adapters.*;
 
 public class PaychequeFragment extends Fragment implements OnClickListener
 {
@@ -28,7 +27,12 @@ public class PaychequeFragment extends Fragment implements OnClickListener
 	CheckBox cppVal;
 	CheckBox duesVal;
 	
-
+	CheckBox monHol;
+	CheckBox tueHol;
+	CheckBox wedHol;
+	CheckBox thuHol;
+	CheckBox friHol;
+	
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
 							 Bundle savedInstanceState) {
@@ -52,6 +56,12 @@ public class PaychequeFragment extends Fragment implements OnClickListener
 		eiVal.setChecked(true);
 		duesVal.setChecked(true);
 		
+		monHol = (CheckBox) v.findViewById(R.id.hol_mon);
+		tueHol = (CheckBox) v.findViewById(R.id.hol_tue);
+		wedHol = (CheckBox) v.findViewById(R.id.hol_wed);
+		thuHol = (CheckBox) v.findViewById(R.id.hol_thu);
+		friHol = (CheckBox) v.findViewById(R.id.hol_fri);
+		
 		bClr.setOnClickListener(this);
 		bTens.setOnClickListener(this);
 		bTwelves.setOnClickListener(this);
@@ -62,8 +72,12 @@ public class PaychequeFragment extends Fragment implements OnClickListener
 		cppVal.setOnClickListener(this);
 		eiVal.setOnClickListener(this);
 		duesVal.setOnClickListener(this);
+		monHol.setOnClickListener(this);
+		tueHol.setOnClickListener(this);
+		wedHol.setOnClickListener(this);
+		thuHol.setOnClickListener(this);
+		friHol.setOnClickListener(this);
 		
-
         return v;
     }
 
@@ -84,7 +98,6 @@ public class PaychequeFragment extends Fragment implements OnClickListener
 				break;
         }
     }
-
 
 	private void setupSpinners() {
 		String workHrs[] = {"0","10","12","13","9","8","7","6","5","4","3","2","1"};
@@ -242,24 +255,39 @@ public class PaychequeFragment extends Fragment implements OnClickListener
 		int loaCount = Integer.parseInt(loaSpin.getSelectedItem().toString());
 		int mealCount = Integer.parseInt(mealSpin.getSelectedItem().toString());
 		float wageRate = wageRates[wageSpin.getSelectedItemPosition()];
-
+		boolean[] weekHolidays = {monHol.isChecked(), tueHol.isChecked(), wedHol.isChecked(),thuHol.isChecked(),friHol.isChecked()};
+		
 		if(fourTens){
 			for (int i=0; i<4; i++) {
 				splitArr = hrsSplit(weekDays[i], 1);  //mon to thur time and half
+				if(weekHolidays[i]) {
+					timeSum[2] = timeSum[2] + splitArr[0] + splitArr[1] + splitArr[2];
+				} else {
+					timeSum[0] = splitArr[0] + timeSum[0];
+					timeSum[1] = splitArr[1] + timeSum[1];
+					timeSum[2] = splitArr[2] + timeSum[2];
+				}
+			}
+			
+			splitArr = hrsSplit(weekDays[4], 2); //Friday time and a half
+			if(weekHolidays[4]) {
+				timeSum[2] = timeSum[2] + splitArr[0] + splitArr[1] + splitArr[2];
+			} else { 
 				timeSum[0] = splitArr[0] + timeSum[0];
 				timeSum[1] = splitArr[1] + timeSum[1];
 				timeSum[2] = splitArr[2] + timeSum[2];
 			}
-			splitArr = hrsSplit(weekDays[4], 2);     //Friday time and a half
-			timeSum[0] = splitArr[0] + timeSum[0];
-			timeSum[1] = splitArr[1] + timeSum[1];
-			timeSum[2] = splitArr[2] + timeSum[2];
+			
 		} else {                                     //5 8s weekday
 			for (int i=0; i<5; i++) {
 				splitArr = hrsSplit(weekDays[i], 0);
-				timeSum[0] = splitArr[0] + timeSum[0];
-				timeSum[1] = splitArr[1] + timeSum[1];
-				timeSum[2] = splitArr[2] + timeSum[2];
+				if(weekHolidays[i]) {
+					timeSum[2] = timeSum[2] + splitArr[0] + splitArr[1] + splitArr[2];
+				} else {
+					timeSum[0] = splitArr[0] + timeSum[0];
+					timeSum[1] = splitArr[1] + timeSum[1];
+					timeSum[2] = splitArr[2] + timeSum[2];
+				}
 			}				
 		}
 
