@@ -1,9 +1,9 @@
 package com.atasoft.flangeassist;
 
-import android.content.*;
 import android.os.*;
 import android.preference.*;
 import android.view.*;
+import android.widget.*;
 
 public class PreferenceHelper extends PreferenceActivity
  {

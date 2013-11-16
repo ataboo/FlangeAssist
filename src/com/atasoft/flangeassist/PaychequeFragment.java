@@ -35,12 +35,16 @@ public class PaychequeFragment extends Fragment implements OnClickListener
 	CheckBox thuHol;
 	CheckBox friHol;
 	
+	SharedPreferences prefs;
+	Context context;
+	
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
 							 Bundle savedInstanceState) {
 
         View v = inflater.inflate(R.layout.paycalc, container, false);
         thisFrag = v;
+		context = getActivity().getApplicationContext();
         setupSpinners();
 
         Button bClr = (Button) v.findViewById(R.id.clr_but);
@@ -80,9 +84,19 @@ public class PaychequeFragment extends Fragment implements OnClickListener
 		thuHol.setOnClickListener(this);
 		friHol.setOnClickListener(this);
 		
+		prefs = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
+		
         return v;
     }
-
+	
+	@Override
+	public void onResume() {
+		//Toast.makeText(context,"Thanks for using application!!",Toast.LENGTH_LONG).show();
+		setupSpinners();
+		super.onResume();
+		return;
+	}
+	
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -102,8 +116,10 @@ public class PaychequeFragment extends Fragment implements OnClickListener
     }
 
 	private void setupSpinners() {
+		
 		String workHrs[] = {"0","8","10","12","13"};
-        ArrayAdapter<String> weekAd = new ArrayAdapter<String>(getActivity().getApplicationContext(),
+        
+		ArrayAdapter<String> weekAd = new ArrayAdapter<String>(getActivity().getApplicationContext(),
 	        android.R.layout.simple_spinner_item, workHrs);
         sunSpin = (Spinner) thisFrag.findViewById(R.id.sunSpin);
 		monSpin = (Spinner) thisFrag.findViewById(R.id.monSpin);
@@ -222,6 +238,8 @@ public class PaychequeFragment extends Fragment implements OnClickListener
 				public void onNothingSelected(AdapterView<?> parent) {
 				}
 			});
+		
+		pushBootan();
 	}
 
 	private void pushBootan() {
