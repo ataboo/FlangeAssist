@@ -9,10 +9,22 @@
 			android:ems="10"
 			android:inputType="numberDecimal"
             android:title="Custom Wage" 
-            android:summary="Allows you to set a wage to calculate"
+            android:summary="Allows you to set a custom hourly wage for the pay calculator."
             android:dialogTitle="Custom Wage"
-            android:dialogMessage="Enter a wage"    
+            android:dialogMessage="Enter a wage"  
+			android:selectAllOnFocus="true"
             android:defaultValue="40" />
+		<EditTextPreference
+            android:key="custom_day"
+			android:ems="10"
+			android:digits="1234567890,"
+            android:title="Custom Daily Hours" 
+            android:summary="Allows you to set a custom day's hours for the pay calculator."
+            android:dialogTitle="Custom Daily Hours"
+            android:dialogMessage="Enter Hours: 1x,1.5x,2x"  
+			android:selectAllOnFocus="true"
+            android:defaultValue="40" />
+		
     </PreferenceCategory>
 
 </PreferenceScreen>

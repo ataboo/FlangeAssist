@@ -259,13 +259,12 @@ public class PaychequeFragment extends Fragment implements OnClickListener
 		float wageRate = wageRates[wageSpin.getSelectedItemPosition()];
 		boolean[] weekHolidays = {monHol.isChecked(), tueHol.isChecked(), wedHol.isChecked(),thuHol.isChecked(),friHol.isChecked()};
 		
-		if(wageSpin.getSelectedItem() == "Custom") {
-		    SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
-			String wageKey = "com.atasoft.flangeassist.custom_wage";
+		if(wageSpin.getSelectedItem().toString().contains("Custom")) {
+		    SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
+			String wageKey = "custom_wage";
 
 			// use a default value using new Date()
-			wageRate = prefs.getFloat(wageKey, 1);
-			
+			wageRate = Float.parseFloat(prefs.getString(wageKey, "20"));	
 		}
 		
 		if(fourTens){
@@ -340,7 +339,6 @@ public class PaychequeFragment extends Fragment implements OnClickListener
 		dTimeText.setText("2.0x: " + Integer.toString(timeSum[2]));
 	}
 	private void preSets(int index){
-        index += 1;
 		if(index == 0) {
         	sunSpin.setSelection(0, false);
         	monSpin.setSelection(0, false);
@@ -353,6 +351,7 @@ public class PaychequeFragment extends Fragment implements OnClickListener
         	loaSpin.setSelection(0, false);
         	return;
         } else {
+			index += 1;
         	sunSpin.setSelection(index, false);
         	monSpin.setSelection(index, false);
         	tueSpin.setSelection(index, false);
