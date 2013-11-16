@@ -1,12 +1,15 @@
 package com.atasoft.flangeassist;
 
-import android.annotation.SuppressLint;
+import android.annotation.*;
 import android.app.*;
 import android.app.ActionBar.*;
+import android.content.*;
 import android.os.*;
 import android.support.v4.app.*;
 import android.support.v4.view.*;
+import android.view.*;
 import com.atasoft.adapters.*;
+
 import android.app.FragmentTransaction;
 
 @SuppressLint("NewApi")
@@ -67,5 +70,30 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
     @Override
     public void onTabUnselected(Tab tab, FragmentTransaction ft) {
     }
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// Inflate the menu items for use in the action bar
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.main_actions, menu);
+		return super.onCreateOptionsMenu(menu);
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		// Handle presses on the action bar items
+		switch (item.getItemId()) {
+			case R.id.action_settings:
+				openSettings();
+				return true;
+			default:
+				return super.onOptionsItemSelected(item);
+		}
+	}
+	
+	private void openSettings() {
+		Intent intent = new Intent(this, PreferenceHelper.class);
+	    startActivity(intent);
+	}
 }
 

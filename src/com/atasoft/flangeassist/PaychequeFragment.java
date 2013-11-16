@@ -1,6 +1,8 @@
 package com.atasoft.flangeassist;
 
+import android.content.*;
 import android.os.*;
+import android.preference.*;
 import android.support.v4.app.*;
 import android.view.*;
 import android.view.View.*;
@@ -100,7 +102,7 @@ public class PaychequeFragment extends Fragment implements OnClickListener
     }
 
 	private void setupSpinners() {
-		String workHrs[] = {"0","10","12","13","9","8","7","6","5","4","3","2","1"};
+		String workHrs[] = {"0","8","10","12","13"};
         ArrayAdapter<String> weekAd = new ArrayAdapter<String>(getActivity().getApplicationContext(),
 	        android.R.layout.simple_spinner_item, workHrs);
         sunSpin = (Spinner) thisFrag.findViewById(R.id.sunSpin);
@@ -138,7 +140,7 @@ public class PaychequeFragment extends Fragment implements OnClickListener
 		ArrayAdapter<String> wageAdapt = new ArrayAdapter<String>(getActivity().getApplicationContext(), 
 																  android.R.layout.simple_spinner_item, wageStrings);
 		wageSpin.setAdapter(wageAdapt);
-		wageSpin.setSelection(4);
+		wageSpin.setSelection(5);
 
 		sunSpin.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 				public void onItemSelected(AdapterView<?> parent, View view,
@@ -257,6 +259,15 @@ public class PaychequeFragment extends Fragment implements OnClickListener
 		float wageRate = wageRates[wageSpin.getSelectedItemPosition()];
 		boolean[] weekHolidays = {monHol.isChecked(), tueHol.isChecked(), wedHol.isChecked(),thuHol.isChecked(),friHol.isChecked()};
 		
+		if(wageSpin.getSelectedItem() == "Custom") {
+		    SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+			String wageKey = "com.atasoft.flangeassist.custom_wage";
+
+			// use a default value using new Date()
+			wageRate = prefs.getFloat(wageKey, 1);
+			
+		}
+		
 		if(fourTens){
 			for (int i=0; i<4; i++) {
 				splitArr = hrsSplit(weekDays[i], 1);  //mon to thur time and half
@@ -329,7 +340,8 @@ public class PaychequeFragment extends Fragment implements OnClickListener
 		dTimeText.setText("2.0x: " + Integer.toString(timeSum[2]));
 	}
 	private void preSets(int index){
-        if(index == 0) {
+        index += 1;
+		if(index == 0) {
         	sunSpin.setSelection(0, false);
         	monSpin.setSelection(0, false);
         	tueSpin.setSelection(0, false);
@@ -351,7 +363,7 @@ public class PaychequeFragment extends Fragment implements OnClickListener
         	mealSpin.setSelection(0, false);
         	loaSpin.setSelection(0, false);        	
         }
-        if(index == 2) {
+        if(index == 3) {
         	mealSpin.setSelection(7, false);
         }
         return;
@@ -435,14 +447,16 @@ public class PaychequeFragment extends Fragment implements OnClickListener
 
 		abTax = (anGross * 0.1) - abTaxCred;
 		double dues = grossNoVac * duesRate;
-
+		double cppRet = (anGross - 3500) / 52 * cppRate;
+		if (cppRet < 0) cppRet = 0;
+		
 		if(abTax < 0){abTax = 0;}
 		if(fedTax < 0){fedTax = 0;}
-
+		
 		return new double[]{fedTax / 52, 
 			abTax / 52, 
 			dues, 
-			gross * cppRate, 
+			cppRet, 
 			gross * eiRate};
 	}
 }

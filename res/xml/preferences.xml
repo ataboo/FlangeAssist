@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory 
+        android:title="Paycheque Calculator"
+        android:key="paycheque_settings">
+        <EditTextPreference
+            android:key="custom_wage"
+			android:ems="10"
+			android:inputType="numberDecimal"
+            android:title="Custom Wage" 
+            android:summary="Allows you to set a wage to calculate"
+            android:dialogTitle="Custom Wage"
+            android:dialogMessage="Enter a wage"    
+            android:defaultValue="40" />
+    </PreferenceCategory>
+
+</PreferenceScreen>

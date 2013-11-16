@@ -21,6 +21,14 @@
             	<category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+		<activity android:name="com.atasoft.flangeassist.PreferenceHelper" 
+			android:label="@string/app_name"
+			android:parentActivityName="com.atasoft.flangeassist.MainActivity" >
+			<!-- Parent activity meta-data to support 4.0 and lower -->
+			<meta-data
+				android:name="android.support.PARENT_ACTIVITY"
+				android:value="com.atasoft.flangeassist.MainActivity" />
+        </activity>
     </application>
 
 </manifest>
