@@ -7,10 +7,29 @@ import android.support.v4.app.*;
 import android.view.*;
 import android.view.View.*;
 import android.widget.*;
+import android.renderscript.*;
+import android.nfc.*;
 
 public class PaychequeFragment extends Fragment implements OnClickListener
 {
-	float wageRates[] = new float[12];
+	final public enum DayType {
+		FIVE_WEEK(0), 
+		FIVE_END(1), 
+		FOUR_WEEK(2), 
+		FOUR_FRI(3), 
+		FOUR_END(4); 
+
+		private int _val;
+
+		DayType(int Value) {
+			this._val = Value;
+		}
+	}
+	
+	static DayType[] dt = DayType.values();
+	
+	double wageRates[] = new double[12];
+	Boolean oldDayToggle;
     View thisFrag;
 	Spinner sunSpin;
 	Spinner monSpin;
@@ -37,6 +56,7 @@ public class PaychequeFragment extends Fragment implements OnClickListener
 	
 	SharedPreferences prefs;
 	Context context;
+	Boolean customDay;
 	
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -45,7 +65,6 @@ public class PaychequeFragment extends Fragment implements OnClickListener
         View v = inflater.inflate(R.layout.paycalc, container, false);
         thisFrag = v;
 		context = getActivity().getApplicationContext();
-        setupSpinners();
 
         Button bClr = (Button) v.findViewById(R.id.clr_but);
         Button bTens = (Button) v.findViewById(R.id.tens_but);
@@ -83,16 +102,20 @@ public class PaychequeFragment extends Fragment implements OnClickListener
 		wedHol.setOnClickListener(this);
 		thuHol.setOnClickListener(this);
 		friHol.setOnClickListener(this);
-		
+	
 		prefs = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
+		
+		setupSpinners();
 		
         return v;
     }
 	
 	@Override
 	public void onResume() {
-		//Toast.makeText(context,"Thanks for using application!!",Toast.LENGTH_LONG).show();
-		setupSpinners();
+		//Toast.makeText(context,"Thanks for using application!'!",Toast.LENGTH_LONG).show();
+		Boolean custDayCheck = prefs.getBoolean("custom_daycheck", false);
+		if(customDay != custDayCheck) updateDaySpinners(custDayCheck);
+		pushBootan();
 		super.onResume();
 		return;
 	}
@@ -116,11 +139,6 @@ public class PaychequeFragment extends Fragment implements OnClickListener
     }
 
 	private void setupSpinners() {
-		
-		String workHrs[] = {"0","8","10","12","13"};
-        
-		ArrayAdapter<String> weekAd = new ArrayAdapter<String>(getActivity().getApplicationContext(),
-	        android.R.layout.simple_spinner_item, workHrs);
         sunSpin = (Spinner) thisFrag.findViewById(R.id.sunSpin);
 		monSpin = (Spinner) thisFrag.findViewById(R.id.monSpin);
 		tueSpin = (Spinner) thisFrag.findViewById(R.id.tueSpin);
@@ -132,13 +150,8 @@ public class PaychequeFragment extends Fragment implements OnClickListener
 		mealSpin = (Spinner) thisFrag.findViewById(R.id.meals_spin);
 		loaSpin = (Spinner) thisFrag.findViewById(R.id.loa_spin);
 		wageSpin = (Spinner) thisFrag.findViewById(R.id.wageSpin);
-		monSpin.setAdapter(weekAd);
-        tueSpin.setAdapter(weekAd);
-        wedSpin.setAdapter(weekAd);
-        thuSpin.setAdapter(weekAd);
-        friSpin.setAdapter(weekAd);
-        satSpin.setAdapter(weekAd);
-        sunSpin.setAdapter(weekAd);
+
+		updateDaySpinners(prefs.getBoolean("custom_daycheck",false));
 
         ArrayAdapter<String> weekCount = new ArrayAdapter<String>(getActivity().getApplicationContext(), android.R.layout.simple_spinner_item, 
 																  new String[]{"0","1","2","3","4","5","6","7"});
@@ -150,7 +163,7 @@ public class PaychequeFragment extends Fragment implements OnClickListener
 		for(int i=0; i<wageArr.length; i++) {
 			String wageSplit[] = wageArr[i].split(",");
 			wageStrings[i] = wageSplit[0];
-			wageRates[i] = Float.parseFloat(wageSplit[1]);
+			wageRates[i] = Double.parseDouble(wageSplit[1]);
 	    }
 
 		ArrayAdapter<String> wageAdapt = new ArrayAdapter<String>(getActivity().getApplicationContext(), 
@@ -241,6 +254,83 @@ public class PaychequeFragment extends Fragment implements OnClickListener
 		
 		pushBootan();
 	}
+	
+	private void updateDaySpinners(Boolean custDayCheck){
+		String[] workHrs;
+		
+		customDay = custDayCheck;
+		if(customDay && verifyCustDays()) {
+			workHrs = new String[] {"0","8","10","12","13","A","B","C"};
+		} else {
+		    workHrs = new String[] {"0","8","10","12","13"};
+        	customDay = false;  //for pushbootan usage if invalid
+		}
+
+		ArrayAdapter<String> weekAd = new ArrayAdapter<String>(getActivity().getApplicationContext(),
+															   android.R.layout.simple_spinner_item, workHrs);
+		
+		monSpin.setAdapter(weekAd);
+        tueSpin.setAdapter(weekAd);
+        wedSpin.setAdapter(weekAd);
+        thuSpin.setAdapter(weekAd);
+        friSpin.setAdapter(weekAd);
+        satSpin.setAdapter(weekAd);
+        sunSpin.setAdapter(weekAd);
+	}
+	
+	private Boolean verifyCustDays() {
+		String[] dayKeys = {"custom_dayA", "custom_dayB", "custom_dayC"};
+		String[] dayNames = {" Day A", " Day B", " Day C"};
+		String[] dayBad = {"", "", ""};
+		int errCount = 0;
+		String toastStr = "The custom schedule";
+		for(int i = 0; i < dayKeys.length; i++) {   
+			if(!verifyDay(prefs.getString(dayKeys[i], ""))){
+				dayBad[errCount] = dayNames[i];
+				errCount++;
+			}
+		}
+		switch (errCount) {
+		    case 0:
+		        return true;
+			case 1:
+			    toastStr = toastStr + dayBad[0] +
+				    " was ";
+				break;
+			case 2:
+			    toastStr = toastStr + "s" + dayBad[0] + " and" +
+				    dayBad[1] + " were ";
+				break;
+			case 3:
+			    toastStr = toastStr + "s" + dayBad[0] + "," +
+				    dayBad[1] + ", and" + 
+					dayBad[2] + " were ";
+				break;
+		}
+		
+		toastStr = toastStr + "not entered properly. Please format as (1x,1.5x,2x) ex. \"8.5,2,1.5\"";
+		Toast.makeText(context, toastStr, Toast.LENGTH_LONG).show();
+		return false;
+	}
+	
+	private Boolean verifyDay(String testStr) {
+		String[] splitStr = testStr.split(",");
+		double[] strParse = new double[3];
+		
+		if(splitStr.length != 3) return false;
+		for(int i = 0; i < 3; i++) {
+			try{
+				strParse[i] = Double.parseDouble(splitStr[i]);
+			}
+			catch(NumberFormatException e) {
+				return false;
+			}		
+			if(strParse[i] < 0) return false;
+		}
+
+		if(strParse[0] + strParse[1] + strParse[2] > 24) return false;		
+		return true;
+	}
 
 	private void pushBootan() {
 		TextView sTimeText = (TextView) thisFrag.findViewById(R.id.sing_val);
@@ -254,78 +344,53 @@ public class PaychequeFragment extends Fragment implements OnClickListener
 		ToggleButton nightToggle = (ToggleButton) thisFrag.findViewById(R.id.night_but);
 		ToggleButton travelToggle = (ToggleButton) thisFrag.findViewById(R.id.travel_but);
 
-		int weekends[] = {0,0};
-		int weekDays[] = {0,0,0,0,0};
-		int splitArr[] = {0,0,0};
+		double splitArr[] = new double[3];
 		boolean fourTens = fourToggle.isChecked();
-		//float wage = Float.parseFloat(String(R.string.maint_wage));
-		float loaRate = Float.parseFloat(getString(R.string.loa_rate));
-		float mealRate = Float.parseFloat(getString(R.string.meal_rate));
-		float vacationPay = Float.parseFloat(getString(R.string.vacation_pay));
+		double loaRate = Double.parseDouble(getString(R.string.loa_rate));
+		double mealRate = Double.parseDouble(getString(R.string.meal_rate));
+		double vacationPay = Double.parseDouble(getString(R.string.vacation_pay));
 		double travelRate = Double.parseDouble(getString(R.string.travel_rate));
 		int timeSum[] = {0,0,0};
 
-		weekends[0] = Integer.parseInt(satSpin.getSelectedItem().toString());
-		weekends[1] = Integer.parseInt(sunSpin.getSelectedItem().toString());
-		weekDays[0] = Integer.parseInt(monSpin.getSelectedItem().toString());
-		weekDays[1] = Integer.parseInt(tueSpin.getSelectedItem().toString());
-		weekDays[2] = Integer.parseInt(wedSpin.getSelectedItem().toString());
-		weekDays[3] = Integer.parseInt(thuSpin.getSelectedItem().toString());
-		weekDays[4] = Integer.parseInt(friSpin.getSelectedItem().toString());
 		int loaCount = Integer.parseInt(loaSpin.getSelectedItem().toString());
 		int mealCount = Integer.parseInt(mealSpin.getSelectedItem().toString());
-		float wageRate = wageRates[wageSpin.getSelectedItemPosition()];
-		boolean[] weekHolidays = {monHol.isChecked(), tueHol.isChecked(), wedHol.isChecked(),thuHol.isChecked(),friHol.isChecked()};
-		
+		double wageRate;
+		boolean[] weekHolidays = {true, monHol.isChecked(), tueHol.isChecked(), wedHol.isChecked(),thuHol.isChecked(),friHol.isChecked(), true};  //sat and sun count as holidays
+		double addTax = 0;
+		addTax = checkValidAddTax(prefs.getString("custom_addtax", "0"));
 		if(wageSpin.getSelectedItem().toString().contains("Custom")) {
 		    SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
 			String wageKey = "custom_wage";
 
 			// use a default value using new Date()
-			wageRate = Float.parseFloat(prefs.getString(wageKey, "20"));	
+			wageRate = Double.parseDouble(prefs.getString(wageKey, "20"));	
+		} else {
+			wageRate = wageRates[wageSpin.getSelectedItemPosition()];
 		}
-		
-		if(fourTens){
-			for (int i=0; i<4; i++) {
-				splitArr = hrsSplit(weekDays[i], 1);  //mon to thur time and half
-				if(weekHolidays[i]) {
-					timeSum[2] = timeSum[2] + splitArr[0] + splitArr[1] + splitArr[2];
+		Spinner[] spinArr = {sunSpin, monSpin, tueSpin, wedSpin, thuSpin, friSpin, satSpin};
+			for (int i = 0; i < spinArr.length; i++) {
+				String itemStr = (spinArr[i].getSelectedItem().toString());
+				if(itemStr.contains("A") || itemStr.contains("B") || itemStr.contains("C")){
+					splitArr = getCustomDayPrefs(itemStr);
 				} else {
-					timeSum[0] = splitArr[0] + timeSum[0];
-					timeSum[1] = splitArr[1] + timeSum[1];
-					timeSum[2] = splitArr[2] + timeSum[2];
+					DayType dayTypeSet;
+					Boolean weekEnd = weekHolidays[i];
+					if(fourTens) {
+						if(i == 5) { //fourtens friday
+							dayTypeSet = DayType.FOUR_FRI;
+						} else {
+							dayTypeSet = DayType.FOUR_WEEK;
+						}
+					} else {
+						dayTypeSet = DayType.FIVE_WEEK;
+					}
+					if(weekEnd) dayTypeSet = DayType.FIVE_END;  //works for fourtens too
+					splitArr = hrsSplit(Double.parseDouble(spinArr[i].getSelectedItem().toString()), dayTypeSet);
 				}
-			}
-			
-			splitArr = hrsSplit(weekDays[4], 2); //Friday time and a half
-			if(weekHolidays[4]) {
-				timeSum[2] = timeSum[2] + splitArr[0] + splitArr[1] + splitArr[2];
-			} else { 
-				timeSum[0] = splitArr[0] + timeSum[0];
-				timeSum[1] = splitArr[1] + timeSum[1];
-				timeSum[2] = splitArr[2] + timeSum[2];
-			}
-			
-		} else {                                     //5 8s weekday
-			for (int i=0; i<5; i++) {
-				splitArr = hrsSplit(weekDays[i], 0);
-				if(weekHolidays[i]) {
-					timeSum[2] = timeSum[2] + splitArr[0] + splitArr[1] + splitArr[2];
-				} else {
-					timeSum[0] = splitArr[0] + timeSum[0];
-					timeSum[1] = splitArr[1] + timeSum[1];
-					timeSum[2] = splitArr[2] + timeSum[2];
-				}
+				timeSum[0] += splitArr[0];
+				timeSum[1] += splitArr[1];
+				timeSum[2] += splitArr[2];
 			}				
-		}
-
-		for (int i=0; i<2; i++) {                    //weekend
-			splitArr = hrsSplit(weekends[i], 3);
-			timeSum[0] = splitArr[0] + timeSum[0];
-			timeSum[1] = splitArr[1] + timeSum[1];
-			timeSum[2] = splitArr[2] + timeSum[2];
-		}
-
 		double grossPay = wageRate * (timeSum[0] + (1.5 * timeSum[1]) + (2 * timeSum[2]));
 
 		if(nightToggle.isChecked()) {grossPay = grossPay + (timeSum[0] + timeSum[1] + timeSum[2]) * 3;}
@@ -334,6 +399,7 @@ public class PaychequeFragment extends Fragment implements OnClickListener
 
 		double[] deductions = taxCalc(grossVac, grossPay);  //returns [fed, ab, dues, cpp, ei]
 		double deductionsSum = 0;
+		deductions[0] += addTax;
 		if(taxVal.isChecked()) deductionsSum = deductions[0] + deductions[1];
 		if(duesVal.isChecked()) deductionsSum += deductions[2];
 		if(cppVal.isChecked()) deductionsSum += deductions[3];
@@ -346,7 +412,6 @@ public class PaychequeFragment extends Fragment implements OnClickListener
 
 		grossVal.setText("Gross: " + String.format("%.2f", grossVac) + "$");
 		exemptVal.setText("Tax Exempt: " + String.format("%.2f", exempt) + "$");
-		taxVal.setText("Income Tax: " + String.format("%.2f", deductions[0] + deductions[1]) + "$");
 		eiVal.setText("CPP: " + String.format("%.2f", deductions[3]) + "$");
 		cppVal.setText("EI: " + String.format("%.2f", deductions[4]) + "$");
 		duesVal.setText("Dues: " + String.format("%.2f", deductions[2]) + "$");
@@ -355,7 +420,28 @@ public class PaychequeFragment extends Fragment implements OnClickListener
 		sTimeText.setText("1.0x: " + Integer.toString(timeSum[0]));
 		hTimeText.setText("1.5x: " + Integer.toString(timeSum[1]));
 		dTimeText.setText("2.0x: " + Integer.toString(timeSum[2]));
+		
+		if(addTax == 0) {
+			taxVal.setText("Income Tax: " + String.format("%.2f", deductions[0] + deductions[1]) + "$");
+		} else {
+			taxVal.setText("Income Tax: " + String.format("%.2f", deductions[0] + deductions[1] - addTax) + "$ + " +
+				String.format("%.2f", addTax) + "$");
+		}
 	}
+	
+	private double checkValidAddTax(String prefString) {
+		double retVal;
+		try {
+			retVal = Double.parseDouble(prefString);
+			}
+		catch (NumberFormatException e) {
+			return 0;
+		}
+		if(retVal > 100000 || retVal < 0) return 0;
+		
+		return retVal;
+	}
+	
 	private void preSets(int index){
 		if(index == 0) {
         	sunSpin.setSelection(0, false);
@@ -385,14 +471,29 @@ public class PaychequeFragment extends Fragment implements OnClickListener
         }
         return;
     }
+	
+	private double[] getCustomDayPrefs(String itemStr) {
+		String[] splitPref = new String[3];
+		double[] retDoub = new double[3];
+		
+		if(itemStr.contains("A")) splitPref = prefs.getString("custom_dayA", "0,0,0").split(",0");
+		if(itemStr.contains("B")) splitPref = prefs.getString("custom_dayB", "0,0,0").split(",");
+		if(itemStr.contains("C")) splitPref = prefs.getString("custom_dayC", "0,0,0").split(",");
+		
+		for(int i = 0; i < splitPref.length; i++) {
+			retDoub[i] = Double.parseDouble(splitPref[i]);
+			
+		}
+		return retDoub;
+	}
 
-	private int[] hrsSplit(int hrs, int day) { //day 0 = 5-8s, 1 = 4-10s mon-thu, 2 = 4-10s fri, 3 = weekend
-		int sTime = 0;
-		int hTime = 0;
-		int dTime = 0;
-
+	private double[] hrsSplit(double hrs, DayType day) { 
+	//day 0 = 5-8s, 1 = 4-10s mon-thu, 2 = 4-10s fri, 3 = weekend
+		double sTime = 0;
+		double hTime = 0;
+		double dTime = 0;
 		switch(day) {
-			case 0:
+			case FIVE_WEEK:
 				if (hrs > 10) {
 					dTime = hrs - 10;
 				}
@@ -401,24 +502,23 @@ public class PaychequeFragment extends Fragment implements OnClickListener
 				}
 				sTime = hrs - dTime - hTime;
 				break;
-			case 1:
+			case FOUR_WEEK:
 				if(hrs > 10) {
 					dTime = hrs - 10;
 				}
 				sTime = hrs - dTime;
 				break;
-			case 2:
+			case FOUR_FRI:
 				if(hrs > 10) {
 					dTime = hrs - 10;
 				}
 				hTime = hrs - dTime;
 				break;
-			case 3:
+			default:
 				dTime = hrs;
 				break;
 		}
-
-		return new int[]{sTime, hTime, dTime};	
+		return new double[]{sTime, hTime, dTime};	
 	}
 
 	private double[] taxCalc(double gross, double grossNoVac){
