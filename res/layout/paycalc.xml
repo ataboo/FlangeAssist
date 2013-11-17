@@ -164,7 +164,7 @@
 		    android:layout_alignParentRight="true"
 		    android:textOn="@string/fourtens_but"
 		    android:textOff="@string/fourtens_but"
-		    android:layout_width="100dp"
+		    android:layout_width="120dp"
 		    android:layout_height="40sp"
 			android:height="20sp"/>
 		<ToggleButton
@@ -173,7 +173,7 @@
 		    android:layout_alignParentRight="true"
 		    android:textOn="@string/nights_but"
 		    android:textOff="@string/nights_but"
-		    android:layout_width="100dp"
+		    android:layout_width="120dp"
 		    android:layout_height="40sp" />
 		<ToggleButton
 		    android:id="@+id/travel_but"
@@ -181,11 +181,19 @@
 		    android:layout_alignParentRight="true"
 		    android:textOn="@string/travel_but"
 		    android:textOff="@string/travel_but"
-		    android:layout_width="100dp"
+		    android:layout_width="120dp"
+		    android:layout_height="40sp" />
+		<ToggleButton
+		    android:id="@+id/travelday_but"
+		    android:layout_below="@id/travel_but"
+		    android:layout_alignParentRight="true"
+		    android:textOn="@string/travelday_but"
+		    android:textOff="@string/travelday_but"
+		    android:layout_width="120dp"
 		    android:layout_height="40sp" />
 		<Spinner
 		    android:id="@+id/meals_spin"
-		    android:layout_below="@id/travel_but"
+		    android:layout_below="@id/travelday_but"
 		    android:layout_alignParentRight="true"
 		    android:layout_width="wrap_content"
 		    android:layout_height="wrap_content" />
@@ -207,7 +215,7 @@
 		    android:layout_width="wrap_content"
 		    android:layout_height="wrap_content"
 		    android:layout_toLeftOf="@id/meals_spin"
-		    android:layout_below="@id/travel_but" />
+		    android:layout_below="@id/travelday_but" />
 		<TextView
 		    android:id="@+id/loa_text"
 		    android:text="@string/loa_text"

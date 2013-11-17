@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 <!-- Update Values (last checked Oct.26/13) -->
-	<string name="version_info">Boilermaker Toolbox v0.12
-		\nLast updated Nov 13/13
+	<string name="version_info">Boilermaker Toolbox v0.13
+		\nLast updated Nov 17/13
 		\nWage rate as of: Nov 3/13</string>
 	<string name="loa_rate">195</string>
 	<string name="meal_rate">40</string>
@@ -72,7 +72,8 @@
 
 	<string name="fourtens_but">Four-Tens</string>
 	<string name="nights_but">Nightshift</string>
-	<string name="travel_but">Travel</string>
+	<string name="travel_but">Weekly Travel</string>
+	<string name="travelday_but">Daily Travel</string>
 	<string name="clr_but">Clear</string>
 	<string name="tens_but">Set 10s</string>
 	<string name="twelves_but">Set 12s</string>

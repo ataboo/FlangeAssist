@@ -62,6 +62,7 @@ public class PaychequeFragment extends Fragment implements OnClickListener
 		Button bFour = (Button) v.findViewById(R.id.four_but);
 		Button bNight = (Button) v.findViewById(R.id.night_but);
 		Button bTravel = (Button) v.findViewById(R.id.travel_but);
+		Button bDayTravel = (Button) v.findViewById(R.id.travelday_but);
 		taxVal = (CheckBox) v.findViewById(R.id.tax_val);
 		cppVal = (CheckBox) v.findViewById(R.id.cpp_val);
 		eiVal = (CheckBox) v.findViewById(R.id.ei_val);
@@ -83,6 +84,7 @@ public class PaychequeFragment extends Fragment implements OnClickListener
 		bFour.setOnClickListener(this);
 		bNight.setOnClickListener(this);
 		bTravel.setOnClickListener(this);
+		bDayTravel.setOnClickListener(this);
 		taxVal.setOnClickListener(this);
 		cppVal.setOnClickListener(this);
 		eiVal.setOnClickListener(this);
@@ -333,6 +335,7 @@ public class PaychequeFragment extends Fragment implements OnClickListener
 		ToggleButton fourToggle = (ToggleButton) thisFrag.findViewById(R.id.four_but);
 		ToggleButton nightToggle = (ToggleButton) thisFrag.findViewById(R.id.night_but);
 		ToggleButton travelToggle = (ToggleButton) thisFrag.findViewById(R.id.travel_but);
+		ToggleButton dayTravelToggle = (ToggleButton) thisFrag.findViewById(R.id.travelday_but);
 
 		double splitArr[] = new double[3];
 		boolean fourTens = fourToggle.isChecked();
@@ -346,8 +349,11 @@ public class PaychequeFragment extends Fragment implements OnClickListener
 		int mealCount = Integer.parseInt(mealSpin.getSelectedItem().toString());
 		double wageRate;
 		boolean[] weekHolidays = {true, monHol.isChecked(), tueHol.isChecked(), wedHol.isChecked(),thuHol.isChecked(),friHol.isChecked(), true};  //sat and sun count as holidays
-		double addTax = 0;
+		double addTax = checkValidAddTax(prefs.getString("custom_addtax", "0"));
+		double weekTravel = checkValidAddTax(prefs.getString("custom_weektravel" , "0"));
+		double dayTravel = checkValidAddTax(prefs.getString("custom_daytravel", "0"));
 		addTax = checkValidAddTax(prefs.getString("custom_addtax", "0"));
+		
 		if(wageSpin.getSelectedItem().toString().contains("Custom")) {
 		    SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
 			String wageKey = "custom_wage";
@@ -386,7 +392,24 @@ public class PaychequeFragment extends Fragment implements OnClickListener
 		if(nightToggle.isChecked()) {grossPay = grossPay + (timeSum[0] + timeSum[1] + timeSum[2]) * 3;}
 
 		double grossVac = grossPay * (vacationPay + 1);
-
+		double exempt = loaCount * loaRate + mealCount * mealRate;
+		if(travelToggle.isChecked()) {
+			if(!prefs.getBoolean("taxable_weektravel", false)){
+				exempt += weekTravel;
+			} else {
+				grossPay += weekTravel;
+			}
+		}
+		
+		if(dayTravelToggle.isChecked()) {
+			if(!prefs.getBoolean("taxable_daytravel", true)){
+				exempt += dayTravel;
+			} else {
+				grossPay += dayTravel;
+			}
+			
+		}
+		
 		double[] deductions = taxCalc(grossVac, grossPay);  //returns [fed, ab, dues, cpp, ei]
 		double deductionsSum = 0;
 		deductions[0] += addTax;
@@ -395,9 +418,7 @@ public class PaychequeFragment extends Fragment implements OnClickListener
 		if(cppVal.isChecked()) deductionsSum += deductions[3];
 		if(eiVal.isChecked()) deductionsSum += deductions[4];
 
-		double exempt = loaCount * loaRate + mealCount * mealRate;
-		if(travelToggle.isChecked()) {exempt = exempt + travelRate;}
-
+		
 		double netPay = grossVac - deductionsSum + exempt;
 
 		grossVal.setText("Gross: " + String.format("%.2f", grossVac) + "$");
