@@ -7,26 +7,16 @@ import android.support.v4.app.*;
 import android.view.*;
 import android.view.View.*;
 import android.widget.*;
-import android.renderscript.*;
-import android.nfc.*;
 
 public class PaychequeFragment extends Fragment implements OnClickListener
 {
-	final public enum DayType {
-		FIVE_WEEK(0), 
-		FIVE_END(1), 
-		FOUR_WEEK(2), 
-		FOUR_FRI(3), 
-		FOUR_END(4); 
-
-		private int _val;
-
-		DayType(int Value) {
-			this._val = Value;
-		}
+	public enum DayType {
+		FIVE_WEEK, 
+		FIVE_END, 
+		FOUR_WEEK, 
+		FOUR_FRI, 
+		FOUR_END;
 	}
-	
-	static DayType[] dt = DayType.values();
 	
 	double wageRates[] = new double[12];
 	Boolean oldDayToggle;
@@ -476,7 +466,7 @@ public class PaychequeFragment extends Fragment implements OnClickListener
 		String[] splitPref = new String[3];
 		double[] retDoub = new double[3];
 		
-		if(itemStr.contains("A")) splitPref = prefs.getString("custom_dayA", "0,0,0").split(",0");
+		if(itemStr.contains("A")) splitPref = prefs.getString("custom_dayA", "0,0,0").split(",");
 		if(itemStr.contains("B")) splitPref = prefs.getString("custom_dayB", "0,0,0").split(",");
 		if(itemStr.contains("C")) splitPref = prefs.getString("custom_dayC", "0,0,0").split(",");
 		

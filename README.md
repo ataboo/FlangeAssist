@@ -18,11 +18,22 @@ Feel free to send feedback or suggestions to bmtoolbox@gmail.com
 
 Changes:
 ============
+v0.13:
+-Fixed CPP deduction rate
+-Added CPP, EI, Income Tax, Dues check-boxes
+-Added settings menu that allows
+	-Extra tax deduction
+	-Custom wage rate
+	-Custom daily hours
+	-Custom travel weekly and daily
+-Added North and South (N/S) Alberta rates
+-Added daily travel
+
 v0.12:
 -Converted everything to tab layout
 -Added "Hall Links" list of Canadian Boilermaker contact info
 -Added icons for hall links
--Added daily travel rate and stat holidays (right on time) to paycheque calculator
+-Added stat holidays (right on time) to paycheque calculator
 
 v0.11:
 -Added torque pattern generator

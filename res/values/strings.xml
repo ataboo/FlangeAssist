@@ -105,7 +105,7 @@
 <!-- Torque Pattern Gen -->
     <string name="torque_header">Torque Pattern Generator</string>	
 	<string name="torque_but">OK</string>
-	<string name="torqueInstruction">Enter the stud count amd hit OK.</string>
+	<string name="torqueInstruction">Enter the stud count and hit OK.</string>
 	<string name="errInt">Error: Stud Count must be higher then 8 and lower than 200.</string>
 	<string name="errEven">Error: Stud Count must be an even number.</string>
 	<string name="studCount">Stud Count</string>

@@ -1,33 +1,52 @@
 package com.atasoft.flangeassist;
 
-import android.os.*;
-import android.preference.*;
-import android.view.*;
-import android.widget.*;
+import android.annotation.SuppressLint;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
+import android.os.Bundle;
+import android.preference.Preference;
+import android.preference.Preference.OnPreferenceClickListener;
+import android.preference.PreferenceActivity;
+import android.preference.PreferenceFragment;
+import android.preference.PreferenceManager;
 
-public class PreferenceHelper extends PreferenceActivity
- {
+public class PreferenceHelper extends PreferenceActivity {
     @Override
 	public void onCreate(Bundle savedInstanceState) {    
 		super.onCreate(savedInstanceState);       
-		addPreferencesFromResource(R.xml.preferences );       
-	}
-	
-	/*
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        menu.add(Menu.NONE, 0, 0, "Show current settings");
-        return super.onCreateOptionsMenu(menu);
-    }
-	*/
+		getFragmentManager().beginTransaction().replace(android.R.id.content, new PrefsFragment()).commit();
+		}
+    
+    public static class PrefsFragment extends PreferenceFragment {
+    	 
+        @SuppressLint("NewApi")
+		@Override
+        public void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            
+            if(android.os.Build.VERSION.SDK_INT >= 14) {
+            	addPreferencesFromResource(R.xml.preferences);
+            	Preference resetPref = (Preference) findPreference("reset_switch");
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case 0:
-                //startActivity(new Intent(this, ShowSettingsActivity.class));
-                return true;
+            	resetPref.setOnPreferenceClickListener(new OnPreferenceClickListener() {
+            		@Override
+               		public boolean onPreferenceClick(Preference arg0) {
+            			SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+            		    Editor editor = prefs.edit();
+            		    editor.clear();
+            		    editor.commit();
+            			getActivity().finish();
+               	    	return true;
+                	}
+
+            	});
+            } else {
+            	addPreferencesFromResource(R.xml.prefnoclick);
+            }
+            
         }
-        return false;
-    }
+    }	
+
 }
+
+    

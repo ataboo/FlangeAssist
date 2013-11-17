@@ -67,10 +67,4 @@
 		    android:selectAllOnFocus="true"
 		    android:defaultValue="8.5,2,1.5" />
     </PreferenceCategory>
-    	<Preference
-        	android:defaultValue="false"
-        	android:key="reset_switch"
-        	android:title="Reset Settings"
-        	android:summary="Reset custom values used in the Pay Calculator." 
-    	/>
 </PreferenceScreen>
