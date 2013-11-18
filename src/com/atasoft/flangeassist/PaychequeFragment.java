@@ -350,8 +350,8 @@ public class PaychequeFragment extends Fragment implements OnClickListener
 		double wageRate;
 		boolean[] weekHolidays = {true, monHol.isChecked(), tueHol.isChecked(), wedHol.isChecked(),thuHol.isChecked(),friHol.isChecked(), true};  //sat and sun count as holidays
 		double addTax = checkValidAddTax(prefs.getString("custom_addtax", "0"));
-		double weekTravel = checkValidAddTax(prefs.getString("custom_weektravel" , "0"));
-		double dayTravel = checkValidAddTax(prefs.getString("custom_daytravel", "0"));
+		double weekTravel = checkValidAddTax(prefs.getString("custom_weektravel" , "216"));
+		double dayTravel = checkValidAddTax(prefs.getString("custom_daytravel", "20"));
 		addTax = checkValidAddTax(prefs.getString("custom_addtax", "0"));
 		
 		if(wageSpin.getSelectedItem().toString().contains("Custom")) {
@@ -363,6 +363,7 @@ public class PaychequeFragment extends Fragment implements OnClickListener
 		} else {
 			wageRate = wageRates[wageSpin.getSelectedItemPosition()];
 		}
+		int dayCount = 0;
 		Spinner[] spinArr = {sunSpin, monSpin, tueSpin, wedSpin, thuSpin, friSpin, satSpin};
 			for (int i = 0; i < spinArr.length; i++) {
 				String itemStr = (spinArr[i].getSelectedItem().toString());
@@ -383,6 +384,8 @@ public class PaychequeFragment extends Fragment implements OnClickListener
 					if(weekEnd) dayTypeSet = DayType.FIVE_END;  //works for fourtens too
 					splitArr = hrsSplit(Double.parseDouble(spinArr[i].getSelectedItem().toString()), dayTypeSet);
 				}
+				if(splitArr[0] + splitArr[1] + splitArr[2] > 0) dayCount++;
+				
 				timeSum[0] += splitArr[0];
 				timeSum[1] += splitArr[1];
 				timeSum[2] += splitArr[2];
@@ -397,15 +400,15 @@ public class PaychequeFragment extends Fragment implements OnClickListener
 			if(!prefs.getBoolean("taxable_weektravel", false)){
 				exempt += weekTravel;
 			} else {
-				grossPay += weekTravel;
+				grossVac += weekTravel;
 			}
 		}
 		
 		if(dayTravelToggle.isChecked()) {
 			if(!prefs.getBoolean("taxable_daytravel", true)){
-				exempt += dayTravel;
+				exempt += dayTravel * dayCount;
 			} else {
-				grossPay += dayTravel;
+				grossVac += dayTravel * dayCount;
 			}
 			
 		}
