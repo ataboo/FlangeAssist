@@ -344,7 +344,7 @@ public class PaychequeFragment extends Fragment implements OnClickListener
 		double loaRate = Double.parseDouble(getString(R.string.loa_rate));
 		double mealRate = Double.parseDouble(getString(R.string.meal_rate));
 		double vacationPay = Double.parseDouble(getString(R.string.vacation_pay));
-		double travelRate = Double.parseDouble(getString(R.string.travel_rate));
+		//double travelRate = Double.parseDouble(getString(R.string.travel_rate));
 		int timeSum[] = {0,0,0};
 
 		int loaCount = Integer.parseInt(loaSpin.getSelectedItem().toString());
