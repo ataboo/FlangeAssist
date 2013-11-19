@@ -106,7 +106,9 @@ public class PaychequeFragment extends Fragment implements OnClickListener
 	public void onResume() {
 		//Toast.makeText(context,"Thanks for using application!'!",Toast.LENGTH_LONG).show();
 		Boolean custDayCheck = prefs.getBoolean("custom_daycheck", false);
-		if(customDay != custDayCheck) updateDaySpinners(custDayCheck);
+		if(custDayCheck) {
+		    if(customDay != custDayCheck || !verifyCustDays()) updateDaySpinners(custDayCheck);
+		}
 		pushBootan();
 		super.onResume();
 		return;
@@ -436,9 +438,9 @@ public class PaychequeFragment extends Fragment implements OnClickListener
 		dTimeText.setText("2.0x: " + Integer.toString(timeSum[2]));
 		
 		if(addTax == 0) {
-			taxVal.setText("Income Tax: " + String.format("%.2f", deductions[0] + deductions[1]) + "$");
+			taxVal.setText("Tax: " + String.format("%.2f", deductions[0] + deductions[1]) + "$");
 		} else {
-			taxVal.setText("Income Tax: " + String.format("%.2f", deductions[0] + deductions[1] - addTax) + "$ + " +
+			taxVal.setText("Tax: " + String.format("%.2f", deductions[0] + deductions[1] - addTax) + "$ + " +
 				String.format("%.2f", addTax) + "$");
 		}
 	}
