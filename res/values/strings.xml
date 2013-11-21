@@ -26,7 +26,7 @@
 	
 <!-- tax yr 2013 -->
 	<string name="fed_taxcred">2310.35</string>  <!-- TD1 amount + ei + cpp + employment credit * 15% (lowest bracket) -->
-	<string name="ab_taxcred">2084.03</string>  <!-- TD1AB amount + cpp * 10% -->
+	<string name="ab_taxcred">2084.03</string>  <!-- TD1AB amount + cpp + ei * 10% -->
 	<string-array name="tax_brackets">
 	    <item>0</item>
 	    <item>43561</item>
@@ -46,6 +46,30 @@
 	    <item>10586</item>    
 	</string-array>
 
+	<!-- tax yr 2014 -->
+		<!-- (2356.20 + 891.12 + 11,138 + 1,127) * .15 -->
+	<string name="fed_taxcred_2014">2326.85</string>  <!-- (cpp + ei + TD1 amount + employment credit) * 15% (lowest bracket) -->
+	    <!-- (2356.20 + 891.12 + 17,787) * .10 -->
+	<string name="ab_taxcred_2014">2103.43</string>  <!-- (cpp + ei + TD1AB) * 10% -->
+	<string-array name="tax_brackets_2014">
+	    <item>0</item>
+	    <item>43953</item>
+	    <item>87907</item>
+	    <item>136370</item>
+	</string-array>
+	<string-array name="tax_rates_2014">
+	    <item>0.15</item>
+	    <item>0.22</item>
+	    <item>0.26</item>
+	    <item>0.29</item>
+	</string-array>
+	<string-array name="fed_const_2014">  <!-- Pulled from CRA site -->
+	    <item>0</item>
+	    <item>3077</item>
+	    <item>6593</item>
+	    <item>10681</item>    
+	</string-array>
+	
 <!-- Main Menu -->
 	<string name="action_settings">Settings</string>
     <string name="app_name">Boilermaker Toolbox</string>
@@ -80,20 +104,13 @@
 	<string name="meal_text">Meals</string>
 	<string name="loa_text">L.O.A</string>
 	<string name="holBut">Holidays:</string>
-	
-	<string-array name="updateInterval">
-        <item name="1000">Every 1 second</item>
-        <item name="5000">Every 5 seconds</item>
-        <item name="30000">Every 30 seconds</item>
-        <item name="60000">Every 1 minute</item>
-        <item name="300000">Every 5 minutes</item>
+	<string-array name="taxYears">
+        <item name="2013AB">2013 AB Tax Rate</item>
+        <item name="2014AB">2014 AB Tax Rate</item>
     </string-array>
-    <string-array name="updateIntervalValues">
-        <item name="1000">1000</item>
-        <item name="5000">5000</item>
-        <item name="30000">30000</item>
-        <item name="60000">60000</item>
-        <item name="300000">300000</item>
+    <string-array name="taxYearValues">
+        <item name="2013AB">2013,AB</item>
+        <item name="2014AB">2014,AB</item>
     </string-array>
 	
 <!-- About Page -->

@@ -17,6 +17,10 @@ public class PaychequeFragment extends Fragment implements OnClickListener
 		FOUR_FRI, 
 		FOUR_END;
 	}
+	public enum TaxYear {
+		AB_2013,
+		AB_2014;
+	}
 	
 	double wageRates[] = new double[12];
 	Boolean oldDayToggle;
@@ -344,7 +348,7 @@ public class PaychequeFragment extends Fragment implements OnClickListener
 		double loaRate = Double.parseDouble(getString(R.string.loa_rate));
 		double mealRate = Double.parseDouble(getString(R.string.meal_rate));
 		double vacationPay = Double.parseDouble(getString(R.string.vacation_pay));
-		double travelRate = Double.parseDouble(getString(R.string.travel_rate));
+		//double travelRate = Double.parseDouble(getString(R.string.travel_rate));
 		int timeSum[] = {0,0,0};
 
 		int loaCount = Integer.parseInt(loaSpin.getSelectedItem().toString());
@@ -411,11 +415,17 @@ public class PaychequeFragment extends Fragment implements OnClickListener
 				exempt += dayTravel * dayCount;
 			} else {
 				grossVac += dayTravel * dayCount;
-			}
-			
+			}		
 		}
 		
-		double[] deductions = taxCalc(grossVac, grossPay);  //returns [fed, ab, dues, cpp, ei]
+		TaxYear taxYear = TaxYear.AB_2013;
+		
+		String[] taxYearSplit = prefs.getString("list_taxYear", "2013,AB").split(",");
+		// add different provinces later with taxSplit[1]
+		if(taxYearSplit[0].contains("2013")) taxYear = TaxYear.AB_2013;
+		if(taxYearSplit[0].contains("2014")) taxYear = TaxYear.AB_2014;
+		
+		double[] deductions = taxCalc(grossVac, grossPay, taxYear);  //returns [fed, ab, dues, cpp, ei]
 		double deductionsSum = 0;
 		deductions[0] += addTax;
 		if(taxVal.isChecked()) deductionsSum = deductions[0] + deductions[1];
@@ -537,7 +547,7 @@ public class PaychequeFragment extends Fragment implements OnClickListener
 		return new double[]{sTime, hTime, dTime};	
 	}
 
-	private double[] taxCalc(double gross, double grossNoVac){
+	private double[] taxCalc(double gross, double grossNoVac, TaxYear taxYear){
 		double anGross = gross * 52;
 		double bracket[] = {0,0,0,0};
 		double diff[] = {0,0,0};
@@ -545,12 +555,29 @@ public class PaychequeFragment extends Fragment implements OnClickListener
 		double fedConst[] = {0,0,0,0};
 		double fedTax = 0;
 		double abTax = 0;
-
-		String brackStr[] = getResources().getStringArray(R.array.tax_brackets);
-		String rateStr[] = getResources().getStringArray(R.array.tax_rates);
-		String fedCStr[] = getResources().getStringArray(R.array.fed_const);
-		double fedTaxCred = Double.parseDouble(getString(R.string.fed_taxcred));
-		double abTaxCred = Double.parseDouble(getString(R.string.ab_taxcred));
+		String brackStr[];
+		String rateStr[];
+		String fedCStr[];
+		double fedTaxCred;
+		double abTaxCred;
+		
+		switch (taxYear) {
+			case AB_2013:
+				brackStr = getResources().getStringArray(R.array.tax_brackets);
+				rateStr = getResources().getStringArray(R.array.tax_rates);
+				fedCStr = getResources().getStringArray(R.array.fed_const);
+				fedTaxCred = Double.parseDouble(getString(R.string.fed_taxcred));
+				abTaxCred = Double.parseDouble(getString(R.string.ab_taxcred));
+				break;
+			default:
+				brackStr = getResources().getStringArray(R.array.tax_brackets_2014);
+				rateStr = getResources().getStringArray(R.array.tax_rates_2014);
+				fedCStr = getResources().getStringArray(R.array.fed_const_2014);
+				fedTaxCred = Double.parseDouble(getString(R.string.fed_taxcred_2014));
+				abTaxCred = Double.parseDouble(getString(R.string.ab_taxcred_2014));			
+				break;
+		}
+		
 		double duesRate = Double.parseDouble(getString(R.string.dues_rate));
 		double cppRate = Double.parseDouble(getString(R.string.cpp_rate));
 		double eiRate = Double.parseDouble(getString(R.string.ei_rate));

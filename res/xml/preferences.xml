@@ -14,6 +14,16 @@
             android:dialogMessage="Enter a wage"  
 			android:selectAllOnFocus="true"
             android:defaultValue="40" />
+	
+		<ListPreference
+			android:key="list_taxYear"
+            android:title="Income Tax Rate"
+            android:summary="Change the income tax rate profile."
+            android:defaultValue="2013,AB"
+            android:entries="@array/taxYears"
+            android:entryValues="@array/taxYearValues"
+        />
+	
 		<EditTextPreference
 			android:key="custom_addtax"
 			android:ems="10"

@@ -2,7 +2,7 @@ FlangeAssist
 ============
 Boilermaker Toolbox is a FREE reference tool designed to help Boilermakers in Alberta.  This tool is still early in development so more features will be added in the future.
 
-Main features so far (v0.12):
+Main features so far (v0.13):
 -Paycheque Calculator (based on 146 Maintenance Agreement)
 -ASME flange tool (provides details based on flange size and rating)
 -Torque pattern generator
@@ -11,7 +11,7 @@ Main features so far (v0.12):
 Features to come:
 -Component weight estimator
 -More general trade reference material
--Expanded options for paycheck calculator and tax for other provinces
+-Tax for other provinces
 -Shop fitting calculations (nozzle location/measure-back for pipe joints, etc.)
 
 Feel free to send feedback or suggestions to bmtoolbox@gmail.com
@@ -27,7 +27,7 @@ v0.13:
 	-Custom daily hours
 	-Custom travel weekly and daily
 -Added North and South (N/S) Alberta rates
--Added daily travel
+-Added daily travel toggle
 
 v0.12:
 -Converted everything to tab layout
