@@ -243,11 +243,17 @@
 		    android:layout_toRightOf="@id/half_val"
 		    android:layout_below="@id/dayscroll" />
 		<TextView
-		    android:id="@+id/gross_val"
+		    android:id="@+id/wageRate_val"
 		    android:textSize="14sp"
 		    android:layout_width="wrap_content"
 		    android:layout_height="wrap_content"
 		    android:layout_below="@id/doub_val"/>
+		<TextView
+		    android:id="@+id/gross_val"
+		    android:textSize="14sp"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:layout_below="@id/wageRate_val"/>
 		<CheckBox
 		    android:id="@+id/tax_val"
 		    android:textSize="14sp"

@@ -335,6 +335,7 @@ public class PaychequeFragment extends Fragment implements OnClickListener
 		TextView sTimeText = (TextView) thisFrag.findViewById(R.id.sing_val);
 		TextView hTimeText = (TextView) thisFrag.findViewById(R.id.half_val);
 		TextView dTimeText = (TextView) thisFrag.findViewById(R.id.doub_val);
+		TextView wageRateVal = (TextView) thisFrag.findViewById(R.id.wageRate_val);
 		TextView grossVal = (TextView) thisFrag.findViewById(R.id.gross_val);
 		TextView exemptVal = (TextView) thisFrag.findViewById(R.id.exempt_val);
 		TextView dedVal = (TextView) thisFrag.findViewById(R.id.deduct_val);
@@ -399,7 +400,7 @@ public class PaychequeFragment extends Fragment implements OnClickListener
 			}				
 		double grossPay = wageRate * (timeSum[0] + (1.5 * timeSum[1]) + (2 * timeSum[2]));
 
-		if(nightToggle.isChecked()) {grossPay = grossPay + (timeSum[0] + timeSum[1] + timeSum[2]) * 3;}
+		if(nightToggle.isChecked()) grossPay += (timeSum[0] + timeSum[1] + timeSum[2]) * 3;
 
 		double grossVac = grossPay * (vacationPay + 1);
 		double exempt = loaCount * loaRate + mealCount * mealRate;
@@ -416,7 +417,8 @@ public class PaychequeFragment extends Fragment implements OnClickListener
 				exempt += dayTravel * dayCount;
 			} else {
 				grossVac += dayTravel * dayCount;
-			}		
+			}
+			//Toast.makeText(getActivity().getApplicationContext(), "banana", Toast.LENGTH_SHORT).show();
 		}
 		
 		TaxYear taxYear = TaxYear.AB_2013;
@@ -436,8 +438,11 @@ public class PaychequeFragment extends Fragment implements OnClickListener
 
 		
 		double netPay = grossVac - deductionsSum + exempt;
-
-		grossVal.setText("Gross: " + String.format("%.2f", grossVac) + "$");
+        double hrsTest = timeSum[0] + timeSum[1] + timeSum[2];
+		
+		
+		wageRateVal.setText("Wage: " + String.format("%.2f", wageRate) + "$");
+		grossVal.setText("Gross: " + String.format("%.2f", grossVac + exempt) + "$");
 		exemptVal.setText("Tax Exempt: " + String.format("%.2f", exempt) + "$");
 		eiVal.setText("CPP: " + String.format("%.2f", deductions[3]) + "$");
 		cppVal.setText("EI: " + String.format("%.2f", deductions[4]) + "$");
