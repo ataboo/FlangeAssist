@@ -48,10 +48,11 @@
 	</string-array>
 
 	<!-- tax yr 2014 -->
-		<!-- (2356.20 + 891.12 + 11,138 + 1,127) * .15 -->
-	<string name="fed_taxcred_2014">2326.85</string>  <!-- (cpp + ei + TD1 amount + employment credit) * 15% (lowest bracket) -->
-	    <!-- (2356.20 + 891.12 + 17,787) * .10 -->
-	<string name="ab_taxcred_2014">2103.43</string>  <!-- (cpp + ei + TD1AB) * 10% -->
+		<!-- (2425.50 + 913.68 + 11,138 + 1,127) * .15 -->
+	<string name="fed_taxcred_2014">2340.63</string>  <!-- (cpp + ei + TD1 amount + employment credit) * 15% (lowest bracket) -->
+	    <!-- (2425.50 + 913.68 + 17,787) * .10 -->
+	<string name="ab_taxcred_2014">2112.62</string>  <!-- (cpp + ei + TD1AB) * 10% -->
+	<string name="ab_taxcred_noEI_2014">333.92</string>  <!--  (cpp + ei) * 10% added to tax when cpp/ei disabled -->
 	<string-array name="tax_brackets_2014">
 	    <item>0</item>
 	    <item>43953</item>

@@ -267,18 +267,11 @@
 		    android:layout_height="wrap_content"
 		    android:layout_below="@id/tax_val" />
 		<CheckBox
-		    android:id="@+id/ei_val"
-		    android:textSize="14sp"
-		    android:layout_width="wrap_content"
-		    android:layout_height="wrap_content"
-		    android:layout_below="@id/cpp_val" />
-		<CheckBox
 		    android:id="@+id/dues_val"
 		    android:textSize="14sp"
 		    android:layout_width="wrap_content"
 		    android:layout_height="wrap_content"
-		    android:layout_below="@id/ei_val" />
-		
+		    android:layout_below="@id/cpp_val" />
 		<TextView
 		    android:id="@+id/deduct_val"
 		    android:textSize="14sp"
