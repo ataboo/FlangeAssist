@@ -20,13 +20,14 @@
 		<item>JM (N),42.58</item>
 		<item>LH,45.73</item>
 		<item>FM,48.08</item>
-		<item>GF,48.46</item>
+		<item>GF,50.08</item>
 		<item>Custom,40</item>
 	</string-array>
 	
 <!-- tax yr 2013 -->
 	<string name="fed_taxcred">2310.35</string>  <!-- TD1 amount + ei + cpp + employment credit * 15% (lowest bracket) -->
-	<string name="ab_taxcred">2084.03</string>  <!-- TD1AB amount + cpp + ei * 10% -->
+	<string name="ab_taxcred">2084.03</string>   <!-- TD1AB amount + cpp + ei * 10% -->
+	<string name="ab_taxcred_noEI">324.73</string> 
 	<string-array name="tax_brackets">
 	    <item>0</item>
 	    <item>43561</item>

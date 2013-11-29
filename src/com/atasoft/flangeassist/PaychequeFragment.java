@@ -430,6 +430,7 @@ public class PaychequeFragment extends Fragment implements OnClickListener
 		
 		double[] deductions = taxCalc(grossVac, grossPay, taxYear);  //returns [fed, ab, dues, cpp, ei]
 		double deductionsSum = 0;
+
 		deductions[0] += addTax;
 		if(taxVal.isChecked()) deductionsSum = deductions[0] + deductions[1];
 		if(duesVal.isChecked()) deductionsSum += deductions[2];
@@ -438,7 +439,7 @@ public class PaychequeFragment extends Fragment implements OnClickListener
 
 		
 		double netPay = grossVac - deductionsSum + exempt;
-        double hrsTest = timeSum[0] + timeSum[1] + timeSum[2];
+       // double hrsTest = timeSum[0] + timeSum[1] + timeSum[2];
 		
 		
 		wageRateVal.setText("Wage: " + String.format("%.2f", wageRate) + "$");
