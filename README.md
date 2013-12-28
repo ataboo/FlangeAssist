@@ -18,6 +18,12 @@ Feel free to send feedback or suggestions to bmtoolbox@gmail.com
 
 Changes:
 ============
+v0.14:
+-Added AB 2014 tax rate
+-Added setting in menu to switch tax year
+-Fixed tax rate for CPP/EI exempt
+-Fixed B7/B7M torques reversed in Flange Reference
+
 v0.13:
 -Fixed CPP deduction rate
 -Added CPP, EI, Income Tax, Dues check-boxes

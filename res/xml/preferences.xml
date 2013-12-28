@@ -19,7 +19,7 @@
 			android:key="list_taxYear"
             android:title="Income Tax Rate"
             android:summary="Change the income tax rate profile."
-            android:defaultValue="2013,AB"
+            android:defaultValue="2014,AB"
             android:entries="@array/taxYears"
             android:entryValues="@array/taxYearValues"
         />

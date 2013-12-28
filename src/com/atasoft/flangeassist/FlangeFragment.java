@@ -111,7 +111,7 @@ public class FlangeFragment extends Fragment {
 		driftVal.setText(studSplit[2] + "\"");
 		sCountVal.setText(statSplit[2]);
 		sLengthVal.setText(statSplit[3] + "\"");
-		b7Val.setText(studSplit[3] + " ft-lbs");
-		b7mVal.setText(studSplit[4] + " ft-lbs");
+		b7Val.setText(studSplit[4] + " ft-lbs");
+		b7mVal.setText(studSplit[3] + " ft-lbs");
 	}
 }
