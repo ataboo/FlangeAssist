@@ -249,7 +249,7 @@
 		<item>1-1/4,6,20,7-3/4</item>
 		<item>1-1/4,6,24,8</item>
 		<item>1-1/4,6,24,8-1/4</item>
-		<item>1-1/4,6,24,9-1/4</item>
+		<item>1-1/2,6,24,9-1/4</item>
 	</string-array>
 	<string-array name = "f_stats400">
 	    <item>1/2,0,4,3-1/4</item>
@@ -293,7 +293,7 @@
 		<item>1-1/2,8,20,10-1/4</item>
 		<item>1-5/8,9,20,11</item>
 		<item>1-5/8,9,24,11-1/2</item>
-		<item>1-5/8,9,24,13</item>
+		<item>1-7/8,9,24,13</item>
 	</string-array>
 	<string-array name = "f_stats900">
 	    <item>3/4,2,4,4-1/2</item>
