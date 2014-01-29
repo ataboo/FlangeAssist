@@ -462,21 +462,6 @@ public class PaychequeFragment extends Fragment implements OnClickListener
 		}
 	}
 	
-	private double checkValidAddTax(String prefString, String toastName) {
-		double retVal;
-		try {
-			retVal = Double.parseDouble(prefString);
-			}
-		catch (NumberFormatException e) {
-			return 0;
-		}
-		if(retVal > 100000 || retVal < 0) {
-			Toast.makeText(context, toastName + " is out of range.", Toast.LENGTH_SHORT).show();
-			return 0;
-		}
-		return retVal;
-	}
-	
 	//unnecessary double
 	private double checkPrefDoub(String prefKey, String defaultVal, String toastName) {
 		double retVal = 0d;
@@ -581,6 +566,26 @@ public class PaychequeFragment extends Fragment implements OnClickListener
 				break;
 		}
 		return new double[]{sTime, hTime, dTime};	
+	}
+	
+	private double fedTaxCalc(double gross, double grossNoVac, int taxYear, boolean addCPP){
+		
+		
+		return 0d;
+	}
+	
+	private double abTaxCalc(double gross, double grossNoVac, int taxYear) {
+		
+		
+		
+		return 0d;
+	}
+	
+	private double[] cppEiCalc(double gross) {
+		double[] cppEi = new double[]{0,0};
+		
+		
+		return cppEi;
 	}
 
 	private double[] taxCalc(double gross, double grossNoVac, TaxYear taxYear, boolean addCPP){
