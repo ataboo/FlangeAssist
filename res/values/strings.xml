@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 <!-- Update Values (last checked Oct.26/13) -->
-	<string name="version_info">Boilermaker Toolbox v0.13
-		\nLast updated Nov 17/13
-		\nWage rate as of: Nov 3/13</string>
+	<string name="version_info">Boilermaker Toolbox v0.15
+		\nLast updated Jan 28/14
+		\nWage rate as of: Jan 28/14</string>
 	<string name="loa_rate">195</string>
 	<string name="meal_rate">40</string>
 	<string name="vacation_pay">0.10</string>
