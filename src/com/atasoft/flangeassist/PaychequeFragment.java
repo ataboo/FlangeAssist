@@ -18,10 +18,18 @@ public class PaychequeFragment extends Fragment implements OnClickListener
 		FOUR_FRI, 
 		FOUR_END;
 	}
+	
+	public static final int PROV_AB = 0;
+	public static final int PROV_ON = 1;
+	public static final int TAXYEAR_2013 = 0;
+	public static final int TAXYEAR_2014 = 1;
+	
+	/*
 	public enum TaxYear {
 		AB_2013,
 		AB_2014;
 	}
+	*/
 	
 	double wageRates[] = new double[12];
 	Boolean oldDayToggle;
@@ -425,6 +433,7 @@ public class PaychequeFragment extends Fragment implements OnClickListener
 			//Toast.makeText(getActivity().getApplicationContext(), "banana", Toast.LENGTH_SHORT).show();
 		}
 		
+		/*
 		TaxYear taxYear = TaxYear.AB_2013;
 		
 		String[] taxYearSplit = prefs.getString("list_taxYear", "2013,AB").split(",");
@@ -433,13 +442,41 @@ public class PaychequeFragment extends Fragment implements OnClickListener
 		if(taxYearSplit[0].contains("2014")) taxYear = TaxYear.AB_2014;
 		
 		double[] deductions = taxCalc(grossVac, grossPay, taxYear, cppVal.isChecked());  //returns [fed, ab, dues, cpp, ei]
-		double deductionsSum = 0;
-
+		*/
+		double[] deductions = new double[]{0,0,0,0,0,0};  //[fed tax, prov tax, cpp, ei, working dues, monthly dues]
+		
+		String[] taxSplit = prefs.getString("list_taxYear", "2014,AB").split(",");
+		int[] taxYear = new int[]{PaychequeFragment.TAXYEAR_2014, PaychequeFragment.PROV_AB};  //Initialize with default
+		if(taxSplit[0].contains("2013")) taxYear[0] = PaychequeFragment.TAXYEAR_2013;
+		
+		if(taxSplit[1].contains("ON")) taxYear[1] = PaychequeFragment.PROV_ON;
+		//TODO etc.
+		
+		boolean cppChecked = cppVal.isChecked();
+		if(taxVal.isChecked()){
+			deductions[0] = fedTaxCalc(grossVac, taxYear[0], cppChecked);
+			deductions[1] = provTaxCalc(grossVac, taxYear, cppChecked);
+		}
 		deductions[0] += addTax;
-		if(taxVal.isChecked()) deductionsSum = deductions[0] + deductions[1];
-		if(duesVal.isChecked()) deductionsSum += deductions[2];
-		deductionsSum += deductions[3];
-		deductionsSum += deductions[4];
+		
+		double[] cppEiDues = cppEiDues(grossVac, grossPay);
+		if(cppChecked) {
+			deductions[2] = cppEiDues[0];
+			deductions[3] = cppEiDues[1];
+		}
+		if(duesVal.isChecked()) {
+			deductions[4] = cppEiDues[2];
+		}
+		
+		/*TODO: monthly dues deductions[5]
+		if(monthlyVal.isChecked()){
+			deductions[5] = whatever;
+		} */
+		
+		double deductionsSum = 0;
+		for(double i: deductions) {
+			deductionsSum += i;
+		}
 		
 		double netPay = grossVac - deductionsSum + exempt;
 		
@@ -568,26 +605,35 @@ public class PaychequeFragment extends Fragment implements OnClickListener
 		return new double[]{sTime, hTime, dTime};	
 	}
 	
-	private double fedTaxCalc(double gross, double grossNoVac, int taxYear, boolean addCPP){
+	private double fedTaxCalc(double gross, int taxYear, boolean addCPP){
 		
 		
 		return 0d;
 	}
 	
-	private double abTaxCalc(double gross, double grossNoVac, int taxYear) {
+	private double provTaxCalc(double gross, int[] taxYear, boolean addCPP) {
 		
 		
 		
 		return 0d;
 	}
 	
-	private double[] cppEiCalc(double gross) {
-		double[] cppEi = new double[]{0,0};
+	private double[] cppEiDues(double gross, double grossNoVac) {
+		double anGross = gross * 52;
 		
+		double duesRate = Double.parseDouble(getString(R.string.dues_rate));
+		double cppRate = Double.parseDouble(getString(R.string.cpp_rate));
+		double eiRate = Double.parseDouble(getString(R.string.ei_rate));
+
+		double dues = grossNoVac * duesRate;
+		double cppRet = (anGross - 3500) / 52 * cppRate;
+		double eiRet = gross * eiRate;
+		if (cppRet < 0) cppRet = 0;
 		
-		return cppEi;
+		return new double[]{cppRet, eiRet, dues};
 	}
 
+	/*
 	private double[] taxCalc(double gross, double grossNoVac, TaxYear taxYear, boolean addCPP){
 		double anGross = gross * 52;
 		double bracket[] = {0,0,0,0};
@@ -595,13 +641,13 @@ public class PaychequeFragment extends Fragment implements OnClickListener
 		double rate[] = {0, 0, 0, 0};
 		double fedConst[] = {0,0,0,0};
 		double fedTax = 0;
-		double abTax = 0;
+		double provTax = 0;
 		String brackStr[];
 		String rateStr[];
 		String fedCStr[];
 		double fedTaxCred;
-		double abTaxCred;
-		double abTaxCredNoEI;
+		double provTaxCred;
+		double provTaxCredNoEI;
 		
 		switch (taxYear) {
 			case AB_2013:
@@ -609,16 +655,16 @@ public class PaychequeFragment extends Fragment implements OnClickListener
 				rateStr = getResources().getStringArray(R.array.tax_rates);
 				fedCStr = getResources().getStringArray(R.array.fed_const);
 				fedTaxCred = Double.parseDouble(getString(R.string.fed_taxcred));
-				abTaxCred = Double.parseDouble(getString(R.string.ab_taxcred));
-				abTaxCredNoEI = Double.parseDouble(getString(R.string.ab_taxcred_noEI));
+				provTaxCred = Double.parseDouble(getString(R.string.ab_taxcred));
+				provTaxCredNoEI = Double.parseDouble(getString(R.string.ab_taxcred_noEI));
 				break;
 			default:
 				brackStr = getResources().getStringArray(R.array.tax_brackets_2014);
 				rateStr = getResources().getStringArray(R.array.tax_rates_2014);
 				fedCStr = getResources().getStringArray(R.array.fed_const_2014);
 				fedTaxCred = Double.parseDouble(getString(R.string.fed_taxcred_2014));
-				abTaxCred = Double.parseDouble(getString(R.string.ab_taxcred_2014));	
-				abTaxCredNoEI = Double.parseDouble(getString(R.string.ab_taxcred_noEI_2014));  //gotta change to 2014 eventually
+				provTaxCred = Double.parseDouble(getString(R.string.ab_taxcred_2014));	
+				provTaxCredNoEI = Double.parseDouble(getString(R.string.ab_taxcred_noEI_2014));  //gotta change to 2014 eventually
 				break;
 		}
 		
@@ -649,7 +695,7 @@ public class PaychequeFragment extends Fragment implements OnClickListener
 			fedTax = anGross * rate[3] - fedConst[3] - fedTaxCred;
 		}
 
-		abTax = (anGross * 0.1) - abTaxCred;
+		provTax = (anGross * 0.1) - provTaxCred;
 		double dues = grossNoVac * duesRate;
 		double cppRet = (anGross - 3500) / 52 * cppRate;
 		double eiRet = gross * eiRate;
@@ -657,18 +703,19 @@ public class PaychequeFragment extends Fragment implements OnClickListener
 		if(!addCPP) {
 			cppRet = 0;
 			eiRet = 0;
-			abTax += (abTaxCredNoEI);  // Seems like it only takes it off the ABTaxCred with EI paid
+			provTax += (provTaxCredNoEI);  // Seems like it only takes it off the provTaxCred with EI paid
 		}
 		
-		if(abTax < 0){abTax = 0;}
+		if(provTax < 0){provTax = 0;}
 		if(fedTax < 0){fedTax = 0;}
 		
 		return new double[] {
 			fedTax / 52, 
-			abTax / 52, 
+			provTax / 52, 
 			dues, 
 			cppRet, 
 			eiRet
 			};
 	}
+	*/
 }
