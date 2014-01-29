@@ -1,7 +1,6 @@
 package com.atasoft.adapters;
 
-import com.atasoft.flangeassist.AboutFragment;
-import com.atasoft.flangeassist.TorqueFragment;
+import com.atasoft.flangeassist.fragments.*;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;

@@ -17,51 +17,65 @@ public class TaxManager {
 	
 	public TaxManager(Context context, int taxYear) {
 		this.context = context;
-		getFedResources(taxYear);
-		getProvResources(taxYear);
+		setupTaxStats();
 	}
 	
-	private double[] fedBrackets;
-	private double[] fedRates;
-	private double[] fedConst;
-	private double fedTaxCred;
-	private void getFedResources(int taxYear){
-		switch (taxYear) {
-			case TaxManager.TY_2013:
-				this.fedBrackets = parseToDouble(context.getResources().getStringArray(R.array.tax_brackets));
-				this.fedRates = parseToDouble(context.getResources().getStringArray(R.array.tax_rates));
-				this.fedConst = parseToDouble(context.getResources().getStringArray(R.array.fed_const));
-				this.fedTaxCred = Double.parseDouble(context.getString(R.string.fed_taxcred));
+	private static class TaxStats{
+		public double[][] rates;
+		public double[][] brackets;
+		public double[][] constK;
+		public double[] taxCred;
+		
+		public TaxStats(){}
+	}
+	
+	public TaxManager.TaxStats fedStats;
+	public TaxManager.TaxStats abStats;
+	private void setupTaxStats(){
+		this.fedStats = new TaxManager.TaxStats();
+		fedStats.brackets = new double[][]{
+			{0,43561,87123,135054},
+			{0,43953,87907,136370}};
+		fedStats.rates = new double[][]{
+			{0.15,0.22,0.26,0.29}};
+		fedStats.constK = new double[][]{
+			{0,3049,6534,10586},
+			{0,3077,6593,10681}};
+		fedStats.taxCred = new double[]{
+			2310.35, 2340.63};
+		
+		this.abStats = new TaxManager.TaxStats();
+		abStats.rates = new double[][]{{0.10}};
+		abStats.taxCred = new double[]{
+		    2084.03, 2112.62};
+		//TODO: other provinces
+	}
+	
+	public double[] getTaxes(double gross, int year, int province) {
+		double provTax = 0;
+		double anGross = gross * 52;
+		double fedTax = getFedTax(anGross, year);
+		switch(province){
+			case PROV_AB:
+				provTax = getABTax(anGross, year);
 				break;
-			
-		//case TaxManager.TY_2014:
-			default:
-				this.fedBrackets = parseToDouble(context.getResources().getStringArray(R.array.tax_brackets_2014));
-				this.fedRates = parseToDouble(context.getResources().getStringArray(R.array.tax_rates_2014));
-				this.fedConst = parseToDouble(context.getResources().getStringArray(R.array.fed_const_2014));
-				this.fedTaxCred = Double.parseDouble(context.getString(R.string.fed_taxcred_2014));
-				break;
+			/*case PROV_ON:
+				provTax = getONTax(anGross, year);
+				break;*/
 		}
 		
+		return new double[]{fedTax/52, provTax/52};
 	}
 	
-	
-	private double provTaxCred;
-	private double provTaxCredNoEI;
-	private void getProvResources(int taxYear) {
-		this.provTaxCred = Double.parseDouble(context.getString(R.string.ab_taxcred));
-		this.provTaxCredNoEI = Double.parseDouble(context.getString(R.string.ab_taxcred_noEI));
-	
-		this.provTaxCred = Double.parseDouble(context.getString(R.string.ab_taxcred_2014));	
-		this.provTaxCredNoEI = Double.parseDouble(context.getString(R.string.ab_taxcred_noEI_2014));  //gotta change to 2014 eventually
+	private double getFedTax(double anGross, int year){
+		
+		return 0;
 	}
 	
-	private static double[] parseToDouble(String[] inputArr) {  //creates a double array from an assumed parseable string array
-		double[] outArr = new double[inputArr.length];
-		for(int i=0; i < inputArr.length; i++) {
-			outArr[i] = Double.parseDouble(inputArr[i]);
-		}
-		return outArr;
+	private double getABTax(double anGross, int year){
+		double rate = abStats.rates[0][0];
+		double taxCred = abStats.taxCred[year];
+		return rate * anGross - taxCred;
 	}
 	
 }
