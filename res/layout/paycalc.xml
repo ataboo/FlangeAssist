@@ -71,37 +71,44 @@
 				</LinearLayout>
 				<LinearLayout
 				    android:id="@+id/daylinmid"
-				    android:minWidth="380dp"
+				    android:weightSum="7"
 					android:layout_width="fill_parent"
 					android:layout_height="wrap_content"
 					android:orientation="horizontal">
 					<Spinner
 			            android:id="@+id/sunSpin"
-			            android:layout_width="wrap_content"
+			            android:layout_width="0dp"
+						android:layout_weight="1"
 			            android:layout_height="wrap_content" />
 					<Spinner
 			            android:id="@+id/monSpin"
-			            android:layout_width="wrap_content"
+			            android:layout_width="0dp"
+						android:layout_weight="1"
 			            android:layout_height="wrap_content" />
 					<Spinner
 			            android:id="@+id/tueSpin"
-			            android:layout_width="wrap_content"
+			            android:layout_width="0dp"
+						android:layout_weight="1"
 			            android:layout_height="wrap_content" />
 					<Spinner
 			            android:id="@+id/wedSpin"
-			            android:layout_width="wrap_content"
+			            android:layout_width="0dp"
+						android:layout_weight="1"
 			            android:layout_height="wrap_content" />
 					<Spinner
 			            android:id="@+id/thuSpin"
-			            android:layout_width="wrap_content"
+			            android:layout_width="0dp"
+						android:layout_weight="1"
 			            android:layout_height="wrap_content" />
 					<Spinner
 			            android:id="@+id/friSpin"
-			            android:layout_width="wrap_content"
+			            android:layout_width="0dp"
+						android:layout_weight="1"
 			            android:layout_height="wrap_content" />
 					<Spinner
 			            android:id="@+id/satSpin"
-			            android:layout_width="wrap_content"
+			            android:layout_width="0dp"
+						android:layout_weight="1"
 			            android:layout_height="wrap_content" />
 				</LinearLayout>
 				<LinearLayout
@@ -115,9 +122,10 @@
 		    			android:id="@+id/hol_sun"
 		    			android:layout_gravity="center_vertical"
 		    			android:text="@string/holBut"
+						android:textSize="11sp"
 		    			android:layout_width="0dp"
 		    			android:layout_height="wrap_content"
-		    			android:layout_weight="1.1" />
+		    			android:layout_weight="1" />
 					<CheckBox
 		    			android:id="@+id/hol_mon"
 		    			android:gravity="center_horizontal"

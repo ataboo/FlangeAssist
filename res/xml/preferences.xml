@@ -42,7 +42,7 @@
 			android:key="custom_weektravel"
 			android:ems="10"
 			android:inputType="numberDecimal"
-			android:title="Set the Weekly Travel Rate"
+			android:title="Weekly Travel Rate"
 			android:summary="Change the weekly travel rate."
 			android:dialogTitle="Weekly Travel Rate"
 			android:dialogMessage="Set the Weekly Travel Rate" 
@@ -50,14 +50,14 @@
 			android:defaultValue="216" />
 		<CheckBoxPreference
 			android:key="taxable_weektravel"
-			android:title="Taxable Weekly Travel"
+			android:title="Weekly Travel Taxable"
 			android:summary="Set if Weekly travel is Taxable"
 		    android:defaultValue="false" />
 		<EditTextPreference
 			android:key="custom_daytravel"
 			android:ems="10"
 			android:inputType="numberDecimal"
-			android:title="Set the Daily Travel Rate"
+			android:title="Daily Travel Rate"
 			android:summary="Change the daily travel rate."
 			android:dialogTitle="Daily Travel Rate"
 			android:dialogMessage="Set the Daily Travel Rate" 
@@ -65,9 +65,19 @@
 			android:defaultValue="20" />
 		<CheckBoxPreference
 			android:key="taxable_daytravel"
-			android:title="Taxable Daily Travel"
+			android:title="Daily Travel Taxable"
 			android:summary="Set if Daily travel is Taxable"
 		    android:defaultValue="true" />
+		<EditTextPreference
+			android:key="custom_loa"
+			android:ems="10"
+			android:inputType="numberDecimal"
+			android:title="LOA Rate"
+			android:summary="Change the daily LOA (Living Out Allowance)."
+			android:dialogTitle="LOA Rate"
+			android:dialogMessage="Set the daily LOA rate." 
+			android:selectAllOnFocus="true"
+			android:defaultValue="195" />
 	</PreferenceCategory>
 	<PreferenceCategory
 		android:title="Pay Calculator: Custom Day Schedules"

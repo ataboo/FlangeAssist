@@ -261,8 +261,14 @@ public class PaychequeFragment extends Fragment implements OnClickListener
         	customDay = false;  //for pushbootan usage if invalid
 		}
 
+		/*
 		ArrayAdapter<String> weekAd = new ArrayAdapter<String>(getActivity().getApplicationContext(),
 															   android.R.layout.simple_spinner_item, workHrs);
+		*/
+		
+		ArrayAdapter<String> weekAd = new ArrayAdapter<String>(getActivity().getApplicationContext(),
+															   R.layout.spinner_layout, workHrs);
+		
 		
 		monSpin.setAdapter(weekAd);
         tueSpin.setAdapter(weekAd);
@@ -343,7 +349,9 @@ public class PaychequeFragment extends Fragment implements OnClickListener
 
 		double splitArr[] = new double[3];
 		boolean fourTens = fourToggle.isChecked();
-		double loaRate = Double.parseDouble(getString(R.string.loa_rate));
+		
+		//init with preferences now
+		//double loaRate = Double.parseDouble(getString(R.string.loa_rate));
 		double mealRate = Double.parseDouble(getString(R.string.meal_rate));
 		double vacationPay = Double.parseDouble(getString(R.string.vacation_pay));
 		//double travelRate = Double.parseDouble(getString(R.string.travel_rate));
@@ -353,10 +361,10 @@ public class PaychequeFragment extends Fragment implements OnClickListener
 		int mealCount = Integer.parseInt(mealSpin.getSelectedItem().toString());
 		double wageRate;
 		boolean[] weekHolidays = {true, monHol.isChecked(), tueHol.isChecked(), wedHol.isChecked(),thuHol.isChecked(),friHol.isChecked(), true};  //sat and sun count as holidays
-		double addTax = checkValidAddTax(prefs.getString("custom_addtax", "0"));
-		double weekTravel = checkValidAddTax(prefs.getString("custom_weektravel" , "216"));
-		double dayTravel = checkValidAddTax(prefs.getString("custom_daytravel", "20"));
-		addTax = checkValidAddTax(prefs.getString("custom_addtax", "0"));
+		double addTax = checkPrefDoub("custom_addtax", "0", "Addtax Rate");
+		double weekTravel = checkPrefDoub("custom_weektravel" , "216", "Weekly Travel Rate");
+		double dayTravel = checkPrefDoub("custom_daytravel", "20", "Daily Travel");
+		double loaRate = checkPrefDoub("custom_loa", "195", "LOA Rate");
 		
 		if(wageSpin.getSelectedItem().toString().contains("Custom")) {
 		    SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
@@ -454,7 +462,7 @@ public class PaychequeFragment extends Fragment implements OnClickListener
 		}
 	}
 	
-	private double checkValidAddTax(String prefString) {
+	private double checkValidAddTax(String prefString, String toastName) {
 		double retVal;
 		try {
 			retVal = Double.parseDouble(prefString);
@@ -462,9 +470,38 @@ public class PaychequeFragment extends Fragment implements OnClickListener
 		catch (NumberFormatException e) {
 			return 0;
 		}
-		if(retVal > 100000 || retVal < 0) return 0;
-		
+		if(retVal > 100000 || retVal < 0) {
+			Toast.makeText(context, toastName + " is out of range.", Toast.LENGTH_SHORT).show();
+			return 0;
+		}
 		return retVal;
+	}
+	
+	//unnecessary double
+	private double checkPrefDoub(String prefKey, String defaultVal, String toastName) {
+		double retVal = 0d;
+		String prefString = prefs.getString(prefKey, defaultVal);
+		try {
+			retVal = Double.parseDouble(prefString);
+		}
+		catch (NumberFormatException e) {
+			setPrefDefault(prefKey, defaultVal);
+			Toast.makeText(context, toastName + " wasn't a number.", Toast.LENGTH_SHORT).show();
+			return Double.parseDouble(defaultVal);
+		}
+		if(retVal > 100000 || retVal < 0) {
+			setPrefDefault(prefKey, defaultVal);
+			Toast.makeText(context, toastName + " was out of range.", Toast.LENGTH_SHORT).show();
+			return Double.parseDouble(defaultVal);
+		}
+		return retVal;
+	}
+	
+	void setPrefDefault(String prefKey, String defaultVal){
+		SharedPreferences.Editor prefEdit = prefs.edit();
+		prefEdit.putString(prefKey, defaultVal);
+		prefEdit.commit();
+		return;
 	}
 	
 	private void preSets(int index){

@@ -1,23 +1,33 @@
-FlangeAssist
-============
+Boilermaker Toolbox
+===================
 Boilermaker Toolbox is a FREE reference tool designed to help Boilermakers in Alberta.  This tool is still early in development so more features will be added in the future.
 
-Main features so far (v0.13):
+Tell your jealous friends with IPhones about the JavaScript (cross-device) rewrite at
+http://atasoft.altervista.org
+
+Main features so far (v0.15):
 -Paycheque Calculator (based on 146 Maintenance Agreement)
 -ASME flange tool (provides details based on flange size and rating)
 -Torque pattern generator
 -List of links to Canadian Boilermaker halls.
 
 Features to come:
+-Tax for other provinces (Starting on it now)
 -Component weight estimator
 -More general trade reference material
--Tax for other provinces
 -Shop fitting calculations (nozzle location/measure-back for pipe joints, etc.)
 
 Feel free to send feedback or suggestions to bmtoolbox@gmail.com
 
 Changes:
-============
+==================
+v0.15 (01\28\14):
+-Resized day select boxes to fit better on some Androids (Galaxy Note)
+-Some flange values were out to lunch
+-Added custom LOA rate in preferences
+-Cleaned up some code
+-Changed validation and "toasted" of custom values
+
 v0.14:
 -Added AB 2014 tax rate
 -Added setting in menu to switch tax year
