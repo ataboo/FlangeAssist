@@ -81,6 +81,22 @@ public class TaxManager {
 		abStats.rates = new double[][]{{0.10},{0.10}};
 		abStats.taxCred = new double[]{2084.03, 2112.62};
 		
+		this.onStats = new TaxManager.TaxStats();
+		onStats.brackets = new double[][]{
+			{0, 39723, 79448, 509000},
+			{0, 40120, 80242, 514090}};
+			// stopped here
+		onStats.rates = new double[][]{
+			{0.0505, 0.0915, 0.1116, 0.1316},
+			{0.0505, 0.0915, 0.1116, 0.1316}};
+		onStats.constK = new double[][]{
+			{0, 1629, 3226, 13406},
+			{0, 1645, 3258, 13540}};
+		onStats.taxCred = new double[]{684.28, 668.33};
+		onStats.taxReduction = new double[][]{
+			{18181, 409, 0.032},  //under 18181 gets 409 over gets 409 - difference * %3.2
+			{18200, 409, 0.032}
+		};
 	}
 	
 	//Returns [fed, prov, cpp, ei]
