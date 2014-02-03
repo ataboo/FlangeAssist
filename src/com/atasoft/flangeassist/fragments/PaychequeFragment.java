@@ -1,4 +1,4 @@
-package com.atasoft.flangeassist.fragments;
+ package com.atasoft.flangeassist.fragments;
 
 
 import android.content.*;
@@ -9,6 +9,7 @@ import android.view.*;
 import android.view.View.*;
 import android.widget.*;
 import com.atasoft.flangeassist.*;
+import com.atasoft.helpers.*;
 
 public class PaychequeFragment extends Fragment implements OnClickListener
 {
@@ -19,18 +20,6 @@ public class PaychequeFragment extends Fragment implements OnClickListener
 		FOUR_FRI, 
 		FOUR_END;
 	}
-	
-	public static final int PROV_AB = 0;
-	public static final int PROV_ON = 1;
-	public static final int TAXYEAR_2013 = 0;
-	public static final int TAXYEAR_2014 = 1;
-	
-	/*
-	public enum TaxYear {
-		AB_2013,
-		AB_2014;
-	}
-	*/
 	
 	double wageRates[] = new double[12];
 	Boolean oldDayToggle;
@@ -60,6 +49,7 @@ public class PaychequeFragment extends Fragment implements OnClickListener
 	SharedPreferences prefs;
 	Context context;
 	Boolean customDay;
+	TaxManager taxManager;
 	
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -68,6 +58,7 @@ public class PaychequeFragment extends Fragment implements OnClickListener
         View v = inflater.inflate(R.layout.paycalc, container, false);
         thisFrag = v;
 		context = getActivity().getApplicationContext();
+		this.taxManager = new TaxManager();
 
         Button bClr = (Button) v.findViewById(R.id.clr_but);
         Button bTens = (Button) v.findViewById(R.id.tens_but);
@@ -276,8 +267,7 @@ public class PaychequeFragment extends Fragment implements OnClickListener
 		*/
 		
 		ArrayAdapter<String> weekAd = new ArrayAdapter<String>(getActivity().getApplicationContext(),
-															   R.layout.spinner_layout, workHrs);
-		
+			R.layout.spinner_layout, workHrs);
 		
 		monSpin.setAdapter(weekAd);
         tueSpin.setAdapter(weekAd);
@@ -434,40 +424,34 @@ public class PaychequeFragment extends Fragment implements OnClickListener
 			//Toast.makeText(getActivity().getApplicationContext(), "banana", Toast.LENGTH_SHORT).show();
 		}
 		
-		/*
-		TaxYear taxYear = TaxYear.AB_2013;
-		
-		String[] taxYearSplit = prefs.getString("list_taxYear", "2013,AB").split(",");
-		// add different provinces later with taxSplit[1]
-		if(taxYearSplit[0].contains("2013")) taxYear = TaxYear.AB_2013;
-		if(taxYearSplit[0].contains("2014")) taxYear = TaxYear.AB_2014;
-		
-		double[] deductions = taxCalc(grossVac, grossPay, taxYear, cppVal.isChecked());  //returns [fed, ab, dues, cpp, ei]
-		*/
 		double[] deductions = new double[]{0,0,0,0,0,0};  //[fed tax, prov tax, cpp, ei, working dues, monthly dues]
 		
-		String[] taxSplit = prefs.getString("list_taxYear", "2014,AB").split(",");
-		int[] taxYear = new int[]{PaychequeFragment.TAXYEAR_2014, PaychequeFragment.PROV_AB};  //Initialize with default
-		if(taxSplit[0].contains("2013")) taxYear[0] = PaychequeFragment.TAXYEAR_2013;
+		String yearString = prefs.getString("list_taxYear", "2014");
+		String provString = prefs.getString("list_taxProv", "AB");
 		
-		if(taxSplit[1].contains("ON")) taxYear[1] = PaychequeFragment.PROV_ON;
-		//TODO etc.
+		int taxYear = TaxManager.TY_2014;
+		int taxProv = TaxManager.PROV_AB;
+		
+		if(yearString.contains("2013")) taxYear = TaxManager.TY_2013;
+		
+		if(provString.contains("BC")) taxProv = TaxManager.PROV_BC;
+		if(provString.contains("ON")) taxProv = TaxManager.PROV_ON;
+		//TODO other provinces
+		
+		double[] taxReturns = taxManager.getTaxes(grossVac, taxYear, taxProv);
+		//double[] taxReturns = new double[] {0,0,0,0};
 		
 		boolean cppChecked = cppVal.isChecked();
 		if(taxVal.isChecked()){
-			deductions[0] = fedTaxCalc(grossVac, taxYear[0], cppChecked);
-			deductions[1] = provTaxCalc(grossVac, taxYear, cppChecked);
+			deductions[0] = taxReturns[0];
+			deductions[1] = taxReturns[1];
+		}
+		if(cppChecked) {
+			deductions[2] = taxReturns[2];
+			deductions[3] = taxReturns[3];
 		}
 		deductions[0] += addTax;
-		
-		double[] cppEiDues = cppEiDues(grossVac, grossPay);
-		if(cppChecked) {
-			deductions[2] = cppEiDues[0];
-			deductions[3] = cppEiDues[1];
-		}
-		if(duesVal.isChecked()) {
-			deductions[4] = cppEiDues[2];
-		}
+		deductions[4] = duesVal.isChecked() ? calcDues(grossPay): 0;
 		
 		/*TODO: monthly dues deductions[5]
 		if(monthlyVal.isChecked()){
@@ -484,8 +468,8 @@ public class PaychequeFragment extends Fragment implements OnClickListener
 		wageRateVal.setText("Wage: " + String.format("%.2f", wageRate) + "$");
 		grossVal.setText("Gross: " + String.format("%.2f", grossVac + exempt) + "$");
 		exemptVal.setText("Tax Exempt: " + String.format("%.2f", exempt) + "$");
-		cppVal.setText(String.format("EI/CPP: %.2f$ + %.2f$", deductions[4], deductions[3]));
-		duesVal.setText("Dues: " + String.format("%.2f", deductions[2]) + "$");
+		cppVal.setText(String.format("EI/CPP: %.2f$ + %.2f$", deductions[3], deductions[2]));
+		duesVal.setText("Dues: " + String.format("%.2f", deductions[4]) + "$");
 		dedVal.setText("Deductions: " + String.format("%.2f", deductionsSum) + "$");
 		netVal.setText("Takehome: " + String.format("%.2f", netPay) + "$");
 		sTimeText.setText("1.0x: " + Integer.toString(timeSum[0]));
@@ -606,117 +590,9 @@ public class PaychequeFragment extends Fragment implements OnClickListener
 		return new double[]{sTime, hTime, dTime};	
 	}
 	
-	private double fedTaxCalc(double gross, int taxYear, boolean addCPP){
-		
-		
-		return 0d;
-	}
-	
-	private double provTaxCalc(double gross, int[] taxYear, boolean addCPP) {
-		
-		
-		
-		return 0d;
-	}
-	
-	private double[] cppEiDues(double gross, double grossNoVac) {
-		double anGross = gross * 52;
-		
+	private double calcDues(double grossNoVac) {		
 		double duesRate = Double.parseDouble(getString(R.string.dues_rate));
-		double cppRate = Double.parseDouble(getString(R.string.cpp_rate));
-		double eiRate = Double.parseDouble(getString(R.string.ei_rate));
-
 		double dues = grossNoVac * duesRate;
-		double cppRet = (anGross - 3500) / 52 * cppRate;
-		double eiRet = gross * eiRate;
-		if (cppRet < 0) cppRet = 0;
-		
-		return new double[]{cppRet, eiRet, dues};
+		return dues;
 	}
-
-	/*
-	private double[] taxCalc(double gross, double grossNoVac, TaxYear taxYear, boolean addCPP){
-		double anGross = gross * 52;
-		double bracket[] = {0,0,0,0};
-		double diff[] = {0,0,0};
-		double rate[] = {0, 0, 0, 0};
-		double fedConst[] = {0,0,0,0};
-		double fedTax = 0;
-		double provTax = 0;
-		String brackStr[];
-		String rateStr[];
-		String fedCStr[];
-		double fedTaxCred;
-		double provTaxCred;
-		double provTaxCredNoEI;
-		
-		switch (taxYear) {
-			case AB_2013:
-				brackStr = getResources().getStringArray(R.array.tax_brackets);
-				rateStr = getResources().getStringArray(R.array.tax_rates);
-				fedCStr = getResources().getStringArray(R.array.fed_const);
-				fedTaxCred = Double.parseDouble(getString(R.string.fed_taxcred));
-				provTaxCred = Double.parseDouble(getString(R.string.ab_taxcred));
-				provTaxCredNoEI = Double.parseDouble(getString(R.string.ab_taxcred_noEI));
-				break;
-			default:
-				brackStr = getResources().getStringArray(R.array.tax_brackets_2014);
-				rateStr = getResources().getStringArray(R.array.tax_rates_2014);
-				fedCStr = getResources().getStringArray(R.array.fed_const_2014);
-				fedTaxCred = Double.parseDouble(getString(R.string.fed_taxcred_2014));
-				provTaxCred = Double.parseDouble(getString(R.string.ab_taxcred_2014));	
-				provTaxCredNoEI = Double.parseDouble(getString(R.string.ab_taxcred_noEI_2014));  //gotta change to 2014 eventually
-				break;
-		}
-		
-		double duesRate = Double.parseDouble(getString(R.string.dues_rate));
-		double cppRate = Double.parseDouble(getString(R.string.cpp_rate));
-		double eiRate = Double.parseDouble(getString(R.string.ei_rate));
-
-		for(int i=0; i<4; i++){
-			bracket[i] = Double.parseDouble(brackStr[i]);
-			rate[i] = Double.parseDouble(rateStr[i]);
-			fedConst[i] = Double.parseDouble(fedCStr[i]);
-
-			if(i < 3){
-				diff[i] = bracket[i + 1] - bracket [i];
-			}
-		}
-
-		if(anGross < bracket[1]) {
-			fedTax = anGross * rate[0] - fedConst[0] - fedTaxCred;
-		}
-		if(anGross < bracket[2]) {
-			fedTax = anGross * rate[1] - fedConst[1] - fedTaxCred;
-		}
-		if(anGross < bracket[3]) {
-			fedTax = anGross * rate[2] - fedConst[2] - fedTaxCred;	
-		}
-		if(anGross >= bracket[3]) {
-			fedTax = anGross * rate[3] - fedConst[3] - fedTaxCred;
-		}
-
-		provTax = (anGross * 0.1) - provTaxCred;
-		double dues = grossNoVac * duesRate;
-		double cppRet = (anGross - 3500) / 52 * cppRate;
-		double eiRet = gross * eiRate;
-		if (cppRet < 0) cppRet = 0;
-		if(!addCPP) {
-			cppRet = 0;
-			eiRet = 0;
-			provTax += (provTaxCredNoEI);  // Seems like it only takes it off the provTaxCred with EI paid
-		}
-		
-		if(provTax < 0){provTax = 0;}
-		if(fedTax < 0){fedTax = 0;}
-		
-		return new double[] {
-			fedTax / 52, 
-			provTax / 52, 
-			dues, 
-			cppRet, 
-			eiRet
-			};
-	}
-	*/
 }

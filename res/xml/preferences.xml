@@ -3,7 +3,7 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <PreferenceCategory 
         android:title="Pay Calculator: Wages/Deductions"
-        android:key="catagory_wages">
+        android:key="category_wages">
         <EditTextPreference
             android:key="custom_wage"
 			android:ems="10"
@@ -17,11 +17,19 @@
 	
 		<ListPreference
 			android:key="list_taxYear"
-            android:title="Income Tax Rate"
-            android:summary="Change the income tax rate profile."
-            android:defaultValue="2014,AB"
+            android:title="Income Tax Year"
+            android:summary="Change the tax year."
+            android:defaultValue="2014"
             android:entries="@array/taxYears"
-            android:entryValues="@array/taxYearValues"
+            android:entryValues="@array/taxYearVals"
+        />
+		<ListPreference
+			android:key="list_taxProv"
+            android:title="Province"
+            android:summary="Change the provincial tax profile."
+            android:defaultValue="AB"
+            android:entries="@array/taxProv"
+            android:entryValues="@array/taxProvVals"
         />
 	
 		<EditTextPreference
@@ -37,7 +45,7 @@
 	</PreferenceCategory>
 	<PreferenceCategory	
 		android:title="Pay Calculator: Travel Rates"
-		android:key="catagory_travel">
+		android:key="category_travel">
 		<EditTextPreference
 			android:key="custom_weektravel"
 			android:ems="10"
@@ -81,7 +89,7 @@
 	</PreferenceCategory>
 	<PreferenceCategory
 		android:title="Pay Calculator: Custom Day Schedules"
-		android:key="catagory_customdays" >
+		android:key="category_customdays" >
 		<CheckBoxPreference
 			android:key="custom_daycheck"
 			android:title="Use Custom Days"
