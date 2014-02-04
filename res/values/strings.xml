@@ -23,55 +23,7 @@
 		<item>GF,50.08</item>
 		<item>Custom,40</item>
 	</string-array>
-	
-<!-- tax yr 2013 -->
-	<string name="fed_taxcred">2310.35</string>  <!-- TD1 amount + ei + cpp + employment credit * 15% (lowest bracket) -->
-	<string name="ab_taxcred">2084.03</string>   <!-- TD1AB amount + cpp + ei * 10% -->
-	<string name="ab_taxcred_noEI">324.73</string> 
-	<string-array name="tax_brackets">
-	    <item>0</item>
-	    <item>43561</item>
-	    <item>87123</item>
-	    <item>135054</item>
-	</string-array>
-	<string-array name="tax_rates">
-	    <item>0.15</item>
-	    <item>0.22</item>
-	    <item>0.26</item>
-	    <item>0.29</item>
-	</string-array>
-	<string-array name="fed_const">  <!-- Pulled from CRA site -->
-	    <item>0</item>
-	    <item>3049</item>
-	    <item>6534</item>
-	    <item>10586</item>    
-	</string-array>
-
-	<!-- tax yr 2014 -->
-		<!-- (2425.50 + 913.68 + 11,138 + 1,127) * .15 -->
-	<string name="fed_taxcred_2014">2340.63</string>  <!-- (cpp + ei + TD1 amount + employment credit) * 15% (lowest bracket) -->
-	    <!-- (2425.50 + 913.68 + 17,787) * .10 -->
-	<string name="ab_taxcred_2014">2112.62</string>  <!-- (cpp + ei + TD1AB) * 10% -->
-	<string name="ab_taxcred_noEI_2014">333.92</string>  <!--  (cpp + ei) * 10% added to tax when cpp/ei disabled -->
-	<string-array name="tax_brackets_2014">
-	    <item>0</item>
-	    <item>43953</item>
-	    <item>87907</item>
-	    <item>136370</item>
-	</string-array>
-	<string-array name="tax_rates_2014">
-	    <item>0.15</item>
-	    <item>0.22</item>
-	    <item>0.26</item>
-	    <item>0.29</item>
-	</string-array>
-	<string-array name="fed_const_2014">  <!-- Pulled from CRA site -->
-	    <item>0</item>
-	    <item>3077</item>
-	    <item>6593</item>
-	    <item>10681</item>    
-	</string-array>
-	
+		
 <!-- Main Menu -->
 	<string name="action_settings">Settings</string>
     <string name="app_name">Boilermaker Toolbox</string>
@@ -117,10 +69,12 @@
 	<string-array name="taxProv">
         <item name="AB">Alberta</item>
         <item name="BC">B.C</item>
+		<item name="ON">Ontario</item>
     </string-array>
     <string-array name="taxProvVals">
         <item name="AB">AB</item>
         <item name="BC">BC</item>
+	    <item name="ON">ON</item>
     </string-array>
 	
 <!-- About Page -->

@@ -1,8 +1,5 @@
 package com.atasoft.helpers;
 
-import com.atasoft.flangeassist.R;
-
-import android.content.Context;
 import java.io.*;
 import android.util.*;
 
@@ -35,6 +32,8 @@ public class TaxManager {
 		public double[][] constK;
 		public double[] taxCred;
 		public double[][] taxReduction;
+		public double[][] healthPrem;
+		public double[][] surtax;
 	}
 	
 	public TaxManager.TaxStats fedStats;
@@ -92,10 +91,19 @@ public class TaxManager {
 		onStats.constK = new double[][]{
 			{0, 1629, 3226, 13406},
 			{0, 1645, 3258, 13540}};
-		onStats.taxCred = new double[]{684.28, 668.33};
+		onStats.taxCred = new double[]{647.48, 656.96};
 		onStats.taxReduction = new double[][]{
-			{18181, 409, 0.032},  //under 18181 gets 409 over gets 409 - difference * %3.2
-			{18200, 409, 0.032}
+			{221},  //basic personal amount
+			{223}
+		};
+		onStats.healthPrem = new double[][]{  //doesn't support years yet
+			{20000, 36000, 48000, 72000, 200000},
+			{0.06, 0.06, 0.25, 0.25, 0.25},
+			{300, 450, 600, 750, 900}
+		};
+		onStats.surtax = new double[][]{
+			{4289, 5489, 0.2, 0.36},
+			{4331, 5543, 0.2, 0.36}
 		};
 	}
 	
@@ -111,9 +119,9 @@ public class TaxManager {
 			case PROV_AB:
 				provTax = getABTax(anGross, year);
 				break;
-			/*case PROV_ON:
+			case PROV_ON:
 				provTax = getONTax(anGross, year);
-				break;*/
+				break;
 		}
 		
 		double[] cppEi = getCppEi(anGross, year);
@@ -152,13 +160,15 @@ public class TaxManager {
 		double[] bracket = bcStats.brackets[year];
 		int taxIndex = (anGross<bracket[1]) ? 0:
 			(anGross<bracket[2] ? 1 :
-			(anGross<bracket[3] ? 2 : 3));
+			(anGross<bracket[3] ? 2 : 
+			(anGross<bracket[4] ? 3 : 
+			(anGross<bracket[5] ? 4 : 5))));
 		double rate = bcStats.rates[year][taxIndex];  //Rate and constant will share same index
 		double constK = bcStats.constK[year][taxIndex];	
 		double taxTotal = rate * anGross - 
 			constK -
 			bcStats.taxCred[year] -
-			taxReduction(anGross, year);	
+			bcTaxReduction(anGross, year);	
 		return taxTotal;
 	}
 	
@@ -168,13 +178,57 @@ public class TaxManager {
 		return rate * anGross - taxCred;
 	}
 	
-	//So far only BC uses this style of reduction.  Might have to add provincial specific later
-	private double taxReduction(double anGross, int year){  
+	private double getONTax(double anGross, int year){
+		double[] bracket = onStats.brackets[year];
+		int taxIndex = (anGross<bracket[1]) ? 0:
+			(anGross<bracket[2] ? 1 :
+			(anGross<bracket[3] ? 2 : 3));
+		double rate = onStats.rates[year][taxIndex];  //Rate and constant will share same index
+		double constK = onStats.constK[year][taxIndex];	
+		double taxTotal = rate * anGross - 
+			constK -
+			onStats.taxCred[year];
+		taxTotal = ontarioSpecific(anGross, year, taxTotal);	//includes health premium, surcharge
+		return taxTotal;
+	}
+	
+	private double bcTaxReduction(double anGross, int year){  
 		//switch case for provinces later?
 		double[] redTable = bcStats.taxReduction[year];	//[bracket, credit, drop rate]
 		double diff = anGross - redTable[0];
 		double taxRed = (diff < 0) ? redTable[1] : redTable[1] - redTable[2] * diff;
 		if(taxRed < 0) taxRed = 0;
 		return taxRed;
+	}
+	
+	private double ontarioSpecific(double anGross, int year, double taxPayable){
+		//apply surtax
+		double[] surBracket = {onStats.surtax[year][0], onStats.surtax[year][1]};
+		double[] surRate = {onStats.surtax[year][2], onStats.surtax[year][3]};
+		double surTax = (taxPayable < surBracket[0]) ? 0 : 
+			(taxPayable < surBracket[1] ? surRate[0] * (taxPayable - surBracket[0]) : 
+			surRate[0] * (taxPayable - surBracket[0]) + (taxPayable - surBracket[1]) * surRate[1]);
+		taxPayable += surTax;
+		//calc health premium
+		double[] healthBracket = onStats.healthPrem[0];
+		double[] healthRate = onStats.healthPrem[1];
+		double[] healthConst = onStats.healthPrem[2];
+		double rateAmount = 0d;
+		if(anGross > healthBracket[0]) {
+			int healthIndex = anGross < healthBracket[1] ? 0:
+				(anGross < healthBracket[2] ? 1:
+				(anGross < healthBracket[3] ? 2: 
+				(anGross < healthBracket[4] ? 3: 4)));
+			rateAmount = (anGross - healthBracket[healthIndex]) * healthRate[healthIndex];
+			rateAmount = healthIndex > 0 ? rateAmount + healthConst[healthIndex - 1] : rateAmount;
+			rateAmount = healthConst[healthIndex] < rateAmount ? healthConst[healthIndex] : rateAmount;
+		}
+		//tax reduction
+		double persAmount = onStats.taxReduction[year][0] * 2 - taxPayable;
+		taxPayable -= persAmount < 0 ? 0 : persAmount;
+		
+		//tax reduction relied on tax payable before health premium
+		taxPayable += rateAmount;
+		return taxPayable;
 	}
 }

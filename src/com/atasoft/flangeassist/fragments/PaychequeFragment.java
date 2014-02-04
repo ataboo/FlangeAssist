@@ -5,6 +5,7 @@ import android.content.*;
 import android.os.*;
 import android.preference.*;
 import android.support.v4.app.*;
+import android.util.*;
 import android.view.*;
 import android.view.View.*;
 import android.widget.*;
@@ -439,13 +440,15 @@ public class PaychequeFragment extends Fragment implements OnClickListener
 		//TODO other provinces
 		
 		double[] taxReturns = taxManager.getTaxes(grossVac, taxYear, taxProv);
-		//double[] taxReturns = new double[] {0,0,0,0};
+		//double[] taxReturns = taxManager.getTaxes(1020, taxYear, taxProv);
 		
 		boolean cppChecked = cppVal.isChecked();
 		if(taxVal.isChecked()){
 			deductions[0] = taxReturns[0];
 			deductions[1] = taxReturns[1];
 		}
+		//Log.w("paycheckFrag", String.format("Fed Tax is: %.2f, Prov tax is: %.2f", deductions[0], deductions[1]));
+		
 		if(cppChecked) {
 			deductions[2] = taxReturns[2];
 			deductions[3] = taxReturns[3];
