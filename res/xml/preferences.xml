@@ -77,6 +77,31 @@
 			android:summary="Set if Daily travel is Taxable"
 		    android:defaultValue="true" />
 		<EditTextPreference
+			android:key="custom_mealrate"
+			android:ems="10"
+			android:inputType="numberDecimal"
+			android:title="Meal Bonus Rate"
+			android:summary="Change the Meal Bonus rate."
+			android:dialogTitle="Meal Bonus Rate"
+			android:dialogMessage="Set the Meal Bonus Rate" 
+			android:selectAllOnFocus="true"
+			android:defaultValue="40" />
+		<CheckBoxPreference
+			android:key="taxable_meals"
+			android:title="Meal Bonus Taxable"
+			android:summary="Set if Meal Bonus is Taxable"
+		    android:defaultValue="true" />
+		<EditTextPreference
+			android:key="custom_monthly_dues"
+			android:ems="10"
+			android:inputType="numberDecimal"
+			android:title="Monthly Dues"
+			android:summary="Change the Monthly dues rate."
+			android:dialogTitle="Monthly Dues Rate"
+			android:dialogMessage="Set the Monthly dues rate." 
+			android:selectAllOnFocus="true"
+			android:defaultValue="37.90" />
+		<EditTextPreference
 			android:key="custom_loa"
 			android:ems="10"
 			android:inputType="numberDecimal"

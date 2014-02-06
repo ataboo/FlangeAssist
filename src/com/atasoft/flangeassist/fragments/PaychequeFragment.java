@@ -40,6 +40,7 @@ public class PaychequeFragment extends Fragment implements OnClickListener
 	CheckBox taxVal;
 	CheckBox cppVal;
 	CheckBox duesVal;
+	CheckBox monthlyDuesVal;
 	
 	CheckBox monHol;
 	CheckBox tueHol;
@@ -71,6 +72,7 @@ public class PaychequeFragment extends Fragment implements OnClickListener
 		taxVal = (CheckBox) v.findViewById(R.id.tax_val);
 		cppVal = (CheckBox) v.findViewById(R.id.cpp_val);
 		duesVal = (CheckBox) v.findViewById(R.id.dues_val);
+		monthlyDuesVal = (CheckBox) v.findViewById(R.id.monthlydues_val);
 		taxVal.setChecked(true);
 		cppVal.setChecked(true);
 		duesVal.setChecked(true);
@@ -91,6 +93,7 @@ public class PaychequeFragment extends Fragment implements OnClickListener
 		taxVal.setOnClickListener(this);
 		cppVal.setOnClickListener(this);
 		duesVal.setOnClickListener(this);
+		monthlyDuesVal.setOnClickListener(this);
 		monHol.setOnClickListener(this);
 		tueHol.setOnClickListener(this);
 		wedHol.setOnClickListener(this);
@@ -346,13 +349,13 @@ public class PaychequeFragment extends Fragment implements OnClickListener
 		ToggleButton nightToggle = (ToggleButton) thisFrag.findViewById(R.id.night_but);
 		ToggleButton travelToggle = (ToggleButton) thisFrag.findViewById(R.id.travel_but);
 		ToggleButton dayTravelToggle = (ToggleButton) thisFrag.findViewById(R.id.travelday_but);
-
+		
 		double splitArr[] = new double[3];
 		boolean fourTens = fourToggle.isChecked();
 		
 		//init with preferences now
 		//double loaRate = Double.parseDouble(getString(R.string.loa_rate));
-		double mealRate = Double.parseDouble(getString(R.string.meal_rate));
+		//double mealRate = Double.parseDouble(getString(R.string.meal_rate));
 		double vacationPay = Double.parseDouble(getString(R.string.vacation_pay));
 		//double travelRate = Double.parseDouble(getString(R.string.travel_rate));
 		int timeSum[] = {0,0,0};
@@ -362,9 +365,11 @@ public class PaychequeFragment extends Fragment implements OnClickListener
 		double wageRate;
 		boolean[] weekHolidays = {true, monHol.isChecked(), tueHol.isChecked(), wedHol.isChecked(),thuHol.isChecked(),friHol.isChecked(), true};  //sat and sun count as holidays
 		double addTax = checkPrefDoub("custom_addtax", "0", "Addtax Rate");
-		double weekTravel = checkPrefDoub("custom_weektravel" , "216", "Weekly Travel Rate");
+		double mealRate = checkPrefDoub("custom_mealrate", "40", "Meal Rate");
+		double weekTravel = checkPrefDoub("custom_weektravel", "216", "Weekly Travel Rate");
 		double dayTravel = checkPrefDoub("custom_daytravel", "20", "Daily Travel");
 		double loaRate = checkPrefDoub("custom_loa", "195", "LOA Rate");
+		double monthlyDues = checkPrefDoub("custom_monthly_dues", "37.90", "Monthly Dues");
 		
 		if(wageSpin.getSelectedItem().toString().contains("Custom")) {
 		    SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
@@ -407,7 +412,7 @@ public class PaychequeFragment extends Fragment implements OnClickListener
 		if(nightToggle.isChecked()) grossPay += (timeSum[0] + timeSum[1] + timeSum[2]) * 3;
 
 		double grossVac = grossPay * (vacationPay + 1);
-		double exempt = loaCount * loaRate + mealCount * mealRate;
+		double exempt = loaCount * loaRate;
 		if(travelToggle.isChecked()) {
 			if(!prefs.getBoolean("taxable_weektravel", false)){
 				exempt += weekTravel;
@@ -423,6 +428,12 @@ public class PaychequeFragment extends Fragment implements OnClickListener
 				grossVac += dayTravel * dayCount;
 			}
 			//Toast.makeText(getActivity().getApplicationContext(), "banana", Toast.LENGTH_SHORT).show();
+		}
+		
+		if(prefs.getBoolean("taxable_meals", true)){
+			grossVac += mealCount * mealRate; 
+		} else {
+			exempt += mealCount * mealRate;
 		}
 		
 		double[] deductions = new double[]{0,0,0,0,0,0};  //[fed tax, prov tax, cpp, ei, working dues, monthly dues]
@@ -455,11 +466,7 @@ public class PaychequeFragment extends Fragment implements OnClickListener
 		}
 		deductions[0] += addTax;
 		deductions[4] = duesVal.isChecked() ? calcDues(grossPay): 0;
-		
-		/*TODO: monthly dues deductions[5]
-		if(monthlyVal.isChecked()){
-			deductions[5] = whatever;
-		} */
+		deductions[5] = monthlyDuesVal.isChecked() ? monthlyDues : 0;
 		
 		double deductionsSum = 0;
 		for(double i: deductions) {
@@ -473,6 +480,7 @@ public class PaychequeFragment extends Fragment implements OnClickListener
 		exemptVal.setText("Tax Exempt: " + String.format("%.2f", exempt) + "$");
 		cppVal.setText(String.format("EI/CPP: %.2f$ + %.2f$", deductions[3], deductions[2]));
 		duesVal.setText("Dues: " + String.format("%.2f", deductions[4]) + "$");
+		monthlyDuesVal.setText("Monthly Dues: " + String.format("%.2f", deductions[5]) + "$");
 		dedVal.setText("Deductions: " + String.format("%.2f", deductionsSum) + "$");
 		netVal.setText("Takehome: " + String.format("%.2f", netPay) + "$");
 		sTimeText.setText("1.0x: " + Integer.toString(timeSum[0]));

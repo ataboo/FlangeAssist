@@ -5,14 +5,14 @@ Boilermaker Toolbox is a FREE reference tool designed to help Boilermakers in Al
 Tell your jealous friends with IPhones about the JavaScript (cross-device) rewrite at
 http://atasoft.altervista.org
 
-Main features so far (v0.15):
+Main features so far (v0.16):
 -Paycheque Calculator (based on 146 Maintenance Agreement)
 -ASME flange tool (provides details based on flange size and rating)
 -Torque pattern generator
 -List of links to Canadian Boilermaker halls.
 
 Features to come:
--Tax for other provinces (Starting on it now)
+-Tax for other provinces (BC, AB, ON done)
 -Component weight estimator
 -More general trade reference material
 -Shop fitting calculations (nozzle location/measure-back for pipe joints, etc.)
@@ -21,6 +21,12 @@ Feel free to send feedback or suggestions to bmtoolbox@gmail.com
 
 Changes:
 ==================
+v0.16
+-Added BC and Ontario tax rates (Let me know if other provinces are wanted)
+-Changed tax calculator backend
+-Added custom meal bonus rate with taxable option
+-Added monthly dues and custom rate
+
 v0.15 (01\28\14):
 -Resized day select boxes to fit better on some Androids (Galaxy Note)
 -Some flange values were out to lunch
