@@ -12,7 +12,7 @@ public class TorqueFragment extends Fragment implements OnClickListener
     View thisFrag;
 	public static final int[] EIGHT_BASE = {1,5,3,7,2,6,4,8};
 	public static final int[] FOUR_BASE = {1,3,2,4};
-	public static final String[] PAT_STRINGS = {"4-point", "8-point", "8-point reversing"};
+	public static final String[] PAT_STRINGS = {"4-point", "8-point", "8-point alternate"};
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -74,22 +74,21 @@ public class TorqueFragment extends Fragment implements OnClickListener
 					retString = retString + ", " + Integer.toString(patBase[i] + j);
 				}
 			}
-		} else {  //odd "base" count from highest after first
-			int startSub = studInt % 8 > 0 ? 4 : 8;
-			
+		} else {  //Reverso mode
+			//if 8 divisible, odd base offset is 8, else 4
+			int startSub = studInt % 8 > 0 ? 4 : 8;  
 			for(int i = 0; i < patBase.length; i++){
-				if(i % 2 > 0) {
+				if(patBase[i] <= 4) {  //1 through 4 count from top 
 					retString += ", " + patBase[i];
-					for(int j = studInt - startSub + patBase[i]; j + patBase[i] > patBase[i]; j+=patBase[patBase.length - 1]){
-						retString += ", " + Integer.toString(patBase[i] + j);
+					for(int j = studInt - startSub + patBase[i]; j > patBase[i]; j-=8){
+						retString += ", " + Integer.toString(j);
 					}
-				} else {
-					for(int j = 0; j + patBase[i] <= studInt; j = j + patBase[patBase.length - 1]) {
-						retString += ", " + Integer.toString(patBase[i] + j);
+				} else {  //5 through 8 are normal 8 pt
+					for(int j = patBase[i]; j <= studInt; j+=8) {
+						retString += ", " + Integer.toString(j);
 					}
 				}
 			}
-			
 		}
 		return retString.substring(2);
 	}
