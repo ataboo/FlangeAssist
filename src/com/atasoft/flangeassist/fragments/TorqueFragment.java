@@ -64,7 +64,7 @@ public class TorqueFragment extends Fragment implements OnClickListener
 		EditText studBox = (EditText) thisFrag.findViewById(R.id.studBox);
 		int studInt = parseInputInt(studBox);
 		
-		if (studInt < 8 || studInt > 200) return errInt;
+		if (studInt < 8 || studInt > 1000) return errInt;
 		int rem = studInt % 4;
 		if (rem > 0) return errEven;
 		

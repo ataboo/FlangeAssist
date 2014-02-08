@@ -12,7 +12,7 @@ Main features so far (v0.16):
 -List of links to Canadian Boilermaker halls.
 
 Features to come:
--Tax for other provinces (BC, AB, ON done)
+-Tax for other provinces (BC, AB, and ON done)
 -Component weight estimator
 -More general trade reference material
 -Shop fitting calculations (nozzle location/measure-back for pipe joints, etc.)
@@ -21,12 +21,15 @@ Feel free to send feedback or suggestions to bmtoolbox@gmail.com
 
 Changes:
 ==================
-v0.16
--Added BC and Ontario tax rates (Let me know if other provinces are wanted)
--Changed tax calculator backend
--Added custom meal bonus rate with taxable option
+v0.16 (02/08/14):
+-Added BC and Ontario tax rates (switch provinces in preferences)
+-Added BC and Ontario default wages and vacation rates
+-Added Vacation rate box
+-Seperated tax calculator backend
+-Added custom meal bonus rate with taxable option (lame, I know)
 -Added monthly dues and custom rate
--Added alternate 8-point pattern
+-Working dues rate is changeable
+-Added alternate "reversing" 8-point torque pattern
 
 v0.15 (01\28\14):
 -Resized day select boxes to fit better on some Androids (Galaxy Note)

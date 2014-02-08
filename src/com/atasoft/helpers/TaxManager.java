@@ -34,6 +34,10 @@ public class TaxManager {
 		public double[][] taxReduction;
 		public double[][] healthPrem;
 		public double[][] surtax;
+		public double[] wageRates;
+		public String[] wageNames;
+		public double defaultWageIndex;  //tacked on end of wageRates inplace of custom value
+		public double vacRate;
 	}
 	
 	public TaxManager.TaxStats fedStats;
@@ -105,6 +109,101 @@ public class TaxManager {
 			{4289, 5489, 0.2, 0.36},
 			{4331, 5543, 0.2, 0.36}
 		};
+		//I threw these in here so I only have to update one spot
+		//-------------------------Wages------------------
+		bcStats.wageRates = new double[]{
+			20.76, 23.78, 25.66, 27.55, 29.44, 31.32, 33.97, 37.74, 42.65, 44.53
+		};
+		bcStats.wageNames = new String[] {
+			"Pre-App", "First Term", "Second Term", "Third Term", "Fourth Term", "Fifth Term", "Sixth Term", "Journeyman", "Foreman", "GF"
+		};
+		bcStats.defaultWageIndex = 7; //Journeyman
+		bcStats.vacRate = 0.12d;
+		
+		abStats.wageRates = new double[]{
+			31.25, 24.46, 31.25, 38.05, 41.83, 42.58, 45.73, 48.08, 50.08
+		};
+		abStats.wageNames = new String[]{
+			"Helper", "1st Year", "2nd Year", "3rd Year", "Journeyman (S)", "Journeyman (N)", "Lead Hand", "Foreman", "GF"
+		};
+		abStats.defaultWageIndex = 5; //Journeyman (N)
+		abStats.vacRate = 0.10d;
+		
+		onStats.wageRates = new double[]{
+			25.21, 21.19, 25.21, 29.22, 33.24, 37.25, 39.25, 42.25, 44.25
+		};
+		onStats.wageNames = new String[]{
+			"Helper", "1st Year", "2nd Year", "3rd Year", "4th Year", "Journeyman", "Ass't Foreman", "Foreman", "GF"
+		};
+		onStats.defaultWageIndex = 5;
+		onStats.vacRate = 0.12d;
+	}
+	
+	public String[] getWageNames(int province) {
+		String[] wageNames;
+		String surName;
+		switch(province){
+			case PROV_BC:
+				wageNames = bcStats.wageNames;
+				surName = "BC - ";
+				break;
+			case PROV_ON:
+				wageNames = onStats.wageNames;
+				surName = "ON - ";
+				break;
+			default:
+				wageNames = abStats.wageNames;
+				surName = "AB - ";
+				break;
+		}
+		String[] retString = new String[wageNames.length + 1];
+		for(int i=0; i < wageNames.length; i++){
+			retString[i] = surName + wageNames[i];
+		}
+		retString[retString.length-1] = "Custom";
+		return retString;
+	}
+	
+	public double[] getWageRates(int province){
+		double[] wageRates;
+		double custVal;  //index for default of wage spinner tacked on under custom
+		switch(province){
+			case PROV_BC:
+				wageRates = bcStats.wageRates;
+				custVal = bcStats.defaultWageIndex;
+				break;
+			case PROV_ON:
+				wageRates = onStats.wageRates;
+				custVal = onStats.defaultWageIndex;
+				break;
+			default:
+				wageRates = abStats.wageRates;
+				custVal = abStats.defaultWageIndex;
+				break;
+		}	
+		double[] retDoub = new double[wageRates.length + 1];
+		for(int i=0; i < wageRates.length; i++){
+			retDoub[i] = wageRates[i];
+		}
+		retDoub[retDoub.length-1] = custVal;
+		return retDoub;
+		
+	}
+	
+	public double getVacationRate(int province){
+		double vacRate;
+		switch(province){
+			case PROV_BC:
+				vacRate = bcStats.vacRate;
+				break;
+			case PROV_ON:
+				vacRate = onStats.vacRate;
+				break;
+			default:
+				vacRate = abStats.vacRate;
+				break;
+		}
+		return vacRate;
 	}
 	
 	//Returns [fed, prov, cpp, ei]

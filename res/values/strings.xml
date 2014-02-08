@@ -2,8 +2,8 @@
 <resources>
 <!-- Update Values (last checked Oct.26/13) -->
 	<string name="version_info">Boilermaker Toolbox v0.16
-		\nLast updated Feb 6/14
-		\nWage rate as of: Jan 28/14</string>
+		\nLast updated Feb 8/14
+		\nWages updated: Feb 8/14</string>
 	<string name="loa_rate">195</string>
 	<string name="meal_rate">40</string>
 	<string name="vacation_pay">0.10</string>
@@ -88,8 +88,8 @@
     <string name="torque_header">Torque Pattern Generator</string>	
 	<string name="torque_but">OK</string>
 	<string name="torqueInstruction">Enter the stud count and hit OK.</string>
-	<string name="errInt">Error: Stud Count must be higher then 8 and lower than 200.</string>
-	<string name="errEven">Error: Stud Count must be an even number.</string>
+	<string name="errInt">Error: Stud Count must be higher then 8 and lower than 1000.</string>
+	<string name="errEven">Error: Stud Count must divisible by 4.</string>
 	<string name="studCount">Stud Count</string>
 
 <!-- Callouts -->

@@ -14,6 +14,7 @@ import com.atasoft.helpers.*;
 
 public class PaychequeFragment extends Fragment implements OnClickListener
 {
+	//TODO day wage calc class
 	public enum DayType {
 		FIVE_WEEK, 
 		FIVE_END, 
@@ -22,7 +23,9 @@ public class PaychequeFragment extends Fragment implements OnClickListener
 		FOUR_END;
 	}
 	
-	double wageRates[] = new double[12];
+	double wageRates[];
+	double vacationPay;
+	double workingDuesRate;
 	Boolean oldDayToggle;
     View thisFrag;
 	Spinner sunSpin;
@@ -51,6 +54,7 @@ public class PaychequeFragment extends Fragment implements OnClickListener
 	SharedPreferences prefs;
 	Context context;
 	Boolean customDay;
+	String oldProvWage;
 	TaxManager taxManager;
 	
     @Override
@@ -83,6 +87,8 @@ public class PaychequeFragment extends Fragment implements OnClickListener
 		thuHol = (CheckBox) v.findViewById(R.id.hol_thu);
 		friHol = (CheckBox) v.findViewById(R.id.hol_fri);
 		
+		
+		
 		bClr.setOnClickListener(this);
 		bTens.setOnClickListener(this);
 		bTwelves.setOnClickListener(this);
@@ -109,14 +115,22 @@ public class PaychequeFragment extends Fragment implements OnClickListener
 	
 	@Override
 	public void onResume() {
-		//Toast.makeText(context,"Thanks for using application!'!",Toast.LENGTH_LONG).show();
+		redoSpinners();
+		
+		super.onResume();
+		return;
+	}
+	
+	private void redoSpinners(){
 		Boolean custDayCheck = prefs.getBoolean("custom_daycheck", false);
 		if(custDayCheck) {
 		    if(customDay != custDayCheck || !verifyCustDays()) updateDaySpinners(custDayCheck);
 		}
+		String provWage = prefs.getString("list_provwage", "AB");
+		if(provWage != oldProvWage) setupWageSpinner(provWage);
 		pushBootan();
-		super.onResume();
-		return;
+		
+		
 	}
 	
     @Override
@@ -136,9 +150,36 @@ public class PaychequeFragment extends Fragment implements OnClickListener
 				break;
         }
     }
-
+	
+	TextView sTimeText;
+	TextView hTimeText;
+	TextView dTimeText;
+	TextView wageRateVal;
+	TextView vacationVal;
+	TextView grossVal;
+	TextView exemptVal;
+	TextView dedVal;
+	TextView netVal;
+	ToggleButton fourToggle;
+	ToggleButton nightToggle;
+	ToggleButton travelToggle;
+	ToggleButton dayTravelToggle;
 	private void setupSpinners() {
-        sunSpin = (Spinner) thisFrag.findViewById(R.id.sunSpin);
+        sTimeText = (TextView) thisFrag.findViewById(R.id.sing_val);
+		hTimeText = (TextView) thisFrag.findViewById(R.id.half_val);
+		dTimeText = (TextView) thisFrag.findViewById(R.id.doub_val);
+		wageRateVal = (TextView) thisFrag.findViewById(R.id.wageRate_val);
+		vacationVal = (TextView) thisFrag.findViewById(R.id.vacation_val);
+		grossVal = (TextView) thisFrag.findViewById(R.id.gross_val);
+		exemptVal = (TextView) thisFrag.findViewById(R.id.exempt_val);
+		dedVal = (TextView) thisFrag.findViewById(R.id.deduct_val);
+		netVal = (TextView) thisFrag.findViewById(R.id.net_val);
+		fourToggle = (ToggleButton) thisFrag.findViewById(R.id.four_but);
+		nightToggle = (ToggleButton) thisFrag.findViewById(R.id.night_but);
+		travelToggle = (ToggleButton) thisFrag.findViewById(R.id.travel_but);
+		dayTravelToggle = (ToggleButton) thisFrag.findViewById(R.id.travelday_but);
+		
+		sunSpin = (Spinner) thisFrag.findViewById(R.id.sunSpin);
 		monSpin = (Spinner) thisFrag.findViewById(R.id.monSpin);
 		tueSpin = (Spinner) thisFrag.findViewById(R.id.tueSpin);
 		wedSpin = (Spinner) thisFrag.findViewById(R.id.wedSpin);
@@ -156,20 +197,10 @@ public class PaychequeFragment extends Fragment implements OnClickListener
 																  new String[]{"0","1","2","3","4","5","6","7"});
         loaSpin.setAdapter(weekCount);
         mealSpin.setAdapter(weekCount);
-
-		String wageArr[] = getResources().getStringArray(R.array.wage_rates);
-		String wageStrings[] = new String[wageArr.length];
-		for(int i=0; i<wageArr.length; i++) {
-			String wageSplit[] = wageArr[i].split(",");
-			wageStrings[i] = wageSplit[0];
-			wageRates[i] = Double.parseDouble(wageSplit[1]);
-	    }
-
-		ArrayAdapter<String> wageAdapt = new ArrayAdapter<String>(getActivity().getApplicationContext(), 
-																  android.R.layout.simple_spinner_item, wageStrings);
-		wageSpin.setAdapter(wageAdapt);
-		wageSpin.setSelection(5);
-
+		
+		oldProvWage = prefs.getString("list_provwage", "AB");
+		setupWageSpinner(oldProvWage);
+		
 		sunSpin.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 				public void onItemSelected(AdapterView<?> parent, View view,
 										   int pos, long id) {
@@ -282,6 +313,22 @@ public class PaychequeFragment extends Fragment implements OnClickListener
         sunSpin.setAdapter(weekAd);
 	}
 	
+	private void setupWageSpinner(String provWage) {
+		int prov = TaxManager.PROV_AB;
+		if(provWage.contains("BC")) prov = TaxManager.PROV_BC;
+		if(provWage.contains("ON")) prov = TaxManager.PROV_ON;
+		this.vacationPay = taxManager.getVacationRate(prov);
+		this.wageRates = taxManager.getWageRates(prov);
+		
+		String[] wageNames = taxManager.getWageNames(prov);
+		ArrayAdapter<String> wageAdapt = new ArrayAdapter<String>(getActivity().getApplicationContext(), 
+			android.R.layout.simple_spinner_item, wageNames);
+		wageSpin.setAdapter(wageAdapt);
+		wageSpin.setSelection((int) wageRates[wageRates.length - 1]);
+		oldProvWage = provWage;
+		return;
+	}
+	
 	private Boolean verifyCustDays() {
 		String[] dayKeys = {"custom_dayA", "custom_dayB", "custom_dayC"};
 		String[] dayNames = {" Day A", " Day B", " Day C"};
@@ -337,18 +384,6 @@ public class PaychequeFragment extends Fragment implements OnClickListener
 	}
 
 	private void pushBootan() {
-		TextView sTimeText = (TextView) thisFrag.findViewById(R.id.sing_val);
-		TextView hTimeText = (TextView) thisFrag.findViewById(R.id.half_val);
-		TextView dTimeText = (TextView) thisFrag.findViewById(R.id.doub_val);
-		TextView wageRateVal = (TextView) thisFrag.findViewById(R.id.wageRate_val);
-		TextView grossVal = (TextView) thisFrag.findViewById(R.id.gross_val);
-		TextView exemptVal = (TextView) thisFrag.findViewById(R.id.exempt_val);
-		TextView dedVal = (TextView) thisFrag.findViewById(R.id.deduct_val);
-		TextView netVal = (TextView) thisFrag.findViewById(R.id.net_val);
-		ToggleButton fourToggle = (ToggleButton) thisFrag.findViewById(R.id.four_but);
-		ToggleButton nightToggle = (ToggleButton) thisFrag.findViewById(R.id.night_but);
-		ToggleButton travelToggle = (ToggleButton) thisFrag.findViewById(R.id.travel_but);
-		ToggleButton dayTravelToggle = (ToggleButton) thisFrag.findViewById(R.id.travelday_but);
 		
 		double splitArr[] = new double[3];
 		boolean fourTens = fourToggle.isChecked();
@@ -356,7 +391,7 @@ public class PaychequeFragment extends Fragment implements OnClickListener
 		//init with preferences now
 		//double loaRate = Double.parseDouble(getString(R.string.loa_rate));
 		//double mealRate = Double.parseDouble(getString(R.string.meal_rate));
-		double vacationPay = Double.parseDouble(getString(R.string.vacation_pay));
+		//double vacationPay = Double.parseDouble(getString(R.string.vacation_pay));
 		//double travelRate = Double.parseDouble(getString(R.string.travel_rate));
 		int timeSum[] = {0,0,0};
 
@@ -370,13 +405,13 @@ public class PaychequeFragment extends Fragment implements OnClickListener
 		double dayTravel = checkPrefDoub("custom_daytravel", "20", "Daily Travel");
 		double loaRate = checkPrefDoub("custom_loa", "195", "LOA Rate");
 		double monthlyDues = checkPrefDoub("custom_monthly_dues", "37.90", "Monthly Dues");
+		double workingDuesRate = checkPrefDoub("custom_working_dues", ".0375", "Working Dues");
 		
 		if(wageSpin.getSelectedItem().toString().contains("Custom")) {
 		    SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
-			String wageKey = "custom_wage";
 
-			// use a default value using new Date()
-			wageRate = Double.parseDouble(prefs.getString(wageKey, "20"));	
+			// TODO: filter bad custom wages
+			wageRate = Double.parseDouble(prefs.getString("custom_wage", "20"));	
 		} else {
 			wageRate = wageRates[wageSpin.getSelectedItemPosition()];
 		}
@@ -439,7 +474,7 @@ public class PaychequeFragment extends Fragment implements OnClickListener
 		double[] deductions = new double[]{0,0,0,0,0,0};  //[fed tax, prov tax, cpp, ei, working dues, monthly dues]
 		
 		String yearString = prefs.getString("list_taxYear", "2014");
-		String provString = prefs.getString("list_taxProv", "AB");
+		String provString = prefs.getString("list_provwage", "AB");
 		
 		int taxYear = TaxManager.TY_2014;
 		int taxProv = TaxManager.PROV_AB;
@@ -465,7 +500,7 @@ public class PaychequeFragment extends Fragment implements OnClickListener
 			deductions[3] = taxReturns[3];
 		}
 		deductions[0] += addTax;
-		deductions[4] = duesVal.isChecked() ? calcDues(grossPay): 0;
+		deductions[4] = duesVal.isChecked() ? calcDues(grossPay, workingDuesRate): 0;
 		deductions[5] = monthlyDuesVal.isChecked() ? monthlyDues : 0;
 		
 		double deductionsSum = 0;
@@ -476,6 +511,7 @@ public class PaychequeFragment extends Fragment implements OnClickListener
 		double netPay = grossVac - deductionsSum + exempt;
 		
 		wageRateVal.setText("Wage: " + String.format("%.2f", wageRate) + "$");
+		vacationVal.setText(String.format("Vac\\Hol (%.0f%%): %.2f$", vacationPay * 100, grossVac - grossPay));
 		grossVal.setText("Gross: " + String.format("%.2f", grossVac + exempt) + "$");
 		exemptVal.setText("Tax Exempt: " + String.format("%.2f", exempt) + "$");
 		cppVal.setText(String.format("EI/CPP: %.2f$ + %.2f$", deductions[3], deductions[2]));
@@ -601,8 +637,7 @@ public class PaychequeFragment extends Fragment implements OnClickListener
 		return new double[]{sTime, hTime, dTime};	
 	}
 	
-	private double calcDues(double grossNoVac) {		
-		double duesRate = Double.parseDouble(getString(R.string.dues_rate));
+	private double calcDues(double grossNoVac, double duesRate) {		
 		double dues = grossNoVac * duesRate;
 		return dues;
 	}

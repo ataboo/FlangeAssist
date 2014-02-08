@@ -9,29 +9,25 @@
 			android:ems="10"
 			android:inputType="numberDecimal"
             android:title="Custom Wage" 
-            android:summary="Set a custom hourly wage for the pay calculator."
+            android:summary="Set the rate of the custom wage."
             android:dialogTitle="Custom Wage"
-            android:dialogMessage="Enter a wage"  
+            android:dialogMessage="Enter a custom wage"  
 			android:selectAllOnFocus="true"
             android:defaultValue="40" />
-	
+		<ListPreference
+			android:key="list_provwage"
+            android:title="Provincial Rates"
+            android:summary="Change the wages, vacation rate and taxes by province."
+            android:defaultValue="AB"
+            android:entries="@array/taxProv"
+            android:entryValues="@array/taxProvVals" />
 		<ListPreference
 			android:key="list_taxYear"
-            android:title="Income Tax Year"
+            android:title="Tax Year"
             android:summary="Change the tax year."
             android:defaultValue="2014"
             android:entries="@array/taxYears"
-            android:entryValues="@array/taxYearVals"
-        />
-		<ListPreference
-			android:key="list_taxProv"
-            android:title="Province"
-            android:summary="Change the provincial tax profile."
-            android:defaultValue="AB"
-            android:entries="@array/taxProv"
-            android:entryValues="@array/taxProvVals"
-        />
-	
+            android:entryValues="@array/taxYearVals" />
 		<EditTextPreference
 			android:key="custom_addtax"
 			android:ems="10"
@@ -91,6 +87,16 @@
 			android:title="Meal Bonus Taxable"
 			android:summary="Set if Meal Bonus is Taxable"
 		    android:defaultValue="true" />
+		<EditTextPreference
+			android:key="custom_working_dues"
+			android:ems="10"
+			android:inputType="numberDecimal"
+			android:title="Working Dues"
+			android:summary="Change the hourly working dues rate."
+			android:dialogTitle="Working Dues Rate"
+			android:dialogMessage="Set the hourly working dues rate." 
+			android:selectAllOnFocus="true"
+			android:defaultValue="0.0375" />
 		<EditTextPreference
 			android:key="custom_monthly_dues"
 			android:ems="10"
