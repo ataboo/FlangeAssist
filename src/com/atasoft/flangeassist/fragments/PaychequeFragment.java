@@ -515,7 +515,7 @@ public class PaychequeFragment extends Fragment implements OnClickListener
 		grossVal.setText("Gross: " + String.format("%.2f", grossVac + exempt) + "$");
 		exemptVal.setText("Tax Exempt: " + String.format("%.2f", exempt) + "$");
 		cppVal.setText(String.format("EI/CPP: %.2f$ + %.2f$", deductions[3], deductions[2]));
-		duesVal.setText("Working Dues: " + String.format("%.2f", deductions[4]) + "$");
+		duesVal.setText(String.format("Work Dues (%.2f%%): %.2f$", workingDuesRate * 100, deductions[4]));
 		monthlyDuesVal.setText("Monthly Dues: " + String.format("%.2f", deductions[5]) + "$");
 		dedVal.setText("Deductions: " + String.format("%.2f", deductionsSum) + "$");
 		netVal.setText("Takehome: " + String.format("%.2f", netPay) + "$");
