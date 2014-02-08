@@ -26,6 +26,7 @@ v0.16
 -Changed tax calculator backend
 -Added custom meal bonus rate with taxable option
 -Added monthly dues and custom rate
+-Added alternate 8-point pattern
 
 v0.15 (01\28\14):
 -Resized day select boxes to fit better on some Androids (Galaxy Note)
