@@ -38,7 +38,7 @@
 	
 <!-- Hall Links -->	
 	
-<!-- Pay Calculator -->	
+<!-- Pay Calculator most stats are vestigial-->	
 	<string name="week_header">Work-week</string>
 	<string name="sunday">Sun</string>
 	<string name="monday">Mon</string>
