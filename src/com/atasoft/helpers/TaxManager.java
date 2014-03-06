@@ -226,7 +226,8 @@ public class TaxManager {
 		double[] cppEi = getCppEi(anGross, year);
 		provTax = (provTax > 0) ? provTax:0;
 		fedTax = (fedTax > 0) ? fedTax:0;
-		
+		Log.d("taxmanager", String.format("returned: prov: %.2f, fed: %.2f", provTax/52, fedTax/52));
+		Log.d("taxmanager", String.format("returned: prov: %.2f, year: %.2f", (float) province, (float) year));
 		return new double[]{fedTax/52, provTax/52, cppEi[0]/52, cppEi[1]/52};
 	}
 	

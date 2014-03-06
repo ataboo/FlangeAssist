@@ -174,7 +174,7 @@
 		<item>1/2,0,4,2-1/2</item>
 		<item>1/2,0,4,2-3/4</item>
 		<item>1/2,0,4,2-3/4</item>
-		<item>1/2,0,4,3,</item>
+		<item>1/2,0,4,3</item>
 		<item>5/8,1,4,3-1/2</item>
 		<item>5/8,1,4,3-3/4</item>
 		<item>5/8,1,4,3-3/4</item>
@@ -211,7 +211,7 @@
 		<item>1-1/4,6,20,7-3/4</item>
 		<item>1-1/4,6,24,8</item>
 		<item>1-1/4,6,24,8-1/4</item>
-		<item>1-1/2,6,24,9-1/4</item>
+		<item>1-1/2,8,24,9-1/4</item>
 	</string-array>
 	<string-array name = "f_stats400">
 	    <item>1/2,0,4,3-1/4</item>
