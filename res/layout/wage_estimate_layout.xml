@@ -4,30 +4,38 @@
 	android:paddingLeft="12dp"
 	android:paddingRight="12dp" >
 	<TextView
-		android:id="@+id/estimate_title"
+		android:id="@+id/cpi_header"
 		android:text="@string/torqueInstruction"
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content"
 		android:layout_alignParentTop="true" />
-    <NumberPicker
-		android:id="@+id/wage_tens_picker"
-	    android:layout_width="wrap_content"
+    <Spinner
+		android:id="@+id/cpi_wagespin"
+		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
-		android:layout_below="@id/estimate_title" />
-	<NumberPicker
-		android:id="@+id/wage_cents_picker"
-	    android:layout_width="wrap_content"
+		android:layout_below="@id/cpi_header" />
+	<TextView
+		android:id="@+id/cpi_wageval"
+		android:text="42.84"
+		android:textSize="18dp"
+		android:textStyle="bold"
+		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
-		android:layout_below="@id/estimate_title"
-		android:layout_toRightOf="@id/wage_tens_picker" />
+		android:layout_below="@id/cpi_header"
+		android:layout_toRightOf="@id/cpi_wagespin"
+		android:layout_marginLeft="15dp"
+		android:layout_marginTop="7dp"
+		/>
 	<NumberPicker
 		android:id="@+id/cpi_picker"
 	    android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
-		android:layout_below="@id/wage_cents_picker" />
+		android:layout_below="@id/cpi_wagespin" />
 	<NumberPicker
 		android:id="@+id/wtc_picker"
 	    android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
-		android:layout_below="@id/cpi_picker" />
+		android:layout_below="@id/cpi_wagespin"
+		android:layout_toRightOf="@id/cpi_picker"
+		android:layout_marginLeft="16dp" />
 	</RelativeLayout>
