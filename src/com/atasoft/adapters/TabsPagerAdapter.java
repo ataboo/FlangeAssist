@@ -7,7 +7,8 @@ import android.support.v4.app.FragmentPagerAdapter;
 import com.atasoft.flangeassist.*;
 
 public class TabsPagerAdapter extends FragmentPagerAdapter {
-
+	public static int TAB_COUNT = 6;
+	
     public TabsPagerAdapter(FragmentManager fm) {
         super(fm);
     }
@@ -29,6 +30,9 @@ public class TabsPagerAdapter extends FragmentPagerAdapter {
 				// Paycheck Calc
 				return new PaychequeFragment();
 			case 4:
+				// CPI Raise Estimator
+				return new WageCPIEstimate();
+			case 5:
 				// Hall Links
 				return new HallFragment();
         }
@@ -38,8 +42,6 @@ public class TabsPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        // get item count - equal to number of tabs
-        return 5;
+        return TAB_COUNT;
     }
-
 }

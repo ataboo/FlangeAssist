@@ -1,0 +1,33 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+	android:paddingLeft="12dp"
+	android:paddingRight="12dp" >
+	<TextView
+		android:id="@+id/estimate_title"
+		android:text="@string/torqueInstruction"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:layout_alignParentTop="true" />
+    <NumberPicker
+		android:id="@+id/wage_tens_picker"
+	    android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_below="@id/estimate_title" />
+	<NumberPicker
+		android:id="@+id/wage_cents_picker"
+	    android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_below="@id/estimate_title"
+		android:layout_toRightOf="@id/wage_tens_picker" />
+	<NumberPicker
+		android:id="@+id/cpi_picker"
+	    android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_below="@id/wage_cents_picker" />
+	<NumberPicker
+		android:id="@+id/wtc_picker"
+	    android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_below="@id/cpi_picker" />
+	</RelativeLayout>
