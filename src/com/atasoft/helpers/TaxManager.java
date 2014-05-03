@@ -3,6 +3,7 @@ package com.atasoft.helpers;
 import java.io.*;
 import android.util.*;
 
+//----Tax Manager holds tax and wage values by province and year---------
 public class TaxManager {
 	//Tax Years
 	public static final int TY_2013 = 0;
@@ -111,8 +112,9 @@ public class TaxManager {
 		};
 		//I threw these in here so I only have to update one spot
 		//-------------------------Wages------------------
+		//May 4, 2014
 		bcStats.wageRates = new double[]{
-			20.76, 23.78, 25.66, 27.55, 29.44, 31.32, 33.97, 37.74, 42.65, 44.53
+			21.75, 24.91, 26.88, 28.86, 30.84, 32.81, 35.58, 39.53, 44.67, 46.64
 		};
 		bcStats.wageNames = new String[] {
 			"Pre-App", "First Term", "Second Term", "Third Term", "Fourth Term", "Fifth Term", "Sixth Term", "Journeyman", "Foreman", "GF"
@@ -121,7 +123,7 @@ public class TaxManager {
 		bcStats.vacRate = 0.12d;
 		
 		abStats.wageRates = new double[]{
-			31.25, 24.46, 31.25, 38.05, 41.83, 42.58, 45.73, 48.08, 50.08
+			31.76, 24.86, 31.76, 38.65, 42.75, 43.25, 46.40, 48.75, 50.75
 		};
 		abStats.wageNames = new String[]{
 			"Helper", "1st Year", "2nd Year", "3rd Year", "Journeyman (S)", "Journeyman (N)", "Lead Hand", "Foreman", "GF"
@@ -130,7 +132,7 @@ public class TaxManager {
 		abStats.vacRate = 0.10d;
 		
 		onStats.wageRates = new double[]{
-			25.21, 21.19, 25.21, 29.22, 33.24, 37.25, 39.25, 42.25, 44.25
+			26.05, 21.92, 26.05, 30.19, 34.32, 38.46, 40.46, 43.46, 45.46
 		};
 		onStats.wageNames = new String[]{
 			"Helper", "1st Year", "2nd Year", "3rd Year", "4th Year", "Journeyman", "Ass't Foreman", "Foreman", "GF"

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 <!-- Update Values (last checked Oct.26/13) -->
-	<string name="version_info">Boilermaker Toolbox v0.16
-		\nLast updated Feb 8/14
-		\nWages updated: Feb 8/14</string>
+	<string name="version_info">Boilermaker Toolbox v0.17
+		\nLast updated May 3/14
+		\nWages updated: May 3/14</string>
 	<string name="loa_rate">195</string>
 	<string name="meal_rate">40</string>
 	<string name="vacation_pay">0.10</string>
@@ -11,18 +11,6 @@
 	<string name="cpp_rate">0.0495</string> <!-- calculated out not from source -->
 	<string name="ei_rate">0.0188</string>
 	<string name="travel_rate">216</string>
-	<string-array name="wage_rates"> <!-- Nov 3 2013 -->
-	    <item>Help,31.25</item>
-		<item>1st,24.46</item>
-		<item>2nd,31.25</item>
-		<item>3rd,38.05</item>
-		<item>JM (S),41.83</item>
-		<item>JM (N),42.58</item>
-		<item>LH,45.73</item>
-		<item>FM,48.08</item>
-		<item>GF,50.08</item>
-		<item>Custom,40</item>
-	</string-array>
 		
 <!-- Main Menu -->
 	<string name="action_settings">Settings</string>
@@ -210,7 +198,7 @@
 		<item>3/4,2,12,5</item>
 		<item>7/8,3,12,5-3/4</item>
 		<item>1,4,16,6-1/2</item>
-		<item>1,4,16,7</item>
+		<item>1-1/8,5,16,7</item>
 		<item>1-1/8,5,20,7-1/4</item>
 		<item>1-1/4,6,20,7-3/4</item>
 		<item>1-1/4,6,24,8</item>
