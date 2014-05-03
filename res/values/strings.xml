@@ -108,6 +108,10 @@
 		<item>600 - Saskatoon,http://www.boilermaker.ca/600.htm,(306)652-5008</item>
 	</string-array>
 	
+<!-- CPI Estimator -->
+	<string name="cpi_send">Go</string>
+	<string name="cpi_header">Choose AB Consumer Price Index Rate and price of West Texas Crude for previous year.</string>
+	
 <!-- Flange Reference -->
 	<string name="flange_header">ASME Flange Reference</string>
 	<string name="sDiam_text">Stud Diameter</string>

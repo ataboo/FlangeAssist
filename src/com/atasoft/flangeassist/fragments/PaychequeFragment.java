@@ -110,6 +110,8 @@ public class PaychequeFragment extends Fragment implements OnClickListener
 		
 		setupSpinners();
 		
+		Log.w("pci estimate", "ran pay create view");
+		
         return v;
     }
 	

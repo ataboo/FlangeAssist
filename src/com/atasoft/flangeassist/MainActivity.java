@@ -56,7 +56,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 				public void onPageScrollStateChanged(int arg0) {
 				}
 			});
-		viewPager.setOffscreenPageLimit(mAdapter.getCount()-1);
+		viewPager.setOffscreenPageLimit(mAdapter.getCount());
 	}
 	@Override
     public void onTabReselected(Tab tab, FragmentTransaction ft) {
