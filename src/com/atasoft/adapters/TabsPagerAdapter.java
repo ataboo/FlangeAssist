@@ -7,7 +7,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import com.atasoft.flangeassist.*;
 
 public class TabsPagerAdapter extends FragmentPagerAdapter {
-	public static int TAB_COUNT = 6;
+	public static int TAB_COUNT = 7;
 	
     public TabsPagerAdapter(FragmentManager fm) {
         super(fm);
@@ -33,9 +33,12 @@ public class TabsPagerAdapter extends FragmentPagerAdapter {
 				// CPI Raise Estimator
 				return new WageCPIEstimate();
 			case 5:
+				// Unit Converter
+				return new UnitConFragment();
+			case 6:
 				// Hall Links
 				return new HallFragment();
-        }
+		}
 
         return null;
     }
