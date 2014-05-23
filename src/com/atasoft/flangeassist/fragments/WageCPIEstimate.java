@@ -19,7 +19,7 @@ public class WageCPIEstimate extends Fragment implements OnClickListener
         this.thisFrag = v;
 		
 		setupSpinners();
-		Log.w("pci estimate", "ran create view");
+		//Log.w("pci estimate", "ran create view");
         return v;
     }
 	
@@ -144,7 +144,7 @@ public class WageCPIEstimate extends Fragment implements OnClickListener
 			for(int i = 1; i<pickLength; i++) {
 				pickStrings[i] = String.format(formatStr, floatCount);
 				floatCount += interval;
-				Log.w("FlangeAssist WageCPIEstimate", String.format("Added %s in position %2d", pickStrings[i], i));
+				//Log.w("FlangeAssist WageCPIEstimate", String.format("Added %s in position %2d", pickStrings[i], i));
 			}
 		}
 		

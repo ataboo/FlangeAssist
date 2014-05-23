@@ -5,6 +5,7 @@ import android.support.v4.app.*;
 import android.view.*;
 import android.widget.*;
 import com.atasoft.flangeassist.*;
+import com.atasoft.helpers.*;
 
 public class FlangeFragment extends Fragment {
     View thisFrag;
@@ -22,8 +23,9 @@ public class FlangeFragment extends Fragment {
 	
 	Spinner rateS;
 	Spinner sizeS;
-	
+	JsonPuller jPuller;
     private void setupSpinners() {
+		this.jPuller = new JsonPuller(thisFrag);
 		String fSizes[] = getResources().getStringArray(R.array.f_sizes);
 		String fRates[] = getResources().getStringArray(R.array.f_ratings);
 
@@ -57,23 +59,22 @@ public class FlangeFragment extends Fragment {
 		});		
 	}
 	
-	public static final int RATE_150 = 0;
-	public static final int RATE_300 = 1;
-	public static final int RATE_400 = 2;
-	public static final int RATE_600 = 3;
-	public static final int RATE_900 = 4;
-	public static final int RATE_1500 = 5;
+	String[] valArray;
 	private void spinSend() {
 		int fSizeIndex = sizeS.getSelectedItemPosition();
+		int fRateIndex = rateS.getSelectedItemPosition();
+		
+		this.valArray = jPuller.getValArray(fSizeIndex, fRateIndex);
 
+		/*
 		switch (rateS.getSelectedItemPosition()) {
-			case (RATE_150): // 150
+			case (JsonPuller.RATE_150): // 150
 				setVals(fSizeIndex, R.array.f_stats150);
 				break;
-			case (RATE_300): // 300
+			case (JsonPuller.RATE_300): // 300
 				setVals(fSizeIndex, R.array.f_stats300);
 				break;
-			case (RATE_400): // 400
+			case (JsonPuller.RATE_400): // 400
 				setVals(fSizeIndex, R.array.f_stats400);
 				break;
 			case (RATE_600): // 600
@@ -84,7 +85,8 @@ public class FlangeFragment extends Fragment {
 				break;
 			case (RATE_1500): //1500
 				setVals(fSizeIndex, R.array.f_stats1500);
-		}	
+		}
+		*/
 	}
 	
 	private void setVals(int fSizeIndex, int statArrInt) {
