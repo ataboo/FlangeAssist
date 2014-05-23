@@ -20,16 +20,19 @@ public class FlangeFragment extends Fragment {
         return v;
     }
 	
+	Spinner rateS;
+	Spinner sizeS;
+	
     private void setupSpinners() {
 		String fSizes[] = getResources().getStringArray(R.array.f_sizes);
 		String fRates[] = getResources().getStringArray(R.array.f_ratings);
 
-		Spinner rateS = (Spinner) thisFrag.findViewById(R.id.rateSpinner);
+		this.rateS = (Spinner) thisFrag.findViewById(R.id.rateSpinner);
 		ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity().getApplicationContext(),
 																android.R.layout.simple_spinner_item, fRates);
 		rateS.setAdapter(adapter);
 
-		Spinner sizeS = (Spinner) thisFrag.findViewById(R.id.sizeSpinner);
+		this.sizeS = (Spinner) thisFrag.findViewById(R.id.sizeSpinner);
 		ArrayAdapter<String> adaptor2 = new ArrayAdapter<String>(getActivity().getApplicationContext(),
 																 android.R.layout.simple_spinner_item, fSizes);
 		sizeS.setAdapter(adaptor2);
@@ -53,29 +56,33 @@ public class FlangeFragment extends Fragment {
 			}
 		});		
 	}
+	
+	public static final int RATE_150 = 0;
+	public static final int RATE_300 = 1;
+	public static final int RATE_400 = 2;
+	public static final int RATE_600 = 3;
+	public static final int RATE_900 = 4;
+	public static final int RATE_1500 = 5;
 	private void spinSend() {
-		Spinner rateS = (Spinner) thisFrag.findViewById(R.id.rateSpinner);
-		Spinner sizeS = (Spinner) thisFrag.findViewById(R.id.sizeSpinner);
-
 		int fSizeIndex = sizeS.getSelectedItemPosition();
 
 		switch (rateS.getSelectedItemPosition()) {
-			case (0): // 150
+			case (RATE_150): // 150
 				setVals(fSizeIndex, R.array.f_stats150);
 				break;
-			case (1): // 300
+			case (RATE_300): // 300
 				setVals(fSizeIndex, R.array.f_stats300);
 				break;
-			case (2): // 400
+			case (RATE_400): // 400
 				setVals(fSizeIndex, R.array.f_stats400);
 				break;
-			case (3): // 600
+			case (RATE_600): // 600
 				setVals(fSizeIndex, R.array.f_stats600);
 				break;
-			case (4): //900
+			case (RATE_900): //900
 				setVals(fSizeIndex, R.array.f_stats900);
 				break;
-			case (5): //1500
+			case (RATE_1500): //1500
 				setVals(fSizeIndex, R.array.f_stats1500);
 		}	
 	}

@@ -6,7 +6,7 @@ import android.view.*;
 import android.widget.*;
 import com.atasoft.flangeassist.*;
 
-public class FlangeFragRewrite extends Fragment {
+public class FlangeFragOld extends Fragment {
     View thisFrag;
 
     @Override
@@ -19,14 +19,6 @@ public class FlangeFragRewrite extends Fragment {
 
         return v;
     }
-	
-	TextView sDiamVal;
-	TextView wrenchVal;
-	TextView driftVal;	
-	TextView sCountVal;
-	TextView sLengthVal;
-	TextView b7Val;
-	TextView b7mVal;
 
     private void setupSpinners() {
 		String fSizes[] = getResources().getStringArray(R.array.f_sizes);
@@ -59,16 +51,7 @@ public class FlangeFragRewrite extends Fragment {
 
 				public void onNothingSelected(AdapterView<?> parent) {
 				}
-			});
-			
-		this.sDiamVal = (TextView) thisFrag.findViewById(R.id.sDiamVal);
-		this.wrenchVal = (TextView) thisFrag.findViewById(R.id.wrenchVal);
-		this.driftVal = (TextView) thisFrag.findViewById(R.id.driftVal);
-		this.sCountVal = (TextView) thisFrag.findViewById(R.id.sCountVal);
-		this.sLengthVal = (TextView) thisFrag.findViewById(R.id.sLengthVal);
-		this.b7Val = (TextView) thisFrag.findViewById(R.id.b7Val);
-		this.b7mVal = (TextView) thisFrag.findViewById(R.id.b7MVal);
-		
+			});		
 	}
 	private void spinSend() {
 		Spinner rateS = (Spinner) thisFrag.findViewById(R.id.rateSpinner);
@@ -101,17 +84,17 @@ public class FlangeFragRewrite extends Fragment {
 		String[] statArr = getResources().getStringArray(statArrInt);
         String[] studArr = getResources().getStringArray(R.array.stud_sizes);
 		int studIndex = 0;
-		
+		TextView sDiamVal = (TextView) thisFrag.findViewById(R.id.sDiamVal);
+		TextView wrenchVal = (TextView) thisFrag.findViewById(R.id.wrenchVal);
+		TextView driftVal = (TextView) thisFrag.findViewById(R.id.driftVal);
+		TextView sCountVal = (TextView) thisFrag.findViewById(R.id.sCountVal);
+		TextView sLengthVal = (TextView) thisFrag.findViewById(R.id.sLengthVal);
+		TextView b7Val = (TextView) thisFrag.findViewById(R.id.b7Val);
+		TextView b7mVal = (TextView) thisFrag.findViewById(R.id.b7MVal);
+
 		String[] statSplit = statArr[fSizeIndex].split(",");  
 		if(statSplit.length > 4 || statSplit.length < 1) {
 			sDiamVal.setText("resource err");
-			wrenchVal.setText("err");
-			driftVal.setText("err");
-			sCountVal.setText("err");
-			sLengthVal.setText("err");
-			b7Val.setText("err");
-			b7mVal.setText("err");
-			
 			return;
 		}
 		// statSplit[stud string, stud index, count, length]
