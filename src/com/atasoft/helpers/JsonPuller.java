@@ -15,18 +15,6 @@ public class JsonPuller
 		return;
 	}
 	
-	public String[] getValArray(int sizeIndex, int rateIndex){
-		
-		
-		return null;
-	}
-	
-	public static final int RATE_150 = 0;
-	public static final int RATE_300 = 1;
-	public static final int RATE_400 = 2;
-	public static final int RATE_600 = 3;
-	public static final int RATE_900 = 4;
-	public static final int RATE_1500 = 5;
 	public static final int STUD_ARRAY_LENGTH = 4;
 	public static final int RATE_ARRAY_LENGTH = 4;
 	private static final String jFileName = "FlangeValues.json";
@@ -43,53 +31,54 @@ public class JsonPuller
 	private HashMap<String, String[]> fStats600;
 	private HashMap<String, String[]> fStats900;
 	private HashMap<String, String[]> fStats1500;
-	private void populateValues(){
+	private HashMap<String, HashMap> fStatHashes;
+	public void populateValues(){
 		this.masterObj = loadJSON();
 		if(this.masterObj == null) {
 			Log.e("JSON Puller", "masterObj is null. oops.");
 			this.failFlag = true;
 			return;
 		}
+		this.fStatHashes = new HashMap<String, HashMap>(6);
 		this.fSizes = getJSONStringArray(masterObj, "fSizes");
 		this.fRatings = getJSONStringArray(masterObj, "fRatings");
 		this.studSizeOrdered = getJSONStringArray(masterObj, "studSizeOrdered");
 		this.studStats = makeHash("studSizes", studSizeOrdered, STUD_ARRAY_LENGTH);
 		this.fStats150 = makeHash("fStats150", fSizes, RATE_ARRAY_LENGTH);
+		fStatHashes.put("150", fStats150);
 		this.fStats300 = makeHash("fStats300", fSizes, RATE_ARRAY_LENGTH);
+		fStatHashes.put("300", fStats300);
 		this.fStats400 = makeHash("fStats400", fSizes, RATE_ARRAY_LENGTH);
+		fStatHashes.put("400", fStats400);
 		this.fStats600 = makeHash("fStats600", fSizes, RATE_ARRAY_LENGTH);
+		fStatHashes.put("600", fStats600);
 		this.fStats900 = makeHash("fStats900", fSizes, RATE_ARRAY_LENGTH);
+		fStatHashes.put("900", fStats900);
 		this.fStats1500 = makeHash("fStats1500", fSizes, RATE_ARRAY_LENGTH);
+		fStatHashes.put("1500", fStats1500);
 	}
 	
-	public String[] pullFlangeVal(int size, int rating){
+	public String[] getSizes() {
+		if(fSizes == null) return new String[]{"err"};
+		return fSizes;
+	}
+	
+	public String[] getRates() {
+		if(fRatings == null) return new String[]{"err"};
+		return fRatings;
+	}
+	
+	//Stud Diameter, Stud Size Index (not used), Stud Count, Stud Length  
+	public String[] pullFlangeVal(String size, String rating){
+		Log.w("JSON Puller", "Checking: " + size + " " + rating);
 		if(failFlag) return null;
 		String[] retString = new String[RATE_ARRAY_LENGTH];
-		HashMap checkMap;
-		switch(rating) {
-			case RATE_150:
-				checkMap = fStats150;
-				break;
-			case RATE_300:
-				checkMap = fStats300;
-				break;
-			case RATE_400:
-				checkMap = fStats400;
-				break;
-			case RATE_600:
-				checkMap = fStats600;
-				break;
-			case RATE_900:
-				checkMap = fStats900;
-				break;
-			default:  //1500
-				checkMap = fStats1500;
-				break;
-			}
-		retString = (String[]) checkMap.get(fRatings[rating]);
+		HashMap fStatHash = fStatHashes.get(rating);
+		retString = (String[]) fStatHash.get(size);
 		return retString;
 	}
 	
+	//Wrench size, Drift pin size, B7M torque val, B7 torque val
 	public String[] pullStudVal(String studSize){
 		if(failFlag) return null;
 		String[] retString;
