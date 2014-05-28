@@ -4,6 +4,11 @@ import java.util.*;
 //Keeps the figures and tables for the Unit Converter in Boilermaker Toolbox
 public class ConvDataHold
 {
+	public class ConversionType{  
+		public String name;
+		public HashMap<String[], Double[]> conversions;
+	}
+	
 	public static final String[] typeStrings = {"Length", "Force", "Mass", "Volume"};
 	
 	//values are placeholder
@@ -15,11 +20,7 @@ public class ConvDataHold
 	private static final double[] massRates = {1d, 2.2d, 4200d, 4400d};
 	private static final String[] volumeStrings = {"Litres", "Gallons", "Cubic Feet"};
 	private static final double[] volumeRates = {1d, 3.2d, 0.5d};
-	private HashMap<String, Double> lengthHash;
-	private HashMap<String, Double> forceHash;
-	private HashMap<String, Double> massHash;
-	private HashMap<String, Double> volumeHash;
-	private HashMap<String, HashMap> typesHash;
+	
 	public ConvDataHold() {
 		this.typesHash = new HashMap<String, HashMap>(typeStrings.length);
 		this.lengthHash = makeDoubHash(lengthStrings, lengthRates);
