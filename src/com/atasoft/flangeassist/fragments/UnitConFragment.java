@@ -2,9 +2,11 @@ package com.atasoft.flangeassist.fragments;
 
 import android.os.*;
 import android.support.v4.app.*;
+import android.util.Log;
 import android.view.*;
 import android.view.View.*;
 import android.widget.*;
+
 import com.atasoft.flangeassist.*;
 import com.atasoft.helpers.*;
 
@@ -67,7 +69,7 @@ public class UnitConFragment extends Fragment implements OnClickListener
 	private void refreshUnits(){
 		String type = (String) typeSpin.getSelectedItem();
 		if(type != oldType){
-			String[] unitStrings = dataHold.getUnitStrings(type);
+			String[] unitStrings = dataHold.getUnitNames(type);
 			ArrayAdapter<String> unitAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, unitStrings);
 			unitSpin1.setAdapter(unitAdapter);
 			unitSpin2.setAdapter(unitAdapter);
@@ -79,7 +81,21 @@ public class UnitConFragment extends Fragment implements OnClickListener
 	}
 	
 	private void goPush(){
-		Toast.makeText(getActivity(), "Such Toast", Toast.LENGTH_SHORT).show();
+		String inText = inBox.getText().toString();
+		double inVal = 0;
+		try{
+			inVal = Double.parseDouble(inText);
+		} catch (NumberFormatException e) {
+			Log.e("UnitConFrag", "failed to parse input.");
+		}
+		String unit1 = unitSpin1.getSelectedItem().toString();
+		String unit2 = unitSpin2.getSelectedItem().toString();
+		double result = dataHold.convertValue(inVal, oldType, unit1, unit2);
+		//Toast.makeText(getActivity(), String.format("Result is: %.2f.", result), Toast.LENGTH_SHORT).show();
+		outBox.setText(String.format("%.4f", result));
+		
+		//TODO fraction output
+		
 	}
 	
 	
