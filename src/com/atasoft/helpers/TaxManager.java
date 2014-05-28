@@ -1,7 +1,5 @@
 package com.atasoft.helpers;
 
-import java.io.*;
-import android.util.*;
 
 //----Tax Manager holds tax and wage values by province and year---------
 public class TaxManager {

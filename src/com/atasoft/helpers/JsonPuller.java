@@ -31,7 +31,7 @@ public class JsonPuller
 	private HashMap<String, String[]> fStats600;
 	private HashMap<String, String[]> fStats900;
 	private HashMap<String, String[]> fStats1500;
-	private HashMap<String, HashMap> fStatHashes;
+	private HashMap<String, HashMap<String, String[]>> fStatHashes;
 	public void populateValues(){
 		this.masterObj = loadJSON();
 		if(this.masterObj == null) {
@@ -39,7 +39,7 @@ public class JsonPuller
 			this.failFlag = true;
 			return;
 		}
-		this.fStatHashes = new HashMap<String, HashMap>(6);
+		this.fStatHashes = new HashMap<String, HashMap<String, String[]>>(6);
 		this.fSizes = getJSONStringArray(masterObj, "fSizes");
 		this.fRatings = getJSONStringArray(masterObj, "fRatings");
 		this.studSizeOrdered = getJSONStringArray(masterObj, "studSizeOrdered");
@@ -73,7 +73,7 @@ public class JsonPuller
 		Log.w("JSON Puller", "Checking: " + size + " " + rating);
 		if(failFlag) return null;
 		String[] retString = new String[RATE_ARRAY_LENGTH];
-		HashMap fStatHash = fStatHashes.get(rating);
+		HashMap<String, String[]> fStatHash = fStatHashes.get(rating);
 		retString = (String[]) fStatHash.get(size);
 		return retString;
 	}

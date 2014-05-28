@@ -4,7 +4,6 @@ import com.atasoft.flangeassist.fragments.*;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import com.atasoft.flangeassist.*;
 
 public class TabsPagerAdapter extends FragmentPagerAdapter {
 	public static int TAB_COUNT = 7;
