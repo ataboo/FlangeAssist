@@ -19,15 +19,20 @@ public class ConvDataHold
 	private HashMap<String, Double> forceHash;
 	private HashMap<String, Double> massHash;
 	private HashMap<String, Double> volumeHash;
+	private HashMap<String, HashMap> typesHash;
 	public ConvDataHold() {
-		lengthHash = makeHash(lengthStrings, lengthRates);
-		forceHash = makeHash(forceStrings, forceRates);
-		massHash = makeHash(massStrings, massRates);
-		volumeHash = makeHash(volumeStrings, volumeRates);
-		
+		this.typesHash = new HashMap<String, HashMap>(typeStrings.length);
+		this.lengthHash = makeDoubHash(lengthStrings, lengthRates);
+	    typesHash.put(typeStrings[0], lengthHash);
+		this.forceHash = makeDoubHash(forceStrings, forceRates);
+		typesHash.put(typeStrings[1], forceHash);
+		this.massHash = makeDoubHash(massStrings, massRates);
+		typesHash.put(typeStrings[2], massHash);
+		this.volumeHash = makeDoubHash(volumeStrings, volumeRates);
+		typesHash.put(typeStrings[3], volumeHash);
 	}
 	
-	private HashMap makeHash(String[] keys, double[] doubs){
+	private HashMap<String, Double> makeDoubHash(String[] keys, double[] doubs){
 		HashMap<String, Double> retHash = new HashMap<String, Double>(keys.length);
 		for(int i = 0; i<keys.length; i++){
 			retHash.put(keys[i], doubs[i]);
@@ -35,27 +40,16 @@ public class ConvDataHold
 		return retHash;
 	}
 	
-	public String[] getUnitStrings(int typeConst) {
-		String[] unitStrings;
-		
-		switch(typeConst) {
-			case 0:
-				unitStrings = lengthStrings;
-				break;
-			case 1:
-				unitStrings = forceStrings;
-				break;
-			case 2:
-				unitStrings = massStrings;
-				break;
-			case 3:
-				unitStrings = volumeStrings;
-				break;
-				
-			default:
-			unitStrings = new String[]{"CVD err1"};
-			break;
+	private HashMap<String, Double> makeStringHash(String[] keys, String[] strings){
+		HashMap<String, Double> retHash = new HashMap<String, String[]>(strings.length);
+		for(int i = 0; i<keys.length; i++){
+			retHash.put(keys[i], doubs[i]);
 		}
+		return retHash;
+	}
+	
+	public String[] getUnitStrings(String type) {
+		String[] unitStrings = typesHash.get(type);
 		
 		return unitStrings;
 	}

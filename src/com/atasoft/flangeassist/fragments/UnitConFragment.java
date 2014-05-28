@@ -62,12 +62,12 @@ public class UnitConFragment extends Fragment implements OnClickListener
 		return;
 	}
 	
-	int oldTypeIndex = -1;
+	String oldType = null;
 	//Checks if selected type has changed and populate units accordingly
 	private void refreshUnits(){
-		int typeIndex = typeSpin.getSelectedItemPosition();
-		if(typeIndex != oldTypeIndex){
-			String[] unitStrings = dataHold.getUnitStrings(typeSpin.getSelectedItemPosition());
+		String type = (String) typeSpin.getSelectedItem();
+		if(type != oldType){
+			String[] unitStrings = dataHold.getUnitStrings(type);
 			ArrayAdapter<String> unitAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, unitStrings);
 			unitSpin1.setAdapter(unitAdapter);
 			unitSpin2.setAdapter(unitAdapter);
@@ -75,7 +75,7 @@ public class UnitConFragment extends Fragment implements OnClickListener
 				unitSpin2.setSelection(1);
 			}
 		}
-		this.oldTypeIndex = typeIndex;
+		this.oldType = type;
 	}
 	
 	private void goPush(){
