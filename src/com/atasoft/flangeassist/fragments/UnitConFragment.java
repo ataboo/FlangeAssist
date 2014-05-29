@@ -90,9 +90,10 @@ public class UnitConFragment extends Fragment implements OnClickListener
 		}
 		String unit1 = unitSpin1.getSelectedItem().toString();
 		String unit2 = unitSpin2.getSelectedItem().toString();
+		String unitShorthand = dataHold.getUnit(oldType, unit2);
 		double result = dataHold.convertValue(inVal, oldType, unit1, unit2);
 		//Toast.makeText(getActivity(), String.format("Result is: %.2f.", result), Toast.LENGTH_SHORT).show();
-		outBox.setText(String.format("%.4f", result));
+		outBox.setText(String.format("%s %s", result, unitShorthand));
 		
 		//TODO fraction output
 		

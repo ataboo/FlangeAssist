@@ -11,7 +11,7 @@
 		android:text="Unit Converter"/>
 	<Spinner
 		android:id="@+id/unit_conv_type_spinner"
-		android:layout_width="wrap_content"
+		android:layout_width="fill_parent"
 		android:layout_height="wrap_content"
 		android:layout_below="@id/unit_conv_title"
 		android:paddingLeft="15dp"
@@ -28,25 +28,32 @@
 	
 	<Spinner
 		android:id="@+id/unit_conv_unit1_spinner"
-		android:layout_width="160dp"
+		android:layout_width="fill_parent"
 		android:layout_height="wrap_content"
 		android:layout_below="@id/unit_conv_pb1"
 	/>
+	<TextView
+		android:id="@+id/unit_conv_input_label"
+		android:text="Input: "
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_below="@id/unit_conv_unit1_spinner"
+		/>
 	<EditText
 		android:id="@+id/unit_conv_text_input"
-		android:layout_width="160dp"
+		android:layout_width="600dp"
 		android:layout_height="wrap_content"
 		android:maxLines="1"
 		android:hint="Value"
 		android:maxLength="20"
 		android:singleLine="true"
-		android:inputType="numberDecimal"
-		android:layout_below="@id/unit_conv_pb1"	
-		android:layout_toRightOf="@id/unit_conv_unit1_spinner"
+		android:inputType="numberDecimal"	
+		android:layout_below="@id/unit_conv_unit1_spinner"
+		android:layout_toRightOf="@id/unit_conv_input_label"
 	/>
 	<Spinner
 		android:id="@+id/unit_conv_unit2_spinner"
-		android:layout_width="160dp"
+		android:layout_width="fill_parent"
 		android:layout_height="wrap_content"
 		android:layout_below="@id/unit_conv_text_input"
 	/>
@@ -54,9 +61,8 @@
 		android:id="@+id/unit_conv_text_output"
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content"
-		android:layout_below="@id/unit_conv_unit1_spinner"
-		android:layout_toRightOf="@id/unit_conv_unit2_spinner"
-		android:text="such text output"
+		android:layout_below="@id/unit_conv_unit2_spinner"
+		android:text="Output"
 		android:paddingTop="10dp"
 		android:paddingLeft="12dp"
 		android:textSize="18sp"
@@ -65,7 +71,7 @@
 		android:id="@+id/unit_conv_pb2"
 		android:layout_width="match_parent"
 		android:layout_height="1dp"
-		android:layout_below="@id/unit_conv_unit2_spinner"
+		android:layout_below="@id/unit_conv_text_output"
 		android:layout_marginTop="6dp"
 		android:layout_marginBottom="6dp"
 		android:background="#70a5b3" />

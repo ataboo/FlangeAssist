@@ -5,15 +5,15 @@ Boilermaker Toolbox is a FREE reference tool designed to help Boilermakers in Al
 Tell your jealous friends with IPhones about the JavaScript (cross-device) rewrite at
 http://atasoft.altervista.org
 
-Main features so far (v0.17):
--NEW CPI/Oil price wage increase estimator
+Main features so far (v0.18):
+-NEW: Unit Converter
 -Paycheque Calculator (based on 146 Maintenance Agreement)
 -ASME flange tool (provides details based on flange size and rating)
 -Torque pattern generator
+-CPI/Oil price wage increase estimator
 -List of links to Canadian Boilermaker halls.
 
 Features to come:
--Tax for other provinces (BC, AB, and ON done)
 -Component weight estimator
 -More general trade reference material
 -Shop fitting calculations (nozzle location/measure-back for pipe joints, etc.)
@@ -22,6 +22,10 @@ Feel free to send feedback or suggestions to bmtoolbox@gmail.com
 
 Changes:
 ==================
+v0.18 (05/29/14):
+-Added basic unit converter (Length, Pressure, Mass, Volume) 
+-Re-wrote flange calc backend to parse shared JSON file
+
 v0.17 (05/03/14):
 -Added tool to estimate wage increase based on Consumer Price Index and price of oil
 Estimate is rough as it's relies on the average wage package of all group 4 trades.
