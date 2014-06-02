@@ -21,10 +21,37 @@ public class UnitConFragment extends Fragment //implements OnClickListener
 
         thisFrag = inflater.inflate(R.layout.unit_conv , container, false);
         setupConvSpinners();
-        return thisFrag;
+		setupShapeSpinners();
+        setEditListeners();
+		return thisFrag;
     }
 	
+	private void setEditListeners(){
+		inBox.addTextChangedListener(new TextWatcher(){
+			@Override
+			public void afterTextChanged(Editable s){
+				updateConversion();
+			}
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count, int after){}
+			@Override
+			public void onTextChanged(CharSequence s, int start, int count, int after){}
+		});
+		for(int i=0; i < shapeInArr.length; i++){
+			shapeInArr[i].addTextChangedListener(new TextWatcher(){
+					@Override
+					public void afterTextChanged(Editable s){
+						updateShapeCalc();
+					}
+					@Override
+					public void beforeTextChanged(CharSequence s, int start, int count, int after){}
+					@Override
+					public void onTextChanged(CharSequence s, int start, int count, int after){}
+			});
+		}
+	}
 	
+	//------------------Converter Functions------------------
 	Spinner typeSpin;
 	Spinner unitSpin1;
 	Spinner unitSpin2;
@@ -41,34 +68,20 @@ public class UnitConFragment extends Fragment //implements OnClickListener
 		this.outBox = (TextView) thisFrag.findViewById(R.id.unit_conv_text_output);
 		this.fracBox = (TextView) thisFrag.findViewById(R.id.unit_conv_frac_output);
 		this.dataHold = new ConvDataHold();
-		
+
 		ArrayAdapter<String> typeAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, ConvDataHold.typeStrings);
 		typeSpin.setAdapter(typeAdapter);
-		
+
 		typeSpin.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 		        public void onItemSelected(AdapterView<?> parent, View view,
 										   int pos, long id) {refreshUnits();}
 				public void onNothingSelected(AdapterView<?> parent) {
 				}
 			});
-		setEditListener();
 		refreshUnits();
 		return;
 	}
-	
-	private void setEditListener(){
-		inBox.addTextChangedListener(new TextWatcher(){
-			@Override
-			public void afterTextChanged(Editable s){
-				goPush();
-			}
-			@Override
-			public void beforeTextChanged(CharSequence s, int start, int count, int after){}
-			@Override
-			public void onTextChanged(CharSequence s, int start, int count, int after){}
-		});
-	}
-	
+
 	String oldType = null;
 	private void refreshUnits(){
 		String type = (String) typeSpin.getSelectedItem();
@@ -84,7 +97,7 @@ public class UnitConFragment extends Fragment //implements OnClickListener
 		this.oldType = type;
 	}
 	
-	private void goPush(){
+	private void updateConversion(){
 		String inText = inBox.getText().toString();
 		double inVal = 0;
 		try{
@@ -100,7 +113,91 @@ public class UnitConFragment extends Fragment //implements OnClickListener
 		
 		outBox.setText(String.format("%s %s", result, unitShorthand));
 		fracBox.setText(String.format("%s %s (Nearest 16th)", fracResult, unitShorthand));
+	}
+	
+	//--------------------Shape Calc Functions----------------
+		
+	ShapeCalcHold shapeCalc;
+	Spinner shapeTypeSpin;
+	ImageView shapeImage;
+	TextView shapeVolBox;
+	TextView shapeSurfBox;
+	EditText[] shapeInArr;
+	TextView[] shapeLabelArr;
+	private void setupShapeSpinners(){
+		this.shapeCalc = new ShapeCalcHold();
+		this.shapeTypeSpin = (Spinner) thisFrag.findViewById(R.id.shapecalc_typeSpin);
+		this.shapeImage = (ImageView) thisFrag.findViewById(R.id.shapecalc_image);
+		this.shapeInArr = new EditText[3];
+		this.shapeInArr[0] = (EditText) thisFrag.findViewById(R.id.shapecalc_input1);
+		this.shapeInArr[1] = (EditText) thisFrag.findViewById(R.id.shapecalc_input2);
+		this.shapeInArr[2] = (EditText) thisFrag.findViewById(R.id.shapecalc_input3);
+		this.shapeLabelArr = new TextView[3];
+		this.shapeLabelArr[0] = (TextView) thisFrag.findViewById(R.id.shapecalc_label1);
+		this.shapeLabelArr[1] = (TextView) thisFrag.findViewById(R.id.shapecalc_label2);
+		this.shapeLabelArr[2] = (TextView) thisFrag.findViewById(R.id.shapecalc_label3);
+		this.shapeVolBox = (TextView) thisFrag.findViewById(R.id.shapecalc_volbox);
+		this.shapeSurfBox = (TextView) thisFrag.findViewById(R.id.shapecalc_surfbox);		
+
+		ArrayAdapter<String> typeAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, ShapeCalcHold.SHAPE_TYPES);
+		shapeTypeSpin.setAdapter(typeAdapter);
+
+		shapeTypeSpin.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+		        public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+					refreshShapeFields();
+					updateShapeCalc();
+				}
+				public void onNothingSelected(AdapterView<?> parent) {}
+			});
+		refreshShapeFields();
+		for(int i=0; i < shapeInArr.length; i++){
+			shapeInArr[i].setText("0");
+		}
+		
+		return;
+	}
+
+	String selectedShape;
+	private void refreshShapeFields(){
+		this.selectedShape = (String) shapeTypeSpin.getSelectedItem();
+		String[] labelStrings = shapeCalc.getLabelStrings(selectedShape);
+		for(int i=0; i < shapeLabelArr.length; i++){
+			if(i+1 > labelStrings.length) {
+				shapeLabelArr[i].setText("");
+				shapeInArr[i].setEnabled(false);
+			} else {
+				shapeInArr[i].setEnabled(true);
+				shapeLabelArr[i].setText(labelStrings[i]);
+			}
 		}
 	
-	
+	}
+
+	private void updateShapeCalc(){
+		this.selectedShape = (String) shapeTypeSpin.getSelectedItem();
+		double[] vals = new double[]{0d,0d,0d};
+		
+		for(int i=0; i < shapeInArr.length; i++){
+			vals[i]= getDoubleFromEdit(shapeInArr[i]);
+		}
+		double[] results = shapeCalc.getValues(selectedShape, vals);
+		shapeVolBox.setText(String.format("Volume: %s units cubed.", results[0]));
+		String surfText = String.format("Surface Area: %s units squared.", results[1]);
+		if(shapeCalc.isThis2D(selectedShape)) {
+			surfText = String.format("Perimeter: %s units.", results[1]);
+		}
+		shapeSurfBox.setText(surfText);
+	}
+
+	private double getDoubleFromEdit(EditText eText){
+		double retDouble;
+		try{
+			retDouble = Double.parseDouble(eText.getText().toString());
+		} catch (NumberFormatException e){
+			Log.e("UnitConFragment", "Can't parse double in shapeCalc input.");
+			return 0d;
+		}
+		
+		return retDouble;
+	}	
 }

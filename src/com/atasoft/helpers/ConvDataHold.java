@@ -28,7 +28,6 @@ public class ConvDataHold
 	
 	public static final String[] typeStrings = {"Length", "Pressure", "Mass", "Volume"};
 	private HashMap<String, ConversionType> typeHash;
-	//values are placeholder
 	private static final String[] lengthStrings = {"Meters", "Feet", "Inches", "Millimeter", "Centimeter", "Kilometer", "Statute Mile"};
 	private static final String[] lengthUnits = {"m","ft","in","mm","cm","km","mi"};
 	private static double[] lengthRates = {1d, 3.28083333d, 39.37007874d, 1000d, 100d, 0.001d, 0.00062137d};
@@ -41,7 +40,7 @@ public class ConvDataHold
 	private static final String[] volumeStrings = {"Litres", "Barrel (oil)", "Gallons (US)", "Quarts (US)", "Pint (UK)", "Cup (US)", "Cubic Centimeter", "Cubic Foot"};
 	private static final String[] volumeUnits = {"l", "BBL", "gal", "qrt", "pint", "cup", "cc", "ft3"};
 	private static double[] volumeRates = {1d, 0.006289811d, 0.264172052d, 1.056688209d, 1.759753986d, 4.226752838d, 1000d, 0.35314667d};
-	
+
 	public ConvDataHold() {
 		this.typeHash = new HashMap<String, ConversionType>(typeStrings.length);
 		
