@@ -181,6 +181,9 @@ public class UnitConFragment extends Fragment //implements OnClickListener
 			vals[i]= getDoubleFromEdit(shapeInArr[i]);
 		}
 		double[] results = shapeCalc.getValues(selectedShape, vals);
+		results[0] = ShapeCalcHold.roundDouble(results[0], 4);
+		results[1] = ShapeCalcHold.roundDouble(results[1], 4);
+		
 		shapeVolBox.setText(String.format("Volume: %s units cubed.", results[0]));
 		String surfText = String.format("Surface Area: %s units squared.", results[1]);
 		if(shapeCalc.isThis2D(selectedShape)) {

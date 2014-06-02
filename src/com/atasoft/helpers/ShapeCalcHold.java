@@ -116,4 +116,11 @@ public class ShapeCalcHold
 		}
 		return false;
 	}
+	
+	public static double roundDouble(double val, int decimals) {
+		double factor = Math.pow(10, decimals);
+		val = (Math.round(val * factor)) / factor;
+		return val;
+	}
+	
 }
