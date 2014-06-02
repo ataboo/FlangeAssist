@@ -1,6 +1,5 @@
 package com.atasoft.helpers;
 import android.util.*;
-import android.widget.*;
 import java.util.*;
 
 //Keeps the figures and tables for the Unit Converter in Boilermaker Toolbox

@@ -5,7 +5,6 @@ import android.content.*;
 import android.os.*;
 import android.preference.*;
 import android.support.v4.app.*;
-import android.util.*;
 import android.view.*;
 import android.view.View.*;
 import android.widget.*;

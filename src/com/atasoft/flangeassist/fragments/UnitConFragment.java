@@ -4,11 +4,11 @@ import android.os.*;
 import android.support.v4.app.*;
 import android.util.Log;
 import android.view.*;
-import android.view.View.*;
 import android.widget.*;
 
 import com.atasoft.flangeassist.*;
 import com.atasoft.helpers.*;
+
 import android.text.*;
 
 public class UnitConFragment extends Fragment //implements OnClickListener
@@ -161,6 +161,7 @@ public class UnitConFragment extends Fragment //implements OnClickListener
 	private void refreshShapeFields(){
 		this.selectedShape = (String) shapeTypeSpin.getSelectedItem();
 		String[] labelStrings = shapeCalc.getLabelStrings(selectedShape);
+		shapeImage.setImageResource(getImageResource(selectedShape));
 		for(int i=0; i < shapeLabelArr.length; i++){
 			if(i+1 > labelStrings.length) {
 				shapeLabelArr[i].setText("");
@@ -172,6 +173,30 @@ public class UnitConFragment extends Fragment //implements OnClickListener
 		}
 	
 	}
+	
+	//rather put this here and not have to pass resources to shapecalchold
+	private int getImageResource(String stringType){
+		int type = shapeCalc.getType(stringType);
+		int resID;
+		switch(type){
+		case 0:  //Cylinder
+			resID = R.drawable.shape_cyl;
+			break;
+		case 1:  //Sphere
+			resID = R.drawable.shape_sph;
+			break;
+		case 2:  //Box
+			resID = R.drawable.shape_box;
+			break;
+		case 3:  //Rectangle
+			resID = R.drawable.shape_rec;
+			break;
+		default: //Circle
+			resID = R.drawable.shape_circ;
+			break;
+	}
+		return resID;
+	}
 
 	private void updateShapeCalc(){
 		this.selectedShape = (String) shapeTypeSpin.getSelectedItem();
@@ -180,16 +205,9 @@ public class UnitConFragment extends Fragment //implements OnClickListener
 		for(int i=0; i < shapeInArr.length; i++){
 			vals[i]= getDoubleFromEdit(shapeInArr[i]);
 		}
-		double[] results = shapeCalc.getValues(selectedShape, vals);
-		results[0] = ShapeCalcHold.roundDouble(results[0], 4);
-		results[1] = ShapeCalcHold.roundDouble(results[1], 4);
-		
-		shapeVolBox.setText(String.format("Volume: %s units cubed.", results[0]));
-		String surfText = String.format("Surface Area: %s units squared.", results[1]);
-		if(shapeCalc.isThis2D(selectedShape)) {
-			surfText = String.format("Perimeter: %s units.", results[1]);
-		}
-		shapeSurfBox.setText(surfText);
+		String[] outputs = shapeCalc.getValues(selectedShape, vals);
+		shapeVolBox.setText(outputs[0]);
+		shapeSurfBox.setText(outputs[1]);
 	}
 
 	private double getDoubleFromEdit(EditText eText){

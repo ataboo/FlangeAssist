@@ -6,7 +6,7 @@ public class ShapeCalcHold
  {
 	public static final String[] SHAPE_TYPES = new String[]{
 		"Cylinder", "Sphere", "Box", "Rectangle", "Circle"};
-	
+
 	public class ShapeObject{
 		int fieldCount;
 		String[] labels;
@@ -42,29 +42,44 @@ public class ShapeCalcHold
 		return shapeHash.get(shapeType).labels;
 	}
 	
-	public double[] getValues(String typeName, double[] vals){
+	public int getType(String typeString){
+		return shapeHash.get(typeString).type;
+	}
+	
+	public String[] getValues(String typeName, double[] vals){
 		int thisType = shapeHash.get(typeName).type;
-		double[] retArr = new double[2]; //Volume, Surface Area
+		String[] retStr = new String[2];
+		double[] calcVals = new double[2];
 		switch(thisType){
 			case 0:  //Cylinder (r, h)
-				retArr = solveCylinder(vals[0], vals[1]);
+				calcVals = solveCylinder(vals[0], vals[1]);
+				retStr[0] = String.format("Volume: %s units cubed.", roundDouble(calcVals[0], 4));
+				retStr[1] = String.format("Surface Area: %s units squared.", roundDouble(calcVals[1], 4));
 				break;
 			case 1:  //Sphere (r)
-				retArr = solveSphere(vals[0]);
+				calcVals = solveSphere(vals[0]);
+				retStr[0] = String.format("Volume: %s units cubed.", roundDouble(calcVals[0], 4));
+				retStr[1] = String.format("Surface Area: %s units squared.", roundDouble(calcVals[1], 4));
 				break;
 			case 2:  //Box (l, w, h)
-				retArr = solveBox(vals[0], vals[1], vals[2]);
+				calcVals = solveBox(vals[0], vals[1], vals[2]);
+				retStr[0] = String.format("Volume: %s units cubed.", roundDouble(calcVals[0], 4));
+				retStr[1] = String.format("Surface Area: %s units squared.", roundDouble(calcVals[1], 4));
 				break;
 			case 3:  //Rectangle (l, w)
-				retArr = solveRect(vals[0], vals[1]);
+				calcVals = solveRect(vals[0], vals[1]);
+				retStr[0] = String.format("Perimeter: %s units.", roundDouble(calcVals[0], 4));
+				retStr[1] = String.format("Surface Area: %s units squared.", roundDouble(calcVals[1], 4));
 				break;
 			default: //Circle (r)
-				retArr= solveCirc(vals[0]);
+				calcVals = solveCirc(vals[0]);
+				retStr[0] = String.format("Perimeter: %s units.", roundDouble(calcVals[0], 4));
+				retStr[1] = String.format("Surface Area: %s units squared.", roundDouble(calcVals[1], 4));
 				break;
 		}
 		
 		//3d: volume, surface area. 2d: perimeter, surface area.
-		return retArr;
+		return retStr;
 	}
 	
 	private double[] solveCylinder(double radius, double height){
@@ -90,15 +105,15 @@ public class ShapeCalcHold
 	
 	private double[] solveRect(double length, double width){
 		double[] retArr = new double[2];
-		retArr[0] = length * width;
-		retArr[1] = 2 * length + 2 * width; //perimeter
+		retArr[1] = length * width;
+		retArr[0] = 2 * length + 2 * width; //perimeter
 		return retArr;
 	}
 	
 	private double[] solveCirc(double radius){
 		double[] retArr = new double[2];
-		retArr[0] = Math.PI * radius * radius;
-		retArr[1] = 2 * Math.PI * radius * radius; //perimeter
+		retArr[1] = Math.PI * radius * radius;
+		retArr[0] = 2 * Math.PI * radius * radius; //perimeter
 		return retArr;
 	}
 	

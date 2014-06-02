@@ -3,9 +3,9 @@
     android:layout_height="fill_parent">
 	<RelativeLayout
 		android:layout_width="fill_parent"
-		android:layout_height="fill_parent"
+		android:layout_height="wrap_content"
 		android:paddingLeft="16dp"
-		paddingRight="16dp">
+		android:paddingRight="16dp">
 		<View
 			android:id="@+id/unit_conv_pb1"
 			android:layout_width="match_parent"
@@ -77,20 +77,12 @@
 			android:layout_width="fill_parent"
 			android:layout_height="wrap_content"
 			android:layout_below="@id/unit_conv_text_output"
-			android:text="Fraction Equivelent"
+			android:text="Fraction Equivalent"
 			android:paddingTop="10dp"
 			android:paddingLeft="12dp"
 			android:layout_marginLeft="16dp"
 			android:textSize="18sp"
 		/>
-		<!--<Button
-			android:id="@+id/unit_conv_go_button"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:text="OK"
-			android:textSize="16sp"
-			android:layout_below="@id/unit_conv_frac_output"/>
-		-->
 		
 		<!--Shape Calculator Below-->
 		<View 
@@ -120,8 +112,8 @@
 			android:layout_width="130dp"
 			android:layout_height="130dp"
 			android:layout_below="@id/shapecalc_title"
-			android:layout_marginRight="10dp"
-		 	android:layout_alignParentRight="true" />
+			android:layout_marginLeft="20dp"
+		 	android:layout_toRightOf="@id/shapecalc_typeSpin" />
 		<TextView
 			android:id="@+id/shapecalc_label1"
 			android:textSize="18sp"
