@@ -94,7 +94,8 @@ public class UnitConFragment extends Fragment implements OnClickListener
 		double result = dataHold.convertValue(inVal, oldType, unit1, unit2);
 		//Toast.makeText(getActivity(), String.format("Result is: %.2f.", result), Toast.LENGTH_SHORT).show();
 		outBox.setText(String.format("%s %s", result, unitShorthand));
-		
+		dataHold.nearestSixteenth(2.8d);
+		dataHold.nearestSixteenth(-2.13d);
 		//TODO fraction output
 		
 	}

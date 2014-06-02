@@ -109,9 +109,6 @@ public class PaychequeFragment extends Fragment implements OnClickListener
 		prefs = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
 		
 		setupSpinners();
-		
-		Log.w("pci estimate", "ran pay create view");
-		
         return v;
     }
 	

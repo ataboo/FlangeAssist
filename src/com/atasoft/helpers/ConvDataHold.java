@@ -1,5 +1,6 @@
 package com.atasoft.helpers;
 import android.util.*;
+import android.widget.*;
 import java.util.*;
 
 //Keeps the figures and tables for the Unit Converter in Boilermaker Toolbox
@@ -71,5 +72,12 @@ public class ConvDataHold
 		ConversionType unitType = typeHash.get(type);
 		String retString = unitType.unitMap.get(unit);
 		return retString;
+	}
+	
+	public double nearestSixteenth(double decValue){
+		int intVal = (int) decValue;
+		
+		Log.w("ConvDataHold", String.format("%.2f int equivelant is %s", decValue, intVal));
+		return 0d;
 	}
 }
