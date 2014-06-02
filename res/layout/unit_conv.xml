@@ -67,11 +67,22 @@
 		android:paddingLeft="12dp"
 		android:textSize="18sp"
 	/>
+	<TextView
+		android:id="@+id/unit_conv_frac_output"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:layout_below="@id/unit_conv_text_output"
+		android:text="Fraction Equivelent"
+		android:paddingTop="10dp"
+		android:paddingLeft="12dp"
+		android:textSize="18sp"
+	/>
+	
 	<View
 		android:id="@+id/unit_conv_pb2"
 		android:layout_width="match_parent"
 		android:layout_height="1dp"
-		android:layout_below="@id/unit_conv_text_output"
+		android:layout_below="@id/unit_conv_frac_output"
 		android:layout_marginTop="6dp"
 		android:layout_marginBottom="6dp"
 		android:background="#70a5b3" />

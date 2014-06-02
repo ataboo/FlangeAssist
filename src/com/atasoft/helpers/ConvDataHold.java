@@ -74,10 +74,42 @@ public class ConvDataHold
 		return retString;
 	}
 	
-	public double nearestSixteenth(double decValue){
+	public String makeFraction(double decValue, int denom){
+		String sign  = decValue < 0 ? "-" : "";
+		decValue = Math.abs(decValue);
 		int intVal = (int) decValue;
+		int numerator = (int) Math.round((decValue - intVal) * denom);
+		String fracString = lowComDen(numerator, denom);
+		if(fracString == "0") {
+			fracString = intVal > 0 ? sign + String.format("%d", intVal): "0";
+			return fracString;
+		}
+		if(fracString == "1") return(Integer.toString(intVal+1));			
 		
-		Log.w("ConvDataHold", String.format("%.2f int equivelant is %s", decValue, intVal));
-		return 0d;
+		sign = intVal > 0 ? sign + String.format("%d-", intVal): sign;
+		fracString = sign + fracString;
+		return fracString;
+	}
+	
+	private String lowComDen(int numerator, int denom){
+		if(numerator == 0) {
+			return "0";
+		}
+		
+		if(numerator == denom){
+			return "1";
+		}
+		
+		if(denom <= 0 || numerator > denom){
+			Log.e("ConvDataHold", String.format("numerator: %d and denom: %d are invalid.", numerator, denom));
+			return "Fraction Error";
+		}
+		while(numerator % 2 == 0 && numerator > 0){
+			numerator /= 2;
+			denom /= 2;
+		}
+		
+		String retString = String.format("%d/%d", numerator, denom);
+		return retString;
 	}
 }

@@ -37,6 +37,7 @@ public class UnitConFragment extends Fragment implements OnClickListener
 	Spinner unitSpin2;
 	EditText inBox;
 	TextView outBox;
+	TextView fracBox;
 	Button goButton;
 	ConvDataHold dataHold;
 	private void setupSpinners(){
@@ -45,6 +46,7 @@ public class UnitConFragment extends Fragment implements OnClickListener
 		this.unitSpin2 = (Spinner) thisFrag.findViewById(R.id.unit_conv_unit2_spinner);
 		this.inBox = (EditText) thisFrag.findViewById(R.id.unit_conv_text_input);
 		this.outBox = (TextView) thisFrag.findViewById(R.id.unit_conv_text_output);
+		this.fracBox = (TextView) thisFrag.findViewById(R.id.unit_conv_frac_output);
 		this.goButton = (Button) thisFrag.findViewById(R.id.unit_conv_go_button);
 		this.dataHold = new ConvDataHold();
 		
@@ -92,13 +94,11 @@ public class UnitConFragment extends Fragment implements OnClickListener
 		String unit2 = unitSpin2.getSelectedItem().toString();
 		String unitShorthand = dataHold.getUnit(oldType, unit2);
 		double result = dataHold.convertValue(inVal, oldType, unit1, unit2);
-		//Toast.makeText(getActivity(), String.format("Result is: %.2f.", result), Toast.LENGTH_SHORT).show();
-		outBox.setText(String.format("%s %s", result, unitShorthand));
-		dataHold.nearestSixteenth(2.8d);
-		dataHold.nearestSixteenth(-2.13d);
-		//TODO fraction output
+		String fracResult = dataHold.makeFraction(result, 16);
 		
-	}
+		outBox.setText(String.format("%s %s", result, unitShorthand));
+		fracBox.setText(String.format("%s %s (Nearest 16th)", fracResult, unitShorthand));
+		}
 	
 	
 }
