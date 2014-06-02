@@ -9,8 +9,9 @@ import android.widget.*;
 
 import com.atasoft.flangeassist.*;
 import com.atasoft.helpers.*;
+import android.text.*;
 
-public class UnitConFragment extends Fragment implements OnClickListener
+public class UnitConFragment extends Fragment //implements OnClickListener
 {
 	View thisFrag;
 	
@@ -19,18 +20,10 @@ public class UnitConFragment extends Fragment implements OnClickListener
 							 Bundle savedInstanceState) {
 
         thisFrag = inflater.inflate(R.layout.unit_conv , container, false);
-        setupSpinners();
+        setupConvSpinners();
         return thisFrag;
     }
 	
-	@Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-			case R.id.unit_conv_go_button:
-				goPush();
-				break;
-        }
-	}
 	
 	Spinner typeSpin;
 	Spinner unitSpin1;
@@ -40,17 +33,14 @@ public class UnitConFragment extends Fragment implements OnClickListener
 	TextView fracBox;
 	Button goButton;
 	ConvDataHold dataHold;
-	private void setupSpinners(){
+	private void setupConvSpinners(){
 		this.typeSpin = (Spinner) thisFrag.findViewById(R.id.unit_conv_type_spinner);
 		this.unitSpin1 = (Spinner) thisFrag.findViewById(R.id.unit_conv_unit1_spinner);
 		this.unitSpin2 = (Spinner) thisFrag.findViewById(R.id.unit_conv_unit2_spinner);
 		this.inBox = (EditText) thisFrag.findViewById(R.id.unit_conv_text_input);
 		this.outBox = (TextView) thisFrag.findViewById(R.id.unit_conv_text_output);
 		this.fracBox = (TextView) thisFrag.findViewById(R.id.unit_conv_frac_output);
-		this.goButton = (Button) thisFrag.findViewById(R.id.unit_conv_go_button);
 		this.dataHold = new ConvDataHold();
-		
-		goButton.setOnClickListener(this);
 		
 		ArrayAdapter<String> typeAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, ConvDataHold.typeStrings);
 		typeSpin.setAdapter(typeAdapter);
@@ -61,13 +51,25 @@ public class UnitConFragment extends Fragment implements OnClickListener
 				public void onNothingSelected(AdapterView<?> parent) {
 				}
 			});
+		setEditListener();
 		refreshUnits();
-			
 		return;
 	}
 	
+	private void setEditListener(){
+		inBox.addTextChangedListener(new TextWatcher(){
+			@Override
+			public void afterTextChanged(Editable s){
+				goPush();
+			}
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count, int after){}
+			@Override
+			public void onTextChanged(CharSequence s, int start, int count, int after){}
+		});
+	}
+	
 	String oldType = null;
-	//Checks if selected type has changed and populate units accordingly
 	private void refreshUnits(){
 		String type = (String) typeSpin.getSelectedItem();
 		if(type != oldType){
