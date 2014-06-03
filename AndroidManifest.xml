@@ -29,6 +29,14 @@
 				android:name="android.support.PARENT_ACTIVITY"
 				android:value="com.atasoft.flangeassist.MainActivity" />
         </activity>
+		<activity android:name="com.atasoft.flangeassist.ToolsActivity" 
+			android:label="@string/tools_name"
+			android:parentActivityName="com.atasoft.flangeassist.MainActivity" >
+			<!-- Parent activity meta-data to support 4.0 and lower -->
+			<meta-data
+				android:name="android.support.PARENT_ACTIVITY"
+				android:value="com.atasoft.flangeassist.MainActivity" />
+        </activity>
     </application>
 
 </manifest>
