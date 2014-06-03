@@ -1,8 +1,6 @@
 package com.atasoft.flangeassist;
 
 
-import com.atasoft.flangeassist.fragments.*;
-
 import android.annotation.*;
 import android.app.*;
 import android.content.*;
