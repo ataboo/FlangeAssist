@@ -17,14 +17,13 @@ public class ToolsActivity extends FragmentActivity implements ActionBar.TabList
 	private TabsPagerAdapter mAdapter;
 	private ActionBar actionBar;
 	// Tab titles
-	private String[] tabs = {"About", "Flange\nTables", "Torque\nPattern", "Paycheque\nCalculator", "CPI Raise\nEstimator", "Unit\nConverter", "Hall\nLinks"};
-	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.tools_activity);
 
 		// Initilization
+		String[] tabs = TabsPagerAdapter.TABS;
 		viewPager = (ViewPager) findViewById(R.id.pager);
 		actionBar = getActionBar();
 		mAdapter = new TabsPagerAdapter(getSupportFragmentManager());
