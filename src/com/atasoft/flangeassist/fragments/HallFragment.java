@@ -5,10 +5,13 @@ import android.support.v4.app.*;
 import android.util.*;
 import android.view.*;
 import android.widget.*;
+
 import com.atasoft.adapters.*;
 import com.atasoft.flangeassist.*;
 
 public class HallFragment extends Fragment {
+	
+	public static final String NAME = "Hall Contacts";
     View thisFrag;
 	SparseArray<ExpandableGroup> groups = new SparseArray<ExpandableGroup>();
 	

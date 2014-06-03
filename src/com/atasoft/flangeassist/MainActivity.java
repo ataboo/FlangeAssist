@@ -1,11 +1,12 @@
 package com.atasoft.flangeassist;
 
 
+import com.atasoft.flangeassist.fragments.*;
+
 import android.annotation.*;
 import android.app.*;
 import android.content.*;
 import android.os.*;
-import android.util.*;
 import android.view.*;
 import android.view.View.*;
 import android.widget.*;
@@ -47,7 +48,6 @@ public class MainActivity extends Activity implements OnClickListener {
 	
 	@Override
     public void onClick(View v) {
-        
 		switch (v.getId()) {
 			case R.id.main_toolButton:
 				launchTools();
@@ -65,33 +65,46 @@ public class MainActivity extends Activity implements OnClickListener {
 				launchAbout();
 				break;
 		}
-		
     }
 	
 	Button toolButton;
+	Button paychequeButton;
+	Button linkButton;
+	Button settingsButton;
+	Button aboutButton;
+	Button[] buttonArr;
 	private void setupButtons(){
 		this.toolButton = (Button) findViewById(R.id.main_toolButton);
-		
-		toolButton.setOnClickListener(this);
+		this.paychequeButton = (Button) findViewById(R.id.main_paychequeButton);
+		this.linkButton = (Button) findViewById(R.id.main_linkButton);
+		this.settingsButton = (Button) findViewById(R.id.main_settingsButton);
+		this.aboutButton = (Button) findViewById(R.id.main_aboutButton);
+		this.buttonArr = new Button[]{toolButton, paychequeButton, linkButton, settingsButton, aboutButton};
+		for(Button b: buttonArr){
+			b.setOnClickListener(this);
+		}
 	}
-	
+		
 	private void launchTools(){
 		Intent intent = new Intent(this, ToolsActivity.class);
 	    startActivity(intent);
 	}
 	
 	private void launchPayCalc(){
-		Intent intent = new Intent(this, ToolsActivity.class);
+		Intent intent = new Intent(this, FragFramer.class);
+		intent.putExtra("launch_frag", FragFramer.PAY_CALC);
 	    startActivity(intent);
 	}
 	
 	private void launchLinks(){
-		Intent intent = new Intent(this, ToolsActivity.class);
+		Intent intent = new Intent(this, FragFramer.class);
+		intent.putExtra("launch_frag", FragFramer.HALL);
 	    startActivity(intent);
 	}
 	
 	private void launchAbout(){
-		Intent intent = new Intent(this, ToolsActivity.class);
+		Intent intent = new Intent(this, FragFramer.class);
+		intent.putExtra("launch_frag", FragFramer.ABOUT);
 	    startActivity(intent);	
 	}
 	

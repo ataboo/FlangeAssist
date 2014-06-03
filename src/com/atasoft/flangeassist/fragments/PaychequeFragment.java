@@ -8,6 +8,7 @@ import android.support.v4.app.*;
 import android.view.*;
 import android.view.View.*;
 import android.widget.*;
+
 import com.atasoft.flangeassist.*;
 import com.atasoft.helpers.*;
 
@@ -22,6 +23,7 @@ public class PaychequeFragment extends Fragment implements OnClickListener
 		FOUR_END;
 	}
 	
+	public static final String NAME = "Paycheque Calculator";
 	double wageRates[];
 	double vacationPay;
 	double workingDuesRate;

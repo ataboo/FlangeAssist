@@ -3,11 +3,9 @@ package com.atasoft.flangeassist;
 import android.annotation.*;
 import android.app.*;
 import android.app.ActionBar.*;
-import android.content.*;
 import android.os.*;
 import android.support.v4.app.*;
 import android.support.v4.view.*;
-import android.view.*;
 import com.atasoft.adapters.*;
 
 import android.app.FragmentTransaction;
@@ -20,7 +18,7 @@ public class ToolsActivity extends FragmentActivity implements ActionBar.TabList
 	private ActionBar actionBar;
 	// Tab titles
 	private String[] tabs = {"About", "Flange\nTables", "Torque\nPattern", "Paycheque\nCalculator", "CPI Raise\nEstimator", "Unit\nConverter", "Hall\nLinks"};
-
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
