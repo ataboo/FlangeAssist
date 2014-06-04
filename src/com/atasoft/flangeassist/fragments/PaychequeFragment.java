@@ -4,11 +4,11 @@
 import android.content.*;
 import android.os.*;
 import android.preference.*;
-import android.support.v4.app.*;
-import android.util.*;
+import android.app.*;
 import android.view.*;
 import android.view.View.*;
 import android.widget.*;
+
 import com.atasoft.flangeassist.*;
 import com.atasoft.helpers.*;
 
@@ -23,6 +23,7 @@ public class PaychequeFragment extends Fragment implements OnClickListener
 		FOUR_END;
 	}
 	
+	public static final String NAME = "Paycheque Calculator";
 	double wageRates[];
 	double vacationPay;
 	double workingDuesRate;
@@ -109,9 +110,6 @@ public class PaychequeFragment extends Fragment implements OnClickListener
 		prefs = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
 		
 		setupSpinners();
-		
-		Log.w("pci estimate", "ran pay create view");
-		
         return v;
     }
 	
