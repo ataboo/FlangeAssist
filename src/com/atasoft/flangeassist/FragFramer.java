@@ -1,14 +1,12 @@
 package com.atasoft.flangeassist;
 
+import android.annotation.*;
+import android.app.*;
+import android.os.*;
+import com.atasoft.flangeassist.*;
 import com.atasoft.flangeassist.fragments.*;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentTransaction;
-import android.annotation.SuppressLint;
-import android.app.ActionBar;
-import android.os.Bundle;
 
-public class FragFramer extends FragmentActivity {
+public class FragFramer extends Activity {
 	public static final int PAY_CALC = 0;
 	public static final int HALL = 1;
 	public static final int ABOUT = 2;
@@ -22,9 +20,11 @@ public class FragFramer extends FragmentActivity {
 		actionBar = getActionBar();
 		actionBar.setHomeButtonEnabled(true);
 		
-		launchFrag(getIntent().getIntExtra("launch_frag", 0));
+		//int fragCode = getIntent().getIntExtra("launch_frag", 0);
+		int fragCode  = getIntent().getIntExtra("launch_frag", 0);
+		launchFrag(fragCode);
 		
-		
+	
 		
 	}
 	
@@ -46,10 +46,10 @@ public class FragFramer extends FragmentActivity {
 			break;
 		}
 		
-		FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+		FragmentTransaction transaction = getFragmentManager().beginTransaction();
+
+		setTitle(name);
 		transaction.add(R.id.fragframe, frag);
 		transaction.commit();
-		
-		setTitle(name);
 	}
 }
