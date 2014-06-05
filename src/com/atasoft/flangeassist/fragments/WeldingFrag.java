@@ -3,9 +3,9 @@ package com.atasoft.flangeassist.fragments;
 import android.os.*;
 import android.support.v4.app.*;
 import android.view.*;
-import android.view.View.*;
 import android.widget.*;
 import com.atasoft.flangeassist.*;
+import java.util.*;
 
 public class WeldingFrag extends Fragment implements NumberPicker.OnValueChangeListener
 {
@@ -16,17 +16,19 @@ public class WeldingFrag extends Fragment implements NumberPicker.OnValueChangeL
 		View v = inflater.inflate(R.layout.welding_reference, container, false);
         this.thisFrag = v;
 
-		setupSpinners();
+		setupElectrodeViews();
+		setupSymbolViews();
 		return v;
     }
 	
 	@Override
 	public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
     	//switch(picker.getId()){}
-		updateOutputs();
+		updateElectrodeOutputs();
 		
 	}
 	
+	//-------------------Weld Electrodes Functions-----------
 	public static final String[][] STRENGTHS = new String[][] {
 		{"60","70","80", "90", "100", "110", "120"},
 		{"60,000 PSI (CSA 43 MPa)", 
@@ -36,12 +38,9 @@ public class WeldingFrag extends Fragment implements NumberPicker.OnValueChangeL
 		"100,000 PSI (CSA 69 MPa)",
 		"110,000 PSI (CSA 76 MPa)",
 		"120,000 PSI (CSA 83 MPa)"}};
-		
 	public static final String[][] POSITIONS = new String[][] {
 		{"1","2","3"},
-		{"All Positions", "Flat and Horizontal", "Flat Only"}
-	};
-	
+		{"All Positions", "Flat and Horizontal", "Flat Only"}};
 	public static final String[][] COATINGS = new String[][] {
 		{"0","1","2","3","4","5","6","7","8"},
 		{"High Cellulose Sodium.",
@@ -55,10 +54,8 @@ public class WeldingFrag extends Fragment implements NumberPicker.OnValueChangeL
 		"Iron Powder Low Hydrogen."},
 		{"DCRP", "AC, DCSP", "AC, DCSP", "AC, DCRP", "AC, DCRP, DCSP", "DCRP", "AC, DCRP", "AC, DCRP, DCSP", "AC, DCRP"}
 	};
-	
 	public static final String footNotes = 
 		"*DCRP = Reverse Polarity (Electrode +ve).\n*DCSP = Straight Polarity (Electrode -ve)";
-	
 	public static final String EXCEPTION = "AC, DCRP, DCSP"; //xx20
 		
 	private NumberPicker strengthPicker;
@@ -70,7 +67,7 @@ public class WeldingFrag extends Fragment implements NumberPicker.OnValueChangeL
 	private TextView coatingBlurb;
 	private TextView polarityBlurb;
 	private TextView footNoteText;
-	private void setupSpinners() {
+	private void setupElectrodeViews() {
 		this.strengthPicker = (NumberPicker) thisFrag.findViewById(R.id.weld_strength_picker);
 		this.positionPicker = (NumberPicker) thisFrag.findViewById(R.id.weld_position_picker);
 		this.coatingPicker = (NumberPicker) thisFrag.findViewById(R.id.weld_coating_picker);
@@ -91,7 +88,7 @@ public class WeldingFrag extends Fragment implements NumberPicker.OnValueChangeL
 		positionPicker.setOnValueChangedListener(this);
 		coatingPicker.setOnValueChangedListener(this);
 		
-		updateOutputs();
+		updateElectrodeOutputs();
 		return;
 	}
 	
@@ -102,7 +99,7 @@ public class WeldingFrag extends Fragment implements NumberPicker.OnValueChangeL
 		picker.setWrapSelectorWheel(false);
 	}
 	
-	private void updateOutputs(){
+	private void updateElectrodeOutputs(){
 		int coatingVal = coatingPicker.getValue();
 		int posVal = positionPicker.getValue();
 		//xx20, (posVal[1] = "2")
@@ -112,6 +109,65 @@ public class WeldingFrag extends Fragment implements NumberPicker.OnValueChangeL
 		positionBlurb.setText(POSITIONS[1][posVal]);
 		coatingBlurb.setText(COATINGS[1][coatingVal]);
 		polarityBlurb.setText(polarityString);
+	}
+	
+	//-----------------Weld Symbol Generator Functions---------------
+	
+	public class SymbolChunk{
+		public static final int SURFACE = 0;
+		public static final int FILLET = 1;
+		public static final int PLUG = 2;
+		public static final int SQUARE = 3;
+		public static final int VPREP = 4;
+		public static final int BEVEL = 6;
+		public static final int UPREP = 7;
+		public static final int JPREP = 8;
+		public static final int FLAREV = 9;
+		public static final int FLAREBEV = 10;
+		
+		public static final String[] NAME_STRINGS = {"Surface Weld", "Fillet Weld", "Plug Weld", "Square Weld", 
+			"V-Groove", "Bevel Weld", "U-Groove", "J-Groove", "Flared V", "Flared Bevel"};
+		
+		public static final String[] FILLET_SUBS = {
+			"Weld Throat", "Weld Length", "Distance Between Welds"};
+			
+		public static final String[] GROOVE_SUBS = {
+			"Prep Depth", "Weld Size", "Angle", "Melt Through", "Backing Bar"
+		};
+		
+		public static final String[] SQUARE_SUBS = {
+			"Weld Size", "Gap Width" 
+		};
+		
+		String[] subs = null;
+			
+		//String[] subOptions; //children symbols
+		boolean canDouble = false;  //weld both sides
+		
+		public SymbolChunk(int type){
+			if(type == VPREP || type == FILLET || type == BEVEL)
+				this.canDouble = true;
+			
+			switch(type){
+			case SURFACE:
+				
+				break;
+				
+			}
+		}
+	}
+	
+	LinearLayout symbolLinear;
+	ArrayList<Spinner> spinnerStack;
+	private void setupSymbolViews(){
+		this.symbolLinear = (LinearLayout) thisFrag.findViewById(R.id.symbol_linear);
+		
+		
+		return;
+	}
+	
+	private void addSpinnerToStack(SymbolChunk spinHold){
+		
 	}
 	
 	

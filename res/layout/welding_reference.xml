@@ -133,6 +133,33 @@
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:layout_below="@id/weld_polarityTitle" />
-
+		<View
+			android:id="@+id/weld_pb2"
+			android:layout_width="match_parent"
+			android:layout_height="1dp"
+			android:layout_below="@id/weld_footNotes"
+			android:layout_marginTop="6dp"
+			android:layout_marginBottom="6dp"
+			android:background="#70a5b3" />
+		<TextView
+			android:id="@+id/symbol_header"
+			android:text="Specify a weld in the dropdowns to generate a symbol."
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:layout_below="@id/weld_pb2" />
+		<!-- Drawable Here -->
+		<LinearLayout
+			android:id="@+id/symbol_linear"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:orientation="vertical"
+			>
+			<Spinner
+				android:id="@+id/symbol_mainCatSpin"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content" />
+		</LinearLayout>
+		
+		
 	</RelativeLayout>
 </ScrollView>
