@@ -6,20 +6,19 @@
 		android:layout_height="wrap_content"
 		android:paddingLeft="16dp"
 		android:paddingRight="16dp">
+		<TextView
+			android:id="@+id/unit_conv_title"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="Choose a category and 2 units from dropdowns and enter value:"/>
 		<View
 			android:id="@+id/unit_conv_pb1"
+			android:layout_below="@id/unit_conv_title"
 			android:layout_width="match_parent"
 			android:layout_height="1dp"
 			android:layout_marginTop="6dp"
 			android:layout_marginBottom="6dp"
 			android:background="#70a5b3" />
-		<TextView
-			android:id="@+id/unit_conv_title"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:textSize="16sp"
-			android:layout_below="@id/unit_conv_pb1"
-			android:text="Unit Converter"/>
 		<Spinner
 			android:id="@+id/unit_conv_type_spinner"
 			android:layout_width="fill_parent"
@@ -81,130 +80,6 @@
 			android:paddingTop="10dp"
 			android:paddingLeft="12dp"
 			android:layout_marginLeft="16dp"
-			android:textSize="18sp"
-		/>
-		
-		<!--Shape Calculator Below-->
-		<View 
-			android:id="@+id/shapecalc_pb2"
-			android:layout_width="match_parent"
-			android:layout_height="1dp"
-			android:layout_below="@id/unit_conv_frac_output"
-			android:layout_marginTop="6dp"
-			android:layout_marginBottom="12dp"
-			android:background="#70a5b3" />
-		<TextView
-			android:id="@+id/shapecalc_title"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:textSize="16dp"
-			android:layout_below="@id/shapecalc_pb2"
-			android:text="Shape Calculator:"/>
-		/>
-		<Spinner
-			android:id="@+id/shapecalc_typeSpin"
-			android:layout_width="200dp"
-			android:layout_height="wrap_content"
-			android:layout_below="@id/shapecalc_title"/>
-		<ImageView
-			android:id="@+id/shapecalc_image"
-			android:src="@drawable/shape_cyl"
-			android:layout_width="130dp"
-			android:layout_height="130dp"
-			android:layout_below="@id/shapecalc_title"
-			android:layout_marginLeft="20dp"
-		 	android:layout_toRightOf="@id/shapecalc_typeSpin" />
-		<TextView
-			android:id="@+id/shapecalc_label1"
-			android:textSize="18sp"
-			android:paddingTop="8dp"
-			android:text="Radius (r):"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:layout_below="@id/shapecalc_image"
-			android:layout_marginLeft="10dp"
-		/>
-		<EditText
-			android:id="@+id/shapecalc_input1"
-			android:layout_width="240dp"
-			android:layout_height="wrap_content"
-			android:maxLines="1"
-			android:maxLength="20"
-			android:singleLine="true"
-			android:inputType="numberDecimal"	
-			android:layout_below="@id/shapecalc_image"
-			android:layout_toRightOf="@id/shapecalc_label1"
-		/>
-		<TextView
-			android:id="@+id/shapecalc_label2"
-			android:textSize="18sp"
-			android:paddingTop="8dp"
-			android:text="height (h):"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:layout_below="@id/shapecalc_label1"
-			android:layout_marginLeft="10dp"
-		/>
-		<EditText
-			android:id="@+id/shapecalc_input2"
-			android:layout_width="240dp"
-			android:layout_height="wrap_content"
-			android:maxLines="1"
-			android:maxLength="20"
-			android:singleLine="true"
-			android:inputType="numberDecimal"	
-			android:layout_below="@id/shapecalc_label1"
-			android:layout_toRightOf="@id/shapecalc_label1"
-		/>
-		<TextView
-			android:id="@+id/shapecalc_label3"
-			android:textSize="18sp"
-			android:paddingTop="8dp"
-			android:text="width (y):"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:layout_below="@id/shapecalc_label2"
-			android:layout_marginLeft="10dp"
-		/>
-		<EditText
-			android:id="@+id/shapecalc_input3"
-			android:layout_width="240dp"
-			android:layout_height="wrap_content"
-			android:maxLines="1"
-			android:maxLength="20"
-			android:singleLine="true"
-			android:inputType="numberDecimal"	
-			android:layout_below="@id/shapecalc_label2"
-			android:layout_toRightOf="@id/shapecalc_label1"
-		/>
-		<TextView
-			android:id="@+id/shapecalc_surfbox"
-			android:textSize="18sp"
-			android:paddingTop="8dp"
-			android:text="Surface Area: "
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:layout_below="@id/shapecalc_label3"
-			android:layout_marginLeft="10dp"
-		/>
-		<TextView
-			android:id="@+id/shapecalc_volbox"
-			android:textSize="18sp"
-			android:paddingTop="8dp"
-			android:text="Volume: "
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:layout_below="@id/shapecalc_surfbox"
-			android:layout_marginLeft="10dp"
-		/>
-		<View 
-			android:id="@+id/shapecalc_pb3"
-			android:layout_width="match_parent"
-			android:layout_height="1dp"
-			android:layout_below="@id/shapecalc_volbox"
-			android:layout_marginTop="6dp"
-			android:layout_marginBottom="6dp"
-			android:background="#70a5b3" 
-		/>
+			android:textSize="18sp" />
 	</RelativeLayout>
 </ScrollView>

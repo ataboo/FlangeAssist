@@ -7,7 +7,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 public class TabsPagerAdapter extends FragmentPagerAdapter {
-	public static final String[] TABS = {"Flange\nTables", "Torque\nPattern", "CPI Raise\nEstimator", "Unit\nConverter"};
+	public static final String[] TABS = {"Flange\nTables", "Torque\nPattern", "CPI Raise\nEstimator", "Unit\nConverter", "Shape\nCalculator"};
 	public static int TAB_COUNT = TABS.length;
 	
     public TabsPagerAdapter(FragmentManager fm) {
@@ -30,6 +30,9 @@ public class TabsPagerAdapter extends FragmentPagerAdapter {
 			case 3:
 				// Unit Converter
 				return new UnitConFragment();
+			case 4:
+				// Shape Calculator
+				return new ShapeCalcFrag();
 		}
 
         return null;

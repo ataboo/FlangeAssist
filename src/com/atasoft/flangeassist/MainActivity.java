@@ -8,6 +8,7 @@ import android.os.*;
 import android.view.*;
 import android.view.View.*;
 import android.widget.*;
+import com.atasoft.adapters.*;
 
 @SuppressLint("NewApi")
 public class MainActivity extends Activity implements OnClickListener {
@@ -28,7 +29,7 @@ public class MainActivity extends Activity implements OnClickListener {
 	}
 	
 	private void openSettings() {
-		Intent intent = new Intent(this, PreferenceHelper.class);
+		Intent intent = new Intent(this, PreferenceMenu.class);
 	    startActivity(intent);
 	}
 	

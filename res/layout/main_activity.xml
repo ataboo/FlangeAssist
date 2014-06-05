@@ -14,31 +14,31 @@
 		<Button
 			android:id="@+id/main_paychequeButton"
 			android:layout_width="fill_parent"
-			android:layout_height="wrap_content"
+			android:layout_height="60dp"
 			android:padding="10dp"
 			android:text="Paycheque Calculator" />
 		<Button
 			android:id="@+id/main_toolButton"
 			android:layout_width="fill_parent"
-			android:layout_height="wrap_content"
+			android:layout_height="60dp"
 			android:text="Trade Tools"
 			android:padding="10dp" />
 		<Button
 			android:id="@+id/main_linkButton"
 			android:layout_width="fill_parent"
-			android:layout_height="wrap_content"
+			android:layout_height="60dp"
 			android:padding="10dp"
 			android:text="Hall Contacts" />
 		<Button
 			android:id="@+id/main_settingsButton"
 			android:layout_width="fill_parent"
-			android:layout_height="wrap_content"
+			android:layout_height="60dp"
 			android:padding="10dp"
 			android:text="Settings" />
 		<Button
 			android:id="@+id/main_aboutButton"
 			android:layout_width="fill_parent"
-			android:layout_height="wrap_content"
+			android:layout_height="60dp"
 			android:text="About"
 			android:padding="10dp"/>
 	</LinearLayout>
