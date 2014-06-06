@@ -6,7 +6,9 @@ Tell your jealous friends with IPhones about the JavaScript (cross-device) rewri
 http://atasoft.altervista.org
 
 Main features so far (v0.19):
--NEW: Unit Converter / Basic Geometry Calculator.
+-NEW: Shape Calculator finds volume/surface area.
+-NEW: Welding Electrode Reference gives information based on AWS code.
+-Unit Converter (length, pressure, volume, mass)
 -Paycheque Calculator (based on 146 Maintenance Agreement)
 -ASME flange tool (provides details based on flange size and rating)
 -Torque pattern generator
@@ -24,6 +26,8 @@ Changes:
 ==================
 v0.19 (06/02/14):
 -Added geometric shape calculator on unit converter
+-Added welding electrode reference
+-Separated tools in new menu layout
 -Added fraction to nearest 16th on calculated units
 -Remembered to update the About Page
 

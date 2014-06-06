@@ -106,7 +106,7 @@
 			android:dialogTitle="Monthly Dues Rate"
 			android:dialogMessage="Set the Monthly dues rate." 
 			android:selectAllOnFocus="true"
-			android:defaultValue="37.90" />
+			android:defaultValue="38.80" />
 		<EditTextPreference
 			android:key="custom_loa"
 			android:ems="10"

@@ -1,7 +1,7 @@
 package com.atasoft.flangeassist.fragments;
 
 import android.os.*;
-import android.support.v4.app.*;
+import android.app.*;
 import android.view.*;
 import android.widget.*;
 import com.atasoft.flangeassist.*;
@@ -17,7 +17,7 @@ public class WeldingFrag extends Fragment implements NumberPicker.OnValueChangeL
         this.thisFrag = v;
 
 		setupElectrodeViews();
-		setupSymbolViews();
+		//setupSymbolViews();
 		return v;
     }
 	
@@ -157,6 +157,7 @@ public class WeldingFrag extends Fragment implements NumberPicker.OnValueChangeL
 		}
 	}
 	
+	/*
 	LinearLayout symbolLinear;
 	ArrayList<Spinner> spinnerStack;
 	private void setupSymbolViews(){
@@ -169,6 +170,6 @@ public class WeldingFrag extends Fragment implements NumberPicker.OnValueChangeL
 	private void addSpinnerToStack(SymbolChunk spinHold){
 		
 	}
-	
+	*/
 	
 }
