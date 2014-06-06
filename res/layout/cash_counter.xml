@@ -2,9 +2,16 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical">
-	<Button
-		android:id="@+id/cash_testButton"
+	<LinearLayout
+		android:id="@+id/cash_startLin"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
-		android:text="Test"/>
+		android:orientation="vertical">
+		<TextView
+			android:id="@+id/cash_startExpand"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:clickable="true"
+			android:text="Set Start Time:"/>
+	</LinearLayout>
 </LinearLayout>
