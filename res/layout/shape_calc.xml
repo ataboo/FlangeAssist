@@ -3,13 +3,16 @@
     android:layout_height="fill_parent">
 	<RelativeLayout
 		android:id="@+id/shape_calcRelativeLayout"
-		android:layout_width="fill_parent"
-		android:layout_height="fill_parent" >
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:paddingLeft="12dp"
+		android:paddingRight="12dp" >
 		<TextView
 			android:id="@+id/shapecalc_title"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:text="Choose shape from the dropdown and enter dimensions:"/>
+			android:text="Choose shape from the dropdown and enter dimensions:"
+			android:layout_alignParentTop="true" />
 		<Spinner
 			android:id="@+id/shapecalc_typeSpin"
 			android:layout_width="200dp"
@@ -105,5 +108,5 @@
 			android:layout_height="wrap_content"
 			android:layout_below="@id/shapecalc_surfbox"
 			android:layout_marginLeft="10dp" />
-		</RelativeLayout>
+	</RelativeLayout>
 </ScrollView>

@@ -7,6 +7,7 @@ import android.text.format.*;
 import android.view.*;
 import android.view.View.*;
 import com.atasoft.flangeassist.*;
+import com.atasoft.helpers.*;
 import android.app.TimePickerDialog;
 import android.widget.*;
 import android.util.*;
@@ -34,110 +35,73 @@ public class CashCounter extends Fragment implements OnClickListener {
 	@Override
     public void onClick(View v) {
 		switch (v.getId()) {
-			case R.id.cash_startExpand:
-				startAtaPicker.toggleHide();
+			case R.id.cash_settingsBut:
+				toggleSettingsHide();
 				break;
         }
     }
 	
-	//----------------------AtaTimePick class--------------------
-	public class AtaTimePick{
-		private String[] HOURS;
-		private String[] MINUTES;
-		
-		NumberPicker hourPick;
-		NumberPicker minPick;
-		LinearLayout pickLay;
-		public AtaTimePick(ViewGroup parent, Context ctx, int[] defTime){
-			this.HOURS = makeStringsFromRange(0, 23);
-			this.MINUTES = makeStringsFromRange(0,59);
-			defTime = validateTime(defTime);
-			this.pickLay = new LinearLayout(ctx);
-			pickLay.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, 
-				LinearLayout.LayoutParams.WRAP_CONTENT));
-			pickLay.setOrientation(LinearLayout.HORIZONTAL);
-			
-			NumberPicker hourPick = makePicker(HOURS, ctx);
-			pickLay.addView(hourPick);
-			TextView seperator = new TextView(ctx);
-			seperator.setText(":");
-			seperator.setTextSize(TypedValue.COMPLEX_UNIT_SP, 24);
-			seperator.setPadding(8, 36, 8, 8);
-			pickLay.addView(seperator);
-			NumberPicker minPick = makePicker(MINUTES, ctx);
-			pickLay.addView(minPick);
-			parent.addView(pickLay);
-			this.toggleHide();
-		}
-		
-		private boolean isHidden = false;
-		public void toggleHide(){
-			this.isHidden = !isHidden;
-			int visCode = (isHidden) ? View.GONE : View.VISIBLE;
-			pickLay.setVisibility(visCode);
-		}
-		
-		private int[] validateTime(int[] timeArr){
-			timeArr[0] = (timeArr[0] >= 0 && timeArr[0] <= 23) ? timeArr[0] : 0;
-			timeArr[1] = (timeArr[1] >= 0 && timeArr[1] <= 59) ? timeArr[1] : 0;
-			return timeArr;
-		}
-		
-		private String[] makeStringsFromRange(int floor, int ceiling){
-			String[] retString = new String[ceiling - floor + 1];
-			for(int i=floor; i <= ceiling; i++){
-				retString[i] = Integer.toString(i);
-			}
-			return retString;
-		}
-		
-		private NumberPicker makePicker(String[] values, Context ctx){
-			NumberPicker picker = new NumberPicker(ctx);
-			picker.setLayoutParams(new NumberPicker.LayoutParams(NumberPicker.LayoutParams.WRAP_CONTENT, 
-				NumberPicker.LayoutParams.WRAP_CONTENT));
-			picker.setDisplayedValues(values);
-			picker.setMaxValue(values.length-1);
-			picker.setMinValue(0);
-			
-			return picker;
-		}
+	public void updateTime(int selHour, int selMin){
+		Toast.makeText(context, String.format("Set Time to: %d:%d", selHour, selMin), Toast.LENGTH_SHORT).show();
 	}
-	
-	//-------------------------private functions-----------------
+		
+	//-------------------------initial functions-----------------
 	Time shiftStart;
 	Time shiftEnd;
 	Time timeNow;
-	int shiftEndHrIndex = 8;  //0830 default. will change to prefs.
-	int shiftEndMinIndex = 30;
-	TextView shiftStartExpand;
-	AtaTimePick startAtaPicker;
+	int[] shiftEndVal = {8, 0};  //0830 default. will change to prefs.
+	int[] shiftStartVal = {6, 30};
+	Button setExpand;
+	AtaTimePicker startAtaPicker;
+	AtaTimePicker endAtaPicker;
+	EditText wageEdit;
+	TextView wageLabel;
+	//SharedPreferences prefs;
 	private void setupViews(){
-		this.shiftStartExpand = (TextView) thisFrag.findViewById(R.id.cash_startExpand);
+		//---------------------------
 		//shiftStart = new Time();
 		this.timeNow = new Time(Time.getCurrentTimezone());
 		timeNow.setToNow();
 		//shiftStart.hour = 0;
 		//shiftStart.minute = 30;
-		shiftStartExpand.setOnClickListener(this);
-		startAtaPicker = makeTimePicker(SHIFT_START);
+		//---------------------------
+		
+		this.wageLabel = (TextView) thisFrag.findViewById(R.id.cash_wageLabel);
+		this.wageEdit = (EditText) thisFrag.findViewById(R.id.cash_wageEdit);
+		if(wageEdit.getText() == null) wageEdit.setText("43.25");
+		this.setExpand = (Button) thisFrag.findViewById(R.id.cash_settingsBut);
+		setExpand.setOnClickListener(this);
+		LinearLayout setLay = (LinearLayout) thisFrag.findViewById(R.id.cash_setLin);
+		startAtaPicker = new AtaTimePicker(setLay, context, shiftStartVal, "Start Time:");
+		endAtaPicker = new AtaTimePicker(setLay, context, shiftEndVal, "End Time:");
+		toggleSettingsHide();
 	}
 	
+//-------------------Updating Functions-------------------
 	
-	private AtaTimePick makeTimePicker(int code){
-		LinearLayout linLay;
-		
-		switch(code){
-			//case SHIFT_START:
-			default:
-				linLay = (LinearLayout) thisFrag.findViewById(R.id.cash_startLin);
-				break;
+	private boolean settingsHidden = false;
+	private void toggleSettingsHide(){
+		settingsHidden = !settingsHidden;
+		startAtaPicker.toggleHide();
+		endAtaPicker.toggleHide();
+		int visCode = (settingsHidden) ? View.GONE : View.VISIBLE;
+		wageLabel.setVisibility(visCode);
+		wageEdit.setVisibility(visCode);
+	}
+	
+	float wageRate;
+	private void updateValues(){
+		shiftStartVal = startAtaPicker.getVals();
+		shiftEndVal = endAtaPicker.getVals();
+		this.wageRate = parseWageVal(wageEdit.getText().toString());
+	}
+	
+	private float parseWageVal(String strIn) throws NumberFormatException{
+		try{
+			return Float.parseFloat(strIn);
+		} catch (NumberFormatException e){
+			Log.e("CashCounter", "Error parsing Wage");
+			return 0f;
 		}
-		return new AtaTimePick(linLay, context, new int[]{8,0});
-		
-	}
-	
-	
-	public void setTime(int selHour, int selMin){
-		Toast.makeText(context, String.format("Set Time to: %d:%d", selHour, selMin), Toast.LENGTH_SHORT).show();
-	}
+	} 
 }
