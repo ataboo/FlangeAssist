@@ -19,8 +19,6 @@ public class CashCounter extends Fragment implements OnClickListener {
 	boolean tickPause = true;
 	View thisFrag;
 	Context context;
-	public final static int SHIFT_START = 0;
-	public final static int SHIFT_END = 1;
 	private SharedPreferences prefs; 
 	
 	@Override
@@ -78,11 +76,14 @@ public class CashCounter extends Fragment implements OnClickListener {
 			case R.id.cash_settingsBut:
 				toggleSettingsHide();
 				break;
+			case R.id.cash_testButton:
+				testClick();
+				break;
 		}
     }
 	
-	public void updateTime(int selHour, int selMin){
-		Toast.makeText(context, String.format("Set Time to: %d:%d", selHour, selMin), Toast.LENGTH_SHORT).show();
+	public void checkboxClick(){
+		
 	}
 		
 	//-------------------------initial functions-----------------
@@ -93,6 +94,7 @@ public class CashCounter extends Fragment implements OnClickListener {
 	int[] shiftStartVal = {6, 30};
 	Button setExpand;
 	AtaTimePicker startAtaPicker;
+	AtaTimePicker endAtaPicker;
 	EditText wageEdit;
 	TextView wageLabel;
 	TranslateAnimation slideInListen;
@@ -110,7 +112,6 @@ public class CashCounter extends Fragment implements OnClickListener {
 	CounterDigit thousandDigit;
 	float wageRate;
 	CounterDigit[] counterDigits;
-	LinearLayout setLay;
 	//SharedPreferences prefs;
 	private void setupViews(){
 		//---------------------------
@@ -145,8 +146,12 @@ public class CashCounter extends Fragment implements OnClickListener {
 		this.slideOutListen = makeTranslateVertical(0f, -400f, 400);
 		setEndListeners();
 		
-		this.setLay = (LinearLayout) thisFrag.findViewById(R.id.cash_setLin);
+		this.testButton = (Button) thisFrag.findViewById(R.id.cash_testButton);
+		testButton.setOnClickListener(this);
+		
+		LinearLayout setLay = (LinearLayout) thisFrag.findViewById(R.id.cash_setLin);
 		startAtaPicker = new AtaTimePicker(setLay, context, shiftStartVal, "Start Time:");
+		endAtaPicker = new AtaTimePicker(setLay, context, shiftEndVal, "End Time:");
 		toggleSettingsHide();
 	}
 	
@@ -205,11 +210,11 @@ public class CashCounter extends Fragment implements OnClickListener {
 	private boolean settingsHidden = false;
 	private void toggleSettingsHide(){
 		settingsHidden = !settingsHidden;
-		//startAtaPicker.toggleHide();
-		//endAtaPicker.toggleHide();
+		startAtaPicker.toggleHide();
+		endAtaPicker.toggleHide();
 		int visCode = (settingsHidden) ? View.GONE : View.VISIBLE;
-		setLay.setVisibility(visCode);
-		//wageEdit.setVisibility(visCode);
+		wageLabel.setVisibility(visCode);
+		wageEdit.setVisibility(visCode);
 	}
 	
 	private void updateValues(){
@@ -218,8 +223,8 @@ public class CashCounter extends Fragment implements OnClickListener {
 		newCountVals[2] = timeNow.second/10;
 		newCountVals[3] = timeNow.second - (newCountVals[2] * 10);
 		updateCounter(newCountVals);
-		
 		this.shiftStartVal = startAtaPicker.getVals();
+		this.shiftEndVal = endAtaPicker.getVals();
 		this.wageRate = ataParseFloat(wageEdit.getText().toString());
 		//update wagePref
 	}
