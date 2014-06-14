@@ -63,25 +63,18 @@
 				android:text="0"
 				android:textSize="80sp" />
 		</LinearLayout>
-
+		<Button
+			android:id="@+id/cash_settingsBut"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:textSize="20sp"
+			android:drawableLeft="@android:drawable/ic_menu_more"
+			android:text="Change Settings:"/>
 		<LinearLayout
 			android:id="@+id/cash_setLin"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:orientation="vertical" >
-			<Button
-				android:id="@+id/cash_testButton"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:text="Test Button"
-				android:textSize="20sp" />
-			<Button
-				android:id="@+id/cash_settingsBut"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:textSize="20sp"
-				android:drawableLeft="@android:drawable/ic_menu_more"
-				android:text="Change Settings:"/>
 			<LinearLayout
 				android:id="@+id/cash_wageLin"
 				android:layout_width="wrap_content"
