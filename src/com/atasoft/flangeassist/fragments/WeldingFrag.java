@@ -125,17 +125,17 @@ public class WeldingFrag extends Fragment implements NumberPicker.OnValueChangeL
 		public static final int FLAREV = 9;
 		public static final int FLAREBEV = 10;
 		
-		public static final String[] NAME_STRINGS = {"Surface Weld", "Fillet Weld", "Plug Weld", "Square Weld", 
+		public final String[] NAME_STRINGS = {"Surface Weld", "Fillet Weld", "Plug Weld", "Square Weld", 
 			"V-Groove", "Bevel Weld", "U-Groove", "J-Groove", "Flared V", "Flared Bevel"};
 		
-		public static final String[] FILLET_SUBS = {
+		public final String[] FILLET_SUBS = {
 			"Weld Throat", "Weld Length", "Distance Between Welds"};
 			
-		public static final String[] GROOVE_SUBS = {
+		public final String[] GROOVE_SUBS = {
 			"Prep Depth", "Weld Size", "Angle", "Melt Through", "Backing Bar"
 		};
 		
-		public static final String[] SQUARE_SUBS = {
+		public final String[] SQUARE_SUBS = {
 			"Weld Size", "Gap Width" 
 		};
 		

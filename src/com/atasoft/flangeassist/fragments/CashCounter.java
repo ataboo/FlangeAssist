@@ -76,27 +76,26 @@ public class CashCounter extends Fragment implements OnClickListener {
 			case R.id.cash_settingsBut:
 				toggleSettingsHide();
 				break;
-			case R.id.cash_testButton:
-				testClick();
+			case R.id.cash_fourTensCheck:
+				fourTenLock();
 				break;
 		}
     }
-	
-	public void checkboxClick(){
-		
-	}
 		
 	//-------------------------initial functions-----------------
-	Time shiftStart;
-	Time shiftEnd;
 	Time timeNow;
-	int[] shiftEndVal = {8, 0};  //0830 default. will change to prefs.
 	int[] shiftStartVal = {6, 30};
 	Button setExpand;
 	AtaTimePicker startAtaPicker;
-	AtaTimePicker endAtaPicker;
 	EditText wageEdit;
 	TextView wageLabel;
+	LinearLayout setLay;
+	CheckBox nightToggle;
+	CheckBox holidayToggle;
+	CheckBox fourTenToggle;
+	EditText[] weekdayEdits = new EditText[3];
+	float[] weekdayHours = new float[3];
+	
 	TranslateAnimation slideInListen;
 	TranslateAnimation slideOutListen;
 	TranslateAnimation slideIn;
@@ -114,14 +113,7 @@ public class CashCounter extends Fragment implements OnClickListener {
 	CounterDigit[] counterDigits;
 	//SharedPreferences prefs;
 	private void setupViews(){
-		//---------------------------
-		//shiftStart = new Time();
 		this.timeNow = new Time(Time.getCurrentTimezone());
-		timeNow.setToNow();
-		//shiftStart.hour = 0;
-		//shiftStart.minute = 30;
-		//---------------------------
-		
 		this.wageLabel = (TextView) thisFrag.findViewById(R.id.cash_wageLabel);
 		this.wageEdit = (EditText) thisFrag.findViewById(R.id.cash_wageEdit);
 		//if(wageEdit.getText().toString() == "") 
@@ -130,7 +122,23 @@ public class CashCounter extends Fragment implements OnClickListener {
 		
 		this.setExpand = (Button) thisFrag.findViewById(R.id.cash_settingsBut);
 		setExpand.setOnClickListener(this);
-	
+		this.nightToggle = (CheckBox) thisFrag.findViewById(R.id.cash_nightshiftCheck);
+		nightToggle.setOnClickListener(this);
+		this.holidayToggle = (CheckBox) thisFrag.findViewById(R.id.cash_holidayCheck);
+		holidayToggle.setOnClickListener(this);
+		this.fourTenToggle = (CheckBox) thisFrag.findViewById(R.id.cash_fourTensCheck);
+		fourTenToggle.setOnClickListener(this);
+		this.weekdayEdits = new EditText[3];
+		this.weekdayEdits[0] = (EditText) thisFrag.findViewById(R.id.cash_weekdaySingle);
+		this.weekdayHours[0] = prefs.getFloat("cash_week_single", 8);
+		this.weekdayEdits[1] = (EditText) thisFrag.findViewById(R.id.cash_weekdayHalf);
+		this.weekdayHours[1] = prefs.getFloat("cash_week_half", 2);
+		this.weekdayEdits[2] = (EditText) thisFrag.findViewById(R.id.cash_weekdayDouble);
+		this.weekdayHours[2] = prefs.getFloat("cash_week_double", 2);
+		for(int i=0; i<weekdayEdits.length; i++){
+			weekdayEdits[i].setText(Float.toString(weekdayHours[i]));
+		}
+		
 		this.hundredthDigit = new CounterDigit((TextView) thisFrag.findViewById(R.id.cash_hundredthsText), oldCountVals[5]);
 		this.tenthDigit = new CounterDigit((TextView) thisFrag.findViewById(R.id.cash_tenthsText), oldCountVals[4]);
 		this.oneDigit = new CounterDigit((TextView) thisFrag.findViewById(R.id.cash_onesText), oldCountVals[3]);
@@ -146,12 +154,8 @@ public class CashCounter extends Fragment implements OnClickListener {
 		this.slideOutListen = makeTranslateVertical(0f, -400f, 400);
 		setEndListeners();
 		
-		this.testButton = (Button) thisFrag.findViewById(R.id.cash_testButton);
-		testButton.setOnClickListener(this);
-		
-		LinearLayout setLay = (LinearLayout) thisFrag.findViewById(R.id.cash_setLin);
+		setLay = (LinearLayout) thisFrag.findViewById(R.id.cash_setLin);
 		startAtaPicker = new AtaTimePicker(setLay, context, shiftStartVal, "Start Time:");
-		endAtaPicker = new AtaTimePicker(setLay, context, shiftEndVal, "End Time:");
 		toggleSettingsHide();
 	}
 	
@@ -173,7 +177,6 @@ public class CashCounter extends Fragment implements OnClickListener {
 			@Override
 			public void onAnimationEnd(Animation arg) {		
 				slideInEnd();
-				Toast.makeText(context, "Called slideInEnd.", Toast.LENGTH_SHORT);
 			}	
 		});
 		slideOutListen.setAnimationListener(new Animation.AnimationListener(){
@@ -210,23 +213,41 @@ public class CashCounter extends Fragment implements OnClickListener {
 	private boolean settingsHidden = false;
 	private void toggleSettingsHide(){
 		settingsHidden = !settingsHidden;
-		startAtaPicker.toggleHide();
-		endAtaPicker.toggleHide();
 		int visCode = (settingsHidden) ? View.GONE : View.VISIBLE;
-		wageLabel.setVisibility(visCode);
-		wageEdit.setVisibility(visCode);
+		setLay.setVisibility(visCode);
 	}
 	
+	int[] currentTimeArr = new int[3];
+	int[] timeDifference = new int[3];
+	int[] shiftEnd = new int[3];
 	private void updateValues(){
+		
+		
 		timeNow.setToNow();
+		currentTimeArr = new int[]{timeNow.hour, timeNow.minute, timeNow.second};
+		shiftEnd = getShiftEnd(currentTimeArr, 10);
+		timeDifference = getTimeDelta(currentTimeArr, new int[]{shiftStartVal[0], shiftStartVal[1], 0});
+		
 		int[] newCountVals = {1,2,3,4,5,6};
 		newCountVals[2] = timeNow.second/10;
 		newCountVals[3] = timeNow.second - (newCountVals[2] * 10);
 		updateCounter(newCountVals);
 		this.shiftStartVal = startAtaPicker.getVals();
-		this.shiftEndVal = endAtaPicker.getVals();
 		this.wageRate = ataParseFloat(wageEdit.getText().toString());
 		//update wagePref
+	}
+	
+	private int[] getTimeDelta(int[] time1, int[] time2){
+		int[] deltaTime = new int[3];
+		deltaTime[0] = time2[0] - time1[0];
+		if(deltaTime[0] < 0) deltaTime[0] += 24;
+		
+		return null;
+	}
+	
+	private int[] getShiftEnd(int[] time1, float shiftLength){
+		
+		return null;
 	}
 	
 	boolean changeFlag = false;  //true when counter is changing to prevent multiple calls
@@ -268,6 +289,10 @@ public class CashCounter extends Fragment implements OnClickListener {
 				isFirstOne = false;
 			}
 		}
+	}
+	
+	private void fourTenLock(){
+			weekdayEdits[1].setEnabled(!fourTenToggle.isChecked());
 	}
 	
 	private void testClick(){
