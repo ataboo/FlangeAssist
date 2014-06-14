@@ -47,6 +47,8 @@ public class AtaTimePicker {
 		this.minPick = makePicker(MINUTES, ctx);
 		pickLay.addView(minPick);
 		parent.addView(pickLay);
+		hourPick.setValue(defTime[0]);
+		minPick.setValue(defTime[1]);
 	}
 
 	public boolean isHidden = false;

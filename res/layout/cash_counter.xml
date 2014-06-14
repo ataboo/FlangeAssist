@@ -2,40 +2,108 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent" >
 	<LinearLayout
-		android:id="@+id/cash_setLin"
-		android:layout_width="wrap_content"
+		android:id="@+id/cash_mainLayout"
+		android:layout_width="fill_parent"
 		android:layout_height="wrap_content"
 		android:orientation="vertical"
 		android:paddingLeft="12dp"
 		android:paddingRight="12dp" >
-		<Button
-			android:id="@+id/cash_settingsBut"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:textSize="20sp"
-			android:drawableLeft="@android:drawable/ic_menu_more"
-			android:text="Change Settings:"/>
 		<LinearLayout
-			android:id="@+id/cash_wageLin"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content">
+			android:id="@+id/cash_countLayout"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:orientation="horizontal"
+			android:gravity="center" >
 			<TextView
-				android:id="@+id/cash_wageLabel"
-				android:textSize="18sp"
-				android:paddingTop="8dp"
-				android:text="Wage Rate:"
+				android:id="@+id/cash_dollarText"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-			/>
-			<EditText
-				android:id="@+id/cash_wageEdit"
-				android:layout_width="140dp"
+				android:text="$"
+				android:textSize="80sp" />
+			<TextView
+				android:id="@+id/cash_thousandText"
+				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:maxLines="1"
-				android:maxLength="10"
-				android:singleLine="true"
-				android:inputType="numberDecimal"	
-			/>
+				android:text="0"
+				android:textSize="80sp" />
+			<TextView
+				android:id="@+id/cash_hundredsText"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="0"
+				android:textSize="80sp" />
+			<TextView
+				android:id="@+id/cash_tensText"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="0"
+				android:textSize="80sp" />
+			<TextView
+				android:id="@+id/cash_onesText"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="0"
+				android:textSize="80sp" />
+			<TextView
+				android:id="@+id/cash_decimalText"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="."
+				android:textSize="80sp" />
+			<TextView
+				android:id="@+id/cash_tenthsText"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="0"
+				android:textSize="80sp" />
+			<TextView
+				android:id="@+id/cash_hundredthsText"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="0"
+				android:textSize="80sp" />
+		</LinearLayout>
+
+		<LinearLayout
+			android:id="@+id/cash_setLin"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:orientation="vertical" >
+			<Button
+				android:id="@+id/cash_testButton"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="Test Button"
+				android:textSize="20sp" />
+			<Button
+				android:id="@+id/cash_settingsBut"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:textSize="20sp"
+				android:drawableLeft="@android:drawable/ic_menu_more"
+				android:text="Change Settings:"/>
+			<LinearLayout
+				android:id="@+id/cash_wageLin"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content">
+				<TextView
+					android:id="@+id/cash_wageLabel"
+					android:textSize="18sp"
+					android:paddingTop="8dp"
+					android:text="Wage Rate:"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+				/>
+				<EditText
+					android:id="@+id/cash_wageEdit"
+					android:layout_width="140dp"
+					android:layout_height="wrap_content"
+					android:maxLines="1"
+					android:maxLength="10"
+					android:singleLine="true"
+					android:inputType="numberDecimal"	
+				/>
+			</LinearLayout>
 		</LinearLayout>
 	</LinearLayout>
 </ScrollView>
