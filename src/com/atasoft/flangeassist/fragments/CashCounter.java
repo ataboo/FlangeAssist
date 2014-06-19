@@ -41,10 +41,12 @@ public class CashCounter extends Fragment implements OnClickListener {
 	public void onResume(){
 		ticker.run();
 		super.onResume();
+		recallSettings();
 	}
 	
 	@Override
 	public void onPause(){
+		saveSettings();
 		handler.removeCallbacks(ticker);
 		super.onPause();
 	}
@@ -86,7 +88,6 @@ public class CashCounter extends Fragment implements OnClickListener {
 	Time timeNow;
 	int[] shiftStartVal = {18, 30};
 	Button setExpand;
-	AtaTimePicker startAtaPicker;
 	EditText wageEdit;
 	TextView wageLabel;
 	LinearLayout setLay;
@@ -94,6 +95,8 @@ public class CashCounter extends Fragment implements OnClickListener {
 	CheckBox holidayToggle;
 	CheckBox fourTenToggle;
 	EditText[] weekdayEdits = new EditText[3];
+	AtaTimePicker startAtaPicker;
+	
 	float[] weekdayHours = new float[3];
 	
 	TranslateAnimation slideInListen;
@@ -155,7 +158,10 @@ public class CashCounter extends Fragment implements OnClickListener {
 		setEndListeners();
 		
 		setLay = (LinearLayout) thisFrag.findViewById(R.id.cash_setLin);
-		startAtaPicker = new AtaTimePicker(setLay, context, shiftStartVal, "Start Time:");
+		NumberPicker startHourPick = (NumberPicker) thisFrag.findViewById(R.id.cash_startHour);
+		NumberPicker startMinPick = (NumberPicker) thisFrag.findViewById(R.id.cash_startMin);
+		startAtaPicker = new AtaTimePicker(startHourPick, startMinPick);
+		recallSettings();
 		toggleSettingsHide();
 	}
 	
@@ -219,7 +225,6 @@ public class CashCounter extends Fragment implements OnClickListener {
 	
 	//hh,mm,ss
 	int[] currentTimeArr = new int[3];
-	int[] timeDifference = new int[3];
 	int[] shiftEnd = new int[3];
 	int[] shiftDuration = new int[3];
 	private void updateValues(){
@@ -228,6 +233,7 @@ public class CashCounter extends Fragment implements OnClickListener {
 		currentTimeArr = new int[]{timeNow.hour, timeNow.minute, timeNow.second};
 		shiftDuration[0] = (int) shiftLengthFloat;
 		shiftDuration[1] = (int) (shiftLengthFloat - (float) shiftDuration[0]) * 60;
+		this.shiftStartVal = startAtaPicker.getVals();
 		shiftEnd = getShiftEnd(shiftStartVal, shiftDuration);
 		int[] newCountVals = {0,0,0,0,0,0};
 		//if(isInTimeRange(shiftStartVal, shiftEnd, currentTimeArr)){
@@ -236,9 +242,19 @@ public class CashCounter extends Fragment implements OnClickListener {
 			newCountVals = makeValsFromDouble(earnings);
 		}
 		updateCounter(newCountVals);
-		this.shiftStartVal = startAtaPicker.getVals();
+		//this.shiftStartVal = startAtaPicker.getVals();
 		this.wageRate = ataParseFloat(wageEdit.getText().toString());
 		//update wagePref
+	}
+	
+	private void recallSettings(){
+		//going to be via preferences eventually
+		startAtaPicker.setValue(shiftStartVal);
+	}
+	
+	private void saveSettings(){
+		//preferences eventually
+		this.shiftStartVal = startAtaPicker.getVals();
 	}
 	
 	private boolean isInTimeRange(int[] rangeStart, int[] rangeEnd, int[] timeCheck){

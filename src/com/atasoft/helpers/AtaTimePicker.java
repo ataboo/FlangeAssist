@@ -15,10 +15,23 @@ public class AtaTimePicker {
 	NumberPicker minPick;
 	LinearLayout pickLay;
 	
-	public AtaTimePicker(ViewGroup parent, Context ctx, int[] defTime, String labelName){
+	public AtaTimePicker(NumberPicker hourPicker, NumberPicker minPicker){
+		this.hourPick = hourPicker;
+		this.minPick = minPicker;
+		
 		this.HOURS = makeStringsFromRange(0, 23);
 		this.MINUTES = makeStringsFromRange(0,59);
-		defTime = validateTime(defTime);
+		
+		populatePicker(hourPick, HOURS);
+		populatePicker(minPick, MINUTES);
+		
+		//Prevents outOfBounds bug on orientation change.
+		hourPick.setSaveFromParentEnabled(false);
+		minPick.setSaveFromParentEnabled(false);
+		hourPick.setSaveEnabled(true);
+		minPick.setSaveEnabled(true);
+		
+		/*   Just incase I use something like this again. It bugged on orientation change though.
 		this.pickLay = new LinearLayout(ctx);
 		pickLay.setGravity(Gravity.CENTER_VERTICAL);
 		LinearLayout.LayoutParams layPar = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, 
@@ -49,15 +62,27 @@ public class AtaTimePicker {
 		parent.addView(pickLay);
 		hourPick.setValue(defTime[0]);
 		minPick.setValue(defTime[1]);
+		*/
 	}
-
-	public boolean isHidden = false;
-	public void toggleHide(){
-		this.isHidden = !isHidden;
-		int visCode = (isHidden) ? View.GONE : View.VISIBLE;
-		pickLay.setVisibility(visCode);
+	
+	public void setValue(int[] timeSet){
+		timeSet = validateTime(timeSet);
+		hourPick.setValue(timeSet[0]);
+		hourPick.setValue(timeSet[1]);
+		return;
 	}
-
+	
+	public int[] getVals() throws NullPointerException{
+		int[] retInt = {0,0};
+		try{
+			retInt[0] = hourPick.getValue();
+			retInt[1] = minPick.getValue();
+		} catch(NullPointerException e){
+			Log.e("AtaTimePicker", "NullPointerException when trying getValse()");
+		}
+		return retInt;
+	}
+	
 	private int[] validateTime(int[] timeArr){
 		timeArr[0] = (timeArr[0] >= 0 && timeArr[0] <= 23) ? timeArr[0] : 0;
 		timeArr[1] = (timeArr[1] >= 0 && timeArr[1] <= 59) ? timeArr[1] : 0;
@@ -73,21 +98,10 @@ public class AtaTimePicker {
 		return retString;
 	}
 
-	private NumberPicker makePicker(String[] values, Context ctx){
-		NumberPicker picker = new NumberPicker(ctx);
-		picker.setLayoutParams(new NumberPicker.LayoutParams(NumberPicker.LayoutParams.WRAP_CONTENT, 
-															 NumberPicker.LayoutParams.WRAP_CONTENT));
+	private void populatePicker(NumberPicker picker, String[] values){
 		picker.setDisplayedValues(values);
 		picker.setMaxValue(values.length-1);
 		picker.setMinValue(0);
-
-		return picker;
-	}
-	
-	public int[] getVals(){
-		int[] retInt = {0,0};
-		retInt[0] = hourPick.getValue();
-		retInt[1] = minPick.getValue();
-		return retInt;
+		return;
 	}
 }
