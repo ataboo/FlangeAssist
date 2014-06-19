@@ -84,7 +84,7 @@ public class CashCounter extends Fragment implements OnClickListener {
 		
 	//-------------------------initial functions-----------------
 	Time timeNow;
-	int[] shiftStartVal = {6, 30};
+	int[] shiftStartVal = {18, 30};
 	Button setExpand;
 	AtaTimePicker startAtaPicker;
 	EditText wageEdit;
@@ -217,41 +217,115 @@ public class CashCounter extends Fragment implements OnClickListener {
 		setLay.setVisibility(visCode);
 	}
 	
+	//hh,mm,ss
 	int[] currentTimeArr = new int[3];
 	int[] timeDifference = new int[3];
 	int[] shiftEnd = new int[3];
+	int[] shiftDuration = new int[3];
 	private void updateValues(){
-		
-		
+		float shiftLengthFloat = 10.5f;
 		timeNow.setToNow();
 		currentTimeArr = new int[]{timeNow.hour, timeNow.minute, timeNow.second};
-		shiftEnd = getShiftEnd(currentTimeArr, 10);
-		timeDifference = getTimeDelta(currentTimeArr, new int[]{shiftStartVal[0], shiftStartVal[1], 0});
-		
-		int[] newCountVals = {1,2,3,4,5,6};
-		newCountVals[2] = timeNow.second/10;
-		newCountVals[3] = timeNow.second - (newCountVals[2] * 10);
+		shiftDuration[0] = (int) shiftLengthFloat;
+		shiftDuration[1] = (int) (shiftLengthFloat - (float) shiftDuration[0]) * 60;
+		shiftEnd = getShiftEnd(shiftStartVal, shiftDuration);
+		int[] newCountVals = {0,0,0,0,0,0};
+		//if(isInTimeRange(shiftStartVal, shiftEnd, currentTimeArr)){
+		if(true){
+			double earnings = getEarnings(currentTimeArr, shiftStartVal, wageRate);
+			newCountVals = makeValsFromDouble(earnings);
+		}
 		updateCounter(newCountVals);
 		this.shiftStartVal = startAtaPicker.getVals();
 		this.wageRate = ataParseFloat(wageEdit.getText().toString());
 		//update wagePref
 	}
 	
-	private int[] getTimeDelta(int[] time1, int[] time2){
-		int[] deltaTime = new int[3];
-		deltaTime[0] = time2[0] - time1[0];
-		if(deltaTime[0] < 0) deltaTime[0] += 24;
-		
-		return null;
+	private boolean isInTimeRange(int[] rangeStart, int[] rangeEnd, int[] timeCheck){
+		float floatStart = getFloatTime(rangeStart);
+		float floatEnd = getFloatTime(rangeEnd);
+		float floatCheck = getFloatTime(timeCheck);
+		if(floatStart <= floatEnd){
+			if(floatCheck < floatStart || floatCheck > floatEnd) return false;
+			return true;
+		} else { //range stradles midnight
+			if(floatCheck > floatStart || floatCheck < floatEnd) return true;
+			return false;
+		}
 	}
 	
-	private int[] getShiftEnd(int[] time1, float shiftLength){
+	private double getEarnings(int[] timeNow, int[] shiftStart, float wageVal){
+		//used float for comparisons but keep into for calcs incase of rounding shenanigans
+		float floatNow = getFloatTime(timeNow);
+		float floatStart = getFloatTime(shiftStart);
+		int secondsIntoShift = timeNow[2];
+		secondsIntoShift += (timeNow[1] - shiftStart[1]) * 60;
+		//already checked that it's mid shift
+		if(floatNow > floatStart) {
+			secondsIntoShift += (timeNow[0] - shiftStart[0]) * 3600;
+		} else {  //start-->now range stradles midnight
+			secondsIntoShift += (timeNow[0] - shiftStart[0] + 24) * 3600;
+		}
 		
-		return null;
+		double earnings =  (((float) secondsIntoShift) * wageVal / 3600);
+		earnings = Math.floor(earnings * 100) / 100;
+		return earnings;
 	}
+	
+	private int[] makeValsFromDouble(double earnings){
+		String valString = String.format("%.2f", earnings);
+		int earnLength = valString.length();
+		int[] retVals = new int[]{0,0,0,0,0,0};
+		if (earnLength < 4 || earnLength > 7){
+			Log.e("CashCounter_MakeValseFromDouble", "Earning String out of Range.");
+			return retVals;
+		}
+		retVals[5] = Character.getNumericValue(valString.charAt(earnLength - 1)); //hundreds
+		retVals[4] = Character.getNumericValue(valString.charAt(earnLength - 2)); //tenths
+		retVals[3] = Character.getNumericValue(valString.charAt(earnLength - 4)); //ones decimal is @ 3
+		retVals[2] = (earnLength >= 5) ? Character.getNumericValue(valString.charAt(earnLength - 5)) : 0;
+		retVals[1] = (earnLength >= 6) ? Character.getNumericValue(valString.charAt(earnLength - 6)) : 0;
+		retVals[0] = (earnLength >= 7) ? Character.getNumericValue(valString.charAt(earnLength - 7)) : 0;
+		
+		Log.w("CashCounter_makeCountString", String.format("retString: %s, length: %s", valString, valString.length()));
+		//return retString;
+		return retVals;
+	}
+	
+	private float getFloatTime(int[] intTime){
+		if(intTime.length < 2) return 0f;
+		
+		float retFloat = intTime[0];
+		retFloat += ((float) intTime[1]) / 60;
+		if(intTime.length == 3) retFloat += ((float) intTime[2]) / 60;
+		return retFloat;
+	}
+	
+	private int[] getShiftEnd(int[] shiftStart, int[] shiftDuration){
+		int[] shiftEnd = {0,0};  //hr, min
+		
+		shiftEnd[1] = shiftStart[1] + shiftDuration[1];
+		if(shiftEnd[1] >= 60){
+			shiftDuration[0]++; //adds and hour when minutes overflow
+			shiftEnd[1] = shiftEnd[1] % 60;
+		}
+		shiftEnd[0] = shiftStart[0] + shiftDuration[0];
+		shiftEnd[0] = shiftEnd[0] % 24;
+		
+		return shiftEnd;
+	}
+	
+	
 	
 	boolean changeFlag = false;  //true when counter is changing to prevent multiple calls
 	private void updateCounter(int[] newVals){
+		/*
+		if(newString.length() <= 6 && newString.length() > 0){
+			for(int i = newString.length() - 1; i>=0; i--){
+				newVals[i] = newString.charAt(i);
+			}
+		}
+		*/
 		boolean firstOne = true;
 		for(int i=0; i < newVals.length; i++){
 			if(counterDigits[i].changeVal(newVals[i])){
@@ -299,7 +373,7 @@ public class CashCounter extends Fragment implements OnClickListener {
 		if(!changeFlag) {
 			updateValues();
 		} else {
-			Toast.makeText(context, "doubleTap", Toast.LENGTH_SHORT).show();
+			//Toast.makeText(context, "doubleTap", Toast.LENGTH_SHORT).show();
 		}
 	}
 }
