@@ -45,11 +45,11 @@ public class FragFramer extends Activity {
 			name = AboutFragment.NAME;
 			break;
 		}
-		
-		FragmentTransaction transaction = getFragmentManager().beginTransaction();
-
-		setTitle(name);
-		transaction.add(R.id.fragframe, frag);
-		transaction.commit();
+		if(getFragmentManager().findFragmentByTag(name) == null){
+			FragmentTransaction transaction = getFragmentManager().beginTransaction();
+			setTitle(name);
+			transaction.add(R.id.fragframe, frag, name);
+			transaction.commit();
+		}
 	}
 }

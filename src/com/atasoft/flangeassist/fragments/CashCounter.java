@@ -70,6 +70,11 @@ public class CashCounter extends Fragment implements OnClickListener {
 			this.changing = (newVal != oldVal);
 			return changing;
 		}
+		
+		public void hide(boolean isHide){
+			int visCode = isHide ? TextView.GONE: TextView.VISIBLE;
+			textView.setVisibility(visCode);
+		}
 	}
 	
 	@Override
@@ -228,7 +233,10 @@ public class CashCounter extends Fragment implements OnClickListener {
 	int[] shiftEnd = new int[3];
 	int[] shiftDuration = new int[3];
 	private void updateValues(){
-		float shiftLengthFloat = 10.5f;
+		for(int i=0; i<weekdayHours.length; i++){
+			weekdayHours[i] = AtaMathUtils.bracketFloat(parseFromEdit(weekdayEdits[i], String.format("weekdayEdits[%s]", i)), 0, 24);
+		}
+		float shiftLengthFloat = AtaMathUtils.bracketFloat(weekdayHours[0] + weekdayHours[1] + weekdayHours[2], 0, 24);
 		timeNow.setToNow();
 		currentTimeArr = new int[]{timeNow.hour, timeNow.minute, timeNow.second};
 		shiftDuration[0] = (int) shiftLengthFloat;
@@ -236,8 +244,7 @@ public class CashCounter extends Fragment implements OnClickListener {
 		this.shiftStartVal = startAtaPicker.getVals();
 		shiftEnd = getShiftEnd(shiftStartVal, shiftDuration);
 		int[] newCountVals = {0,0,0,0,0,0};
-		//if(isInTimeRange(shiftStartVal, shiftEnd, currentTimeArr)){
-		if(true){
+		if(isInTimeRange(shiftStartVal, shiftEnd, currentTimeArr)){
 			double earnings = getEarnings(currentTimeArr, shiftStartVal, wageRate);
 			newCountVals = makeValsFromDouble(earnings);
 		}
@@ -282,11 +289,41 @@ public class CashCounter extends Fragment implements OnClickListener {
 		} else {  //start-->now range stradles midnight
 			secondsIntoShift += (timeNow[0] - shiftStart[0] + 24) * 3600;
 		}
+		double hoursIntoShift = secondsIntoShift / 3600d;
+		double earnings = 0;
 		
-		double earnings =  (((float) secondsIntoShift) * wageVal / 3600);
+		boolean isFriday = false;
+		boolean isWeekend = false;
+		double[] hours = new double[3];  //single, ot, double
+		if(fourTenToggle.isActivated()){
+			hours[2] = AtaMathUtils.bracketDouble(hoursIntoShift - 10, 0, 24);
+			if(isFriday){
+				hours[1] = AtaMathUtils.bracketDouble(hoursIntoShift, 0, 10);
+				hours[0] = 0;
+			} else {
+				hours[0] = AtaMathUtils.bracketDouble(hoursIntoShift, 0, 10);
+				hours[1] = 0;
+			}
+		} else {
+			hours[0] = AtaMathUtils.bracketDouble(hoursIntoShift, 0, weekdayHours[0]);
+			hours[2] = AtaMathUtils.bracketDouble(hoursIntoShift - weekdayHours[0] - weekdayHours[1], 0, 24);
+			hours[1] = AtaMathUtils.bracketDouble(hoursIntoShift - hours[0] - hours[2], 0, 24);	
+		}
+		if(isWeekend){
+			hours[0] = 0;
+			hours[1] = 0;
+			hours[2] = AtaMathUtils.bracketDouble(hoursIntoShift, 0, 24);
+		}
+		double hoursEquivelant = 1d * hours[0] + 1.5d * hours[1] + 2d * hours[2];
+		Log.w("CashCounter",String.format("weekdayhours[0]:%.3f, weekdayhours[1]:%.3f, weekdayhours[2]:%.3f", weekdayHours[0], weekdayHours[1], weekdayHours[2]));
+		
+		Log.w("CashCounter",String.format("hours[0]:%.3f, hours[1]:%.3f, hours[2]:%.3f, intoShift: %.3f", hours[0], hours[1], hours[2], hoursIntoShift));
+		earnings = hoursEquivelant * wageVal;
 		earnings = Math.floor(earnings * 100) / 100;
 		return earnings;
 	}
+	
+	
 	
 	private int[] makeValsFromDouble(double earnings){
 		String valString = String.format("%.2f", earnings);
@@ -303,7 +340,7 @@ public class CashCounter extends Fragment implements OnClickListener {
 		retVals[1] = (earnLength >= 6) ? Character.getNumericValue(valString.charAt(earnLength - 6)) : 0;
 		retVals[0] = (earnLength >= 7) ? Character.getNumericValue(valString.charAt(earnLength - 7)) : 0;
 		
-		Log.w("CashCounter_makeCountString", String.format("retString: %s, length: %s", valString, valString.length()));
+		//Log.w("CashCounter_makeCountString", String.format("retString: %s, length: %s", valString, valString.length()));
 		//return retString;
 		return retVals;
 	}
@@ -313,7 +350,7 @@ public class CashCounter extends Fragment implements OnClickListener {
 		
 		float retFloat = intTime[0];
 		retFloat += ((float) intTime[1]) / 60;
-		if(intTime.length == 3) retFloat += ((float) intTime[2]) / 60;
+		if(intTime.length == 3) retFloat += ((float) intTime[2]) / 3600;
 		return retFloat;
 	}
 	
@@ -329,6 +366,16 @@ public class CashCounter extends Fragment implements OnClickListener {
 		shiftEnd[0] = shiftEnd[0] % 24;
 		
 		return shiftEnd;
+	}
+	
+	private float parseFromEdit(EditText eText, String name) throws NumberFormatException{
+		try{
+			float retFloat = Float.parseFloat(eText.getText().toString());
+			return retFloat;
+		} catch(NumberFormatException e){
+			Log.e("CashCounter", "NumberFormatException for EditText " + name + ".");
+			return 0f;
+		}
 	}
 	
 	
@@ -352,6 +399,24 @@ public class CashCounter extends Fragment implements OnClickListener {
 				firstOne = false;
 			}
 		}
+		if(newVals[0] == 0){
+			counterDigits[0].hide(true);
+			if(newVals[1] == 0){
+				counterDigits[1].hide(true);
+				if(newVals[2] == 0){
+					counterDigits[2].hide(true);
+				} else {
+					counterDigits[2].hide(false);
+				}
+			} else {
+				counterDigits[1].hide(false);
+				counterDigits[2].hide(false);
+			}
+		} else {
+			counterDigits[0].hide(false);
+			counterDigits[1].hide(false);
+			counterDigits[2].hide(false);
+		}	
 	}
 	
 	private float ataParseFloat(String strIn) throws NumberFormatException{
