@@ -131,9 +131,7 @@ public class CashCounter extends Fragment implements OnClickListener {
 		this.setExpand = (Button) thisFrag.findViewById(R.id.cash_settingsBut);
 		setExpand.setOnClickListener(this);
 		this.nightToggle = (CheckBox) thisFrag.findViewById(R.id.cash_nightshiftCheck);
-		nightToggle.setOnClickListener(this);
 		this.holidayToggle = (CheckBox) thisFrag.findViewById(R.id.cash_holidayCheck);
-		holidayToggle.setOnClickListener(this);
 		this.fourTenToggle = (CheckBox) thisFrag.findViewById(R.id.cash_fourTensCheck);
 		fourTenToggle.setOnClickListener(this);
 		this.weekdayEdits = new EditText[3];
@@ -233,6 +231,8 @@ public class CashCounter extends Fragment implements OnClickListener {
 	int[] shiftEnd = new int[3];
 	int[] shiftDuration = new int[3];
 	private void updateValues(){
+		
+		//------Update time info-----
 		for(int i=0; i<weekdayHours.length; i++){
 			weekdayHours[i] = AtaMathUtils.bracketFloat(parseFromEdit(weekdayEdits[i], String.format("weekdayEdits[%s]", i)), 0, 24);
 		}
@@ -244,19 +244,22 @@ public class CashCounter extends Fragment implements OnClickListener {
 		this.shiftStartVal = startAtaPicker.getVals();
 		shiftEnd = getShiftEnd(shiftStartVal, shiftDuration);
 		int[] newCountVals = {0,0,0,0,0,0};
+		
+		//------Update wage and schedule settings------
+		this.wageRate = ataParseFloat(wageEdit.getText().toString());
+		
 		if(isInTimeRange(shiftStartVal, shiftEnd, currentTimeArr)){
 			double earnings = getEarnings(currentTimeArr, shiftStartVal, wageRate);
 			newCountVals = makeValsFromDouble(earnings);
 		}
+		
+		//------Write to counter------
 		updateCounter(newCountVals);
-		//this.shiftStartVal = startAtaPicker.getVals();
-		this.wageRate = ataParseFloat(wageEdit.getText().toString());
-		//update wagePref
 	}
 	
 	private void recallSettings(){
 		//going to be via preferences eventually
-		startAtaPicker.setValue(shiftStartVal);
+		startAtaPicker.setPickerValue(shiftStartVal);
 	}
 	
 	private void saveSettings(){
@@ -294,6 +297,8 @@ public class CashCounter extends Fragment implements OnClickListener {
 		
 		boolean isFriday = false;
 		boolean isWeekend = false;
+		if(holidayToggle.isChecked()) isWeekend = true;
+		//if() isWeekend = true;
 		double[] hours = new double[3];  //single, ot, double
 		if(fourTenToggle.isActivated()){
 			hours[2] = AtaMathUtils.bracketDouble(hoursIntoShift - 10, 0, 24);
@@ -319,6 +324,7 @@ public class CashCounter extends Fragment implements OnClickListener {
 		
 		Log.w("CashCounter",String.format("hours[0]:%.3f, hours[1]:%.3f, hours[2]:%.3f, intoShift: %.3f", hours[0], hours[1], hours[2], hoursIntoShift));
 		earnings = hoursEquivelant * wageVal;
+		if(nightToggle.isChecked()) earnings += hoursIntoShift * 3d;
 		earnings = Math.floor(earnings * 100) / 100;
 		return earnings;
 	}

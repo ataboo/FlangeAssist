@@ -65,10 +65,11 @@ public class AtaTimePicker {
 		*/
 	}
 	
-	public void setValue(int[] timeSet){
+	public void setPickerValue(int[] timeSet){
 		timeSet = validateTime(timeSet);
 		hourPick.setValue(timeSet[0]);
 		hourPick.setValue(timeSet[1]);
+		Log.w("AtaTimePicker", String.format("Set value to %2d:%2d", timeSet[0], timeSet[1]));
 		return;
 	}
 	
