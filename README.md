@@ -6,8 +6,9 @@ Tell your jealous friends with IPhones about the JavaScript (cross-device) rewri
 http://atasoft.altervista.org
 
 Main features so far (v0.19):
--NEW: Shape Calculator finds volume/surface area.
--NEW: Welding Electrode Reference gives information based on AWS code.
+-NEW Shape Calculator: finds volume/surface area.
+-NEW Welding Electrode Reference: gives information based on AWS code.
+-NEW Cash Counter: estimates your cash as you earn it
 -Unit Converter (length, pressure, volume, mass)
 -Paycheque Calculator (based on 146 Maintenance Agreement)
 -ASME flange tool (provides details based on flange size and rating)
@@ -25,8 +26,9 @@ Feel free to send feedback or suggestions to bmtoolbox@gmail.com
 Changes:
 ==================
 v0.19 (06/02/14):
--Added geometric shape calculator on unit converter
--Added welding electrode reference
+-Added Geometric Shape Calculator on unit converter
+-Added Welding Electrode reference
+-Added Cash Counter
 -Separated tools in new menu layout
 -Added fraction to nearest 16th on calculated units
 -Remembered to update the About Page
