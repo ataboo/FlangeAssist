@@ -1,5 +1,6 @@
 package com.atasoft.flangeassist;
 
+import com.atasoft.flangeassist.*;
 import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
@@ -10,7 +11,7 @@ import android.preference.PreferenceActivity;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 
-public class PreferenceHelper extends PreferenceActivity {
+public class PreferenceMenu extends PreferenceActivity {
     @Override
 	public void onCreate(Bundle savedInstanceState) {    
 		super.onCreate(savedInstanceState);       
@@ -26,7 +27,7 @@ public class PreferenceHelper extends PreferenceActivity {
             
             if(android.os.Build.VERSION.SDK_INT >= 14) {
             	addPreferencesFromResource(R.xml.preferences);
-            	Preference resetPref = (Preference) findPreference("reset_switch");
+            	Preference resetPref = findPreference("reset_switch");
 
             	resetPref.setOnPreferenceClickListener(new OnPreferenceClickListener() {
             		@Override

@@ -1,52 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-<!-- Update Values (last checked Oct.26/13) -->
-	<string name="version_info">Boilermaker Toolbox v0.17
-		\nLast updated May 3/14
-		\nWages updated: May 3/14</string>
-	<string name="loa_rate">195</string>
-	<string name="meal_rate">40</string>
-	<string name="vacation_pay">0.10</string>
-	<string name="dues_rate">0.0375</string>
-	<string name="cpp_rate">0.0495</string> <!-- calculated out not from source -->
-	<string name="ei_rate">0.0188</string>
-	<string name="travel_rate">216</string>
-		
-<!-- Main Menu -->
-	<string name="action_settings">Settings</string>
-    <string name="app_name">Boilermaker Toolbox</string>
-	<string name="default_value">-</string>
-	<string name="main_header">Main Menu</string>
-	<string name="but_about">About</string>
-	<string name="but_flange">ASME Flange Tables</string>
-	<string name="but_torque">Torque Pattern Generator</string>
-	<string name="map_header">Local Links</string>
-	<string name="pay_header">Paycheck Estimation</string>
-	<string name="but_map">Local Links</string>
-	
-<!-- Hall Links -->	
-	
-<!-- Pay Calculator most stats are vestigial-->	
-	<string name="week_header">Work-week</string>
-	<string name="sunday">Sun</string>
-	<string name="monday">Mon</string>
-	<string name="tuesday">Tue</string>
-	<string name="wednesday">Wed</string>
-	<string name="thursday">Thu</string>
-	<string name="friday">Fri</string>
-	<string name="saturday">Sat</string>
 
-	<string name="fourtens_but">Four-Tens</string>
-	<string name="nights_but">Nightshift</string>
-	<string name="travel_but">Weekly Travel</string>
-	<string name="travelday_but">Daily Travel</string>
-	<string name="clr_but">Clear</string>
-	<string name="tens_but">Set 10s</string>
-	<string name="twelves_but">Set 12s</string>
-	<string name="meal_text">Meals</string>
-	<string name="loa_text">L.O.A</string>
-	<string name="holBut">Holidays:</string>
-	<string-array name="taxYears">
+    <!-- Update Values (last checked Oct.26/13) -->
+    <string name="version_info">Boilermaker Toolbox v0.19
+		\nLast updated June 6, 2014
+		\nWages updated: May 3/14</string>
+
+    <!-- Main Menu -->
+    <string name="action_settings">Settings</string>
+    <string name="app_name">Boilermaker Toolbox</string>
+    <string name="tools_name">Trade Tools</string>
+    <string name="default_value">-</string>
+    <string name="main_header">Main Menu</string>
+    <string name="but_about">About</string>
+    <string name="but_flange">ASME Flange Tables</string>
+    <string name="but_torque">Torque Pattern Generator</string>
+    <string name="map_header">Local Links</string>
+    <string name="pay_header">Paycheck Estimation</string>
+    <string name="but_map">Local Links</string>
+
+    <!-- Hall Links -->
+
+
+    <!-- Pay Calculator most stats are vestigial -->
+    <string name="week_header">Work-week</string>
+    <string name="sunday">Sun</string>
+    <string name="monday">Mon</string>
+    <string name="tuesday">Tue</string>
+    <string name="wednesday">Wed</string>
+    <string name="thursday">Thu</string>
+    <string name="friday">Fri</string>
+    <string name="saturday">Sat</string>
+    <string name="fourtens_but">Four-Tens</string>
+    <string name="nights_but">Nightshift</string>
+    <string name="travel_but">Weekly Travel</string>
+    <string name="travelday_but">Daily Travel</string>
+    <string name="clr_but">Clear</string>
+    <string name="tens_but">Set 10s</string>
+    <string name="twelves_but">Set 12s</string>
+    <string name="meal_text">Meals</string>
+    <string name="loa_text">L.O.A</string>
+    <string name="holBut">Holidays:</string>
+
+    <string-array name="taxYears">
         <item name="2013">2013 Tax Rate</item>
         <item name="2014">2014 Tax Rate</item>
     </string-array>
@@ -54,241 +50,63 @@
         <item name="2013">2013</item>
         <item name="2014">2014</item>
     </string-array>
-	<string-array name="taxProv">
+    <string-array name="taxProv">
         <item name="AB">Alberta</item>
         <item name="BC">B.C</item>
-		<item name="ON">Ontario</item>
+        <item name="ON">Ontario</item>
     </string-array>
     <string-array name="taxProvVals">
         <item name="AB">AB</item>
         <item name="BC">BC</item>
-	    <item name="ON">ON</item>
+        <item name="ON">ON</item>
     </string-array>
-	
-<!-- About Page -->
-	<string name="about_blurb">Boilermaker Toolbox is a free reference tool geared towards industry in Alberta.  
+
+    <!-- About Page -->
+    <string name="about_blurb">Boilermaker Toolbox is a free reference tool geared towards industry in Alberta.  
 	    This tool is not affiliated with any associations and should be used for reference only.
 	    \n\nFeel free to mail bmtoolkit@gmail.com with any comments or suggestions.</string>
-	<string name="about_header">About Boilermaker Toolbox</string>
-	<string name="but_call146">View 146 Callout</string>
+    <string name="about_header">About Boilermaker Toolbox</string>
+    <string name="but_call146">View 146 Callout</string>
 
-<!-- Torque Pattern Gen -->
-    <string name="torque_header">Torque Pattern Generator</string>	
-	<string name="torque_but">OK</string>
-	<string name="torqueInstruction">Enter the stud count and hit OK.</string>
-	<string name="errInt">Error: Stud Count must be higher then 8 and lower than 1000.</string>
-	<string name="errEven">Error: Stud Count must divisible by 4.</string>
-	<string name="studCount">Stud Count</string>
+    <!-- Torque Pattern Gen -->
+    <string name="torque_header">Torque Pattern Generator</string>
+    <string name="torque_but">OK</string>
+    <string name="torqueInstruction">Enter the stud count and hit OK.</string>
+    <string name="errInt">Error: Stud Count must be higher then 8 and lower than 1000.</string>
+    <string name="errEven">Error: Stud Count must divisible by 4.</string>
+    <string name="studCount">Stud Count</string>
 
-<!-- Callouts -->
-	<string-array name="locals">
-	    <!-- Display, Homepage URL, Callout URL, Phone office, Phone callout -->
-		<item>73 - Atlantic,http://www.boilermaker73.ca,(506)634-7386</item>
-		<item>128 - Ontario,http://128.boilermaker.ca,(905)332-0128</item>
-		<item>146 - Edmonton,http://boilermakers.ca,call_http://boilermakers.ca/content/callout.html,(780)451-5992,call_(780)414-6860</item>
-		<item>191 - Victoria,http://www.boilermaker.ca/191.htm,(250)383-4196 </item>
-		<item>203 - Newfoundland,http://www.boilermaker.ca/203.htm,(709)229-7355</item>
-		<item>271 - Montréal,http://www.boilermaker.ca/271.htm,(514)327-6135</item>
-		<item>359 - B.C,http://www.boilermakers359.org,call_http://www.boilermakers359.org/dispatch.mp3,(778)369-3590</item>
-		<item>451 - Flin Flon,http://www.boilermaker.ca/451.htm,(204)687-5168</item>
-		<item>532 - Regina,http://www.boilermaker.ca/532.htm,(306)545-7581</item>
-		<item>555 - Praries,http://www.boilermakerslocal555.org,(204)987-9200,call_(204)987-9205</item>
-		<item>600 - Saskatoon,http://www.boilermaker.ca/600.htm,(306)652-5008</item>
-	</string-array>
-	
-<!-- CPI Estimator -->
-	<string name="cpi_send">Go</string>
-	<string name="cpi_header">Choose AB Consumer Price Index Rate and price of West Texas Crude for previous year.</string>
-	
-<!-- Flange Reference -->
-	<string name="flange_header">ASME Flange Reference</string>
-	<string name="sDiam_text">Stud Diameter</string>
-	<string name="wrench_text">Wrench Size</string>
-	<string name="drift_text">Drift Pin</string>
-	<string name="sCount_text">Stud Count</string>
-	<string name="sLength_text">Stud Length</string>
-	<string name="b7_text">B7 Torque</string>
-	<string name="b7m_text">B7M Torque</string>
-	
-	<string-array name = "f_ratings">
-	    <item>150</item>
-		<item>300</item>
-		<item>400</item>
-		<item>600</item>
-		<item>900</item>
-		<item>1500</item>
-	</string-array>
-	<string-array name = "f_sizes">
-	    <item>½</item>
-		<item>¾</item>
-		<item>1</item>
-		<item>1¼</item>
-		<item>1½</item>
-		<item>2</item>
-		<item>2½</item>
-		<item>3</item>
-		<item>4</item>
-		<item>5</item>
-		<item>6</item>
-		<item>8</item>
-		<item>10</item>
-		<item>12</item>
-		<item>14</item>
-		<item>16</item>
-		<item>18</item>
-		<item>20</item>
-		<item>24</item>
-	</string-array>
-	
-	<string-array name = "stud_sizes">
-	    <item>1/2,7/8,9/16,45,59</item>
-		<item>5/8,1-1/16,11/16,88,115</item>
-		<item>3/4,1-1/4,13/16,153,200</item>
-		<item>7/8,1-7/16,15/16,243,319</item>
-		<item>1,1-5/8,1-1/16,361,474</item>
-		<item>1-1/8,1-13/16,1-3/16,523,686</item>
-		<item>1-1/4,2,1-5/16,726,953</item>
-		<item>1-3/8,2-3/16,1-7/16,976,1281</item>
-		<item>1-1/2,2-3/8,1-9/16,1278,1677</item>
-		<item>1-5/8,2-9/16,1-11/16,1635,2146</item>
-		<item>1-3/4,2-3/4,1-13/16,2054,2696</item>
-		<item>1-7/8,2-15/16,1-15/16,2539,3332</item>
-		<item>2,3-1/8,2-1/16,3094,4061</item>
-		<item>2-1/4,3-1/2,2-13/16,4436,5822</item>
-		<item>2-1/2,3-7/8,2-9/16,6118,8030</item>
-		<item>2-3/4,4-1/4,2-13/16,9712,9712</item>
-		<item>3,4-5/8,3-1/16,12654,12654</item>
-		<item>3-1/2,5-3/8,3-9/16,20527,20527</item>
-	</string-array>
-	
-	<string-array name = "f_stats150">
-	    <item>1/2,0,4,2-1/2</item>
-		<item>1/2,0,4,2-1/2</item>
-		<item>1/2,0,4,2-3/4</item>
-		<item>1/2,0,4,2-3/4</item>
-		<item>1/2,0,4,3</item>
-		<item>5/8,1,4,3-1/2</item>
-		<item>5/8,1,4,3-3/4</item>
-		<item>5/8,1,4,3-3/4</item>
+    <!-- Callouts -->
+    <string-array name="locals">
 
-		<item>5/8,1,8,3-3/4</item>
-		<item>3/4,2,8,4</item>
-		<item>3/4,2,8,4-1/4</item>
-		<item>3/4,2,8,4-1/2</item>
-		<item>7/8,3,8,4-3/4</item>
-		<item>7/8,3,8,5</item>
-		<item>1,4,12,5-1/2</item>
-		<item>1,4,1-5/8,5-1/2</item>
-		<item>1-1/8,5,16,6</item>
-		<item>1-1/8,5,20,6-1/2</item>
-		<item>1-1/4,6,20,7</item>
-	</string-array>
-	<string-array name = "f_stats300">
-	    <item>1/2,0,4,2-3/4</item>
-		<item>5/8,1,4,3-1/4</item>
-		<item>5/8,1,4,3-1/4</item>
-		<item>5/8,1,4,3-1/2</item>
-		<item>3/4,2,4,3-3/4</item>
-		<item>5/8,1,8,3-3/4</item>
-		<item>3/4,2,8,4-1/4</item>
-		<item>3/4,2,8,4-1/2</item>
-		
-		<item>3/4,2,8,4-3/4</item>
-		<item>3/4,2,8,5</item>
-		<item>3/4,2,12,5</item>
-		<item>7/8,3,12,5-3/4</item>
-		<item>1,4,16,6-1/2</item>
-		<item>1-1/8,5,16,7</item>
-		<item>1-1/8,5,20,7-1/4</item>
-		<item>1-1/4,6,20,7-3/4</item>
-		<item>1-1/4,6,24,8</item>
-		<item>1-1/4,6,24,8-1/4</item>
-		<item>1-1/2,8,24,9-1/4</item>
-	</string-array>
-	<string-array name = "f_stats400">
-	    <item>1/2,0,4,3-1/4</item>
-		<item>5/8,1,4,3-3/4</item>
-		<item>5/8,1,4,3-3/4</item>
-		<item>5/8,1,4,4</item>
-		<item>3/4,2,4,4-1/2</item>
-		<item>5/8,1,8,4-1/2</item>
-		<item>3/4,2,8,5</item>
-		<item>3/4,2,8,5-1/4</item>
-		
-		<item>7/8,3,8,5-3/4</item>
-		<item>7/8,3,8,6</item>
-		<item>7/8,3,12,6-1/4</item>
-		<item>1,4,12,7</item>
-		<item>1-1/8,5,16,7-3/4</item>
-		<item>1-1/4,6,16,8-1/4</item>
-		<item>1-1/4,6,20,8-1/2</item>
-		<item>1-3/8,7,20,9</item>
-		<item>1-3/8,7,24,9-1/4</item>
-		<item>1-1/2,8,24,9-3/4</item>
-		<item>1-3/4,10,24,10-3/4</item>
-	</string-array>
-	<string-array name = "f_stats600">
-	    <item>1/2,0,4,3-1/4</item>
-		<item>5/8,1,4,3-3/4</item>
-		<item>5/8,1,4,3-3/4</item>
-		<item>5/8,1,4,4</item>
-		<item>3/4,2,4,4-1/2</item>
-		<item>5/8,1,1,8,4-1/2</item>
-		<item>3/4,2,8,5</item>
-		<item>3/4,2,8,5-1/4</item>
-		
-		<item>7/8,3,8,6</item>
-		<item>1,4,8,6-3/4</item>
-		<item>1,4,12,7</item>
-		<item>1-1/8,5,12,7-3/4</item>
-		<item>1-1/4,6,16,8-3/4</item>
-		<item>1-1/4,6,20,9</item>
-		<item>1-3/8,7,20,9-1/2</item>
-		<item>1-1/2,8,20,10-1/4</item>
-		<item>1-5/8,9,20,11</item>
-		<item>1-5/8,9,24,11-1/2</item>
-		<item>1-7/8,9,24,13</item>
-	</string-array>
-	<string-array name = "f_stats900">
-	    <item>3/4,2,4,4-1/2</item>
-		<item>3/4,2,4,4-3/4</item>
-		<item>7/8,3,4,5-1/4</item>
-		<item>7/8,3,4,5-1/4</item>
-		<item>1,4,4,5-3/4</item>
-		<item>7/8,3,8,6</item>
-		<item>1,4,8,6-1/2</item>
-		<item>7/8,3,8,6</item>
-		<item>1-1/8,5,8,7</item>
-		<item>1-1/4,6,8,7-3/4</item>
-		<item>1-1/8,5,12,7-3/4</item>
-		<item>1-3/8,7,12,9</item>
-		<item>1-3/8,7,16,9-1/2</item>
-		<item>1-3/8,7,20,10-1/4</item>
-		<item>1-1/2,8,20,11</item>
-		<item>1-5/8,9,20,11-1/2</item>
-		<item>1-7/8,11,20,13</item>
-		<item>2,12,20,14</item>
-		<item>2-1/2,14,20,17-1/2</item>
-	</string-array>
-		<string-array name = "f_stats1500">
-	    <item>3/4,2,4,4-1/2</item>
-		<item>3/4,2,4,4-3/4</item>
-		<item>7/8,3,4,5-1/4</item>
-		<item>7/8,3,4,5-1/4</item>
-		<item>1,4,4,5-3/4</item>
-		<item>7/8,3,8,6</item>
-		<item>1,4,8,6-1/2</item>
-		<item>1-1/8,5,8,7-1/4</item>
-		<item>1-1/4,6,8,8</item>
-		<item>1-1/2,8,8,10</item>
-		<item>1-3/8,7,12,10-1/2</item>
-		<item>1-5/8,9,12,11-3/4</item>
-		<item>1-7/8,11,12,13-1/2</item>
-		<item>2,12,16,15</item>
-		<item>2-1/4,13,16,16-1/2</item>
-		<item>2-1/2,14,16,18</item>
-		<item>2-3/4,15,16,19-1/2</item>
-		<item>3,15,16,21-1/2</item>
-		<item>3-1/2,17,16,24-1/2</item>
-	</string-array>
+        <!-- Display, Homepage URL, Callout URL, Phone office, Phone callout -->
+        <item>73 - Atlantic,http://www.boilermaker73.ca,(506)634-7386</item>
+        <item>128 - Ontario,http://128.boilermaker.ca,(905)332-0128</item>
+        <item>146 - Edmonton,http://boilermakers.ca,call_http://boilermakers.ca/content/callout.html,(780)451-5992,call_(780)414-6860</item>
+        <item>191 - Victoria,http://www.boilermaker.ca/191.htm,(250)383-4196 </item>
+        <item>203 - Newfoundland,http://www.boilermaker.ca/203.htm,(709)229-7355</item>
+        <item>271 - Montréal,http://www.boilermaker.ca/271.htm,(514)327-6135</item>
+        <item>359 - B.C,http://www.boilermakers359.org,call_http://www.boilermakers359.org/dispatch.mp3,(778)369-3590</item>
+        <item>451 - Flin Flon,http://www.boilermaker.ca/451.htm,(204)687-5168</item>
+        <item>532 - Regina,http://www.boilermaker.ca/532.htm,(306)545-7581</item>
+        <item>555 - Praries,http://www.boilermakerslocal555.org,(204)987-9200,call_(204)987-9205</item>
+        <item>600 - Saskatoon,http://www.boilermaker.ca/600.htm,(306)652-5008</item>
+    </string-array>
+
+    <!-- CPI Estimator -->
+    <string name="cpi_send">Go</string>
+    <string name="cpi_header">Choose AB Consumer Price Index Rate and price of West Texas Crude for previous year.</string>
+
+    <!-- Flange Reference -->
+    <string name="flange_header">ASME Flange Reference</string>
+    <string name="sDiam_text">Stud Diameter</string>
+    <string name="wrench_text">Wrench Size</string>
+    <string name="drift_text">Drift Pin</string>
+    <string name="sCount_text">Stud Count</string>
+    <string name="sLength_text">Stud Length</string>
+    <string name="b7_text">B7 Torque</string>
+    <string name="b7m_text">B7M Torque</string>
+    <string name="title_activity_frag_framer">FragFramer</string>
+    <string name="hello_world">Hello world!</string>
+
 </resources>

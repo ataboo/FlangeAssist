@@ -70,7 +70,7 @@ public class JsonPuller
 	
 	//Stud Diameter, Stud Size Index (not used), Stud Count, Stud Length  
 	public String[] pullFlangeVal(String size, String rating){
-		Log.w("JSON Puller", "Checking: " + size + " " + rating);
+		//Log.w("JSON Puller", "Checking: " + size + " " + rating);
 		if(failFlag) return null;
 		String[] retString = new String[RATE_ARRAY_LENGTH];
 		HashMap<String, String[]> fStatHash = fStatHashes.get(rating);

@@ -4,13 +4,14 @@ import android.os.*;
 import android.support.v4.app.*;
 import android.util.Log;
 import android.view.*;
-import android.view.View.*;
 import android.widget.*;
 
 import com.atasoft.flangeassist.*;
 import com.atasoft.helpers.*;
 
-public class UnitConFragment extends Fragment implements OnClickListener
+import android.text.*;
+
+public class UnitConFragment extends Fragment //implements OnClickListener
 {
 	View thisFrag;
 	
@@ -19,40 +20,45 @@ public class UnitConFragment extends Fragment implements OnClickListener
 							 Bundle savedInstanceState) {
 
         thisFrag = inflater.inflate(R.layout.unit_conv , container, false);
-        setupSpinners();
-        return thisFrag;
+        setupConvSpinners();
+		setEditListener();
+		return thisFrag;
     }
 	
-	@Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-			case R.id.unit_conv_go_button:
-				goPush();
-				break;
-        }
+	private void setEditListener(){
+		inBox.addTextChangedListener(new TextWatcher(){
+			@Override
+			public void afterTextChanged(Editable s){
+				updateConversion();
+			}
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count, int after){}
+			@Override
+			public void onTextChanged(CharSequence s, int start, int count, int after){}
+		});
 	}
 	
+	//------------------Converter Functions------------------
 	Spinner typeSpin;
 	Spinner unitSpin1;
 	Spinner unitSpin2;
 	EditText inBox;
 	TextView outBox;
+	TextView fracBox;
 	Button goButton;
 	ConvDataHold dataHold;
-	private void setupSpinners(){
+	private void setupConvSpinners(){
 		this.typeSpin = (Spinner) thisFrag.findViewById(R.id.unit_conv_type_spinner);
 		this.unitSpin1 = (Spinner) thisFrag.findViewById(R.id.unit_conv_unit1_spinner);
 		this.unitSpin2 = (Spinner) thisFrag.findViewById(R.id.unit_conv_unit2_spinner);
 		this.inBox = (EditText) thisFrag.findViewById(R.id.unit_conv_text_input);
 		this.outBox = (TextView) thisFrag.findViewById(R.id.unit_conv_text_output);
-		this.goButton = (Button) thisFrag.findViewById(R.id.unit_conv_go_button);
+		this.fracBox = (TextView) thisFrag.findViewById(R.id.unit_conv_frac_output);
 		this.dataHold = new ConvDataHold();
-		
-		goButton.setOnClickListener(this);
-		
+
 		ArrayAdapter<String> typeAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, ConvDataHold.typeStrings);
 		typeSpin.setAdapter(typeAdapter);
-		
+
 		typeSpin.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 		        public void onItemSelected(AdapterView<?> parent, View view,
 										   int pos, long id) {refreshUnits();}
@@ -60,12 +66,10 @@ public class UnitConFragment extends Fragment implements OnClickListener
 				}
 			});
 		refreshUnits();
-			
 		return;
 	}
-	
+
 	String oldType = null;
-	//Checks if selected type has changed and populate units accordingly
 	private void refreshUnits(){
 		String type = (String) typeSpin.getSelectedItem();
 		if(type != oldType){
@@ -80,7 +84,7 @@ public class UnitConFragment extends Fragment implements OnClickListener
 		this.oldType = type;
 	}
 	
-	private void goPush(){
+	private void updateConversion(){
 		String inText = inBox.getText().toString();
 		double inVal = 0;
 		try{
@@ -92,12 +96,9 @@ public class UnitConFragment extends Fragment implements OnClickListener
 		String unit2 = unitSpin2.getSelectedItem().toString();
 		String unitShorthand = dataHold.getUnit(oldType, unit2);
 		double result = dataHold.convertValue(inVal, oldType, unit1, unit2);
-		//Toast.makeText(getActivity(), String.format("Result is: %.2f.", result), Toast.LENGTH_SHORT).show();
+		String fracResult = dataHold.makeFraction(result, 16);
+		
 		outBox.setText(String.format("%s %s", result, unitShorthand));
-		
-		//TODO fraction output
-		
+		fracBox.setText(String.format("%s %s (Nearest 16th)", fracResult, unitShorthand));
 	}
-	
-	
 }

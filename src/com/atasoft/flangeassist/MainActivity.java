@@ -1,75 +1,24 @@
 package com.atasoft.flangeassist;
 
+
 import android.annotation.*;
 import android.app.*;
-import android.app.ActionBar.*;
 import android.content.*;
 import android.os.*;
-import android.support.v4.app.*;
-import android.support.v4.view.*;
 import android.view.*;
+import android.view.View.*;
+import android.widget.*;
 import com.atasoft.adapters.*;
 
-import android.app.FragmentTransaction;
-
 @SuppressLint("NewApi")
-public class MainActivity extends FragmentActivity implements ActionBar.TabListener {
-
-	private ViewPager viewPager;
-	private TabsPagerAdapter mAdapter;
-	private ActionBar actionBar;
-	// Tab titles
-	private String[] tabs = {"About", "Flange\nTables", "Torque\nPattern", "Paycheque\nCalculator", "CPI Raise\nEstimator", "Unit\nConverter", "Hall\nLinks"};
+public class MainActivity extends Activity implements OnClickListener {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main_activity);
-
-		// Initilization
-		viewPager = (ViewPager) findViewById(R.id.pager);
-		actionBar = getActionBar();
-		mAdapter = new TabsPagerAdapter(getSupportFragmentManager());
-
-		viewPager.setAdapter(mAdapter);
-		actionBar.setHomeButtonEnabled(false);
-		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);        
-		// Adding Tabs
-		for (String tab_name : tabs) {
-			actionBar.addTab(actionBar.newTab().setText(tab_name)
-					.setTabListener(this));
-        }
-		
-		viewPager.setOnPageChangeListener (new ViewPager.OnPageChangeListener() {
-
-				@Override
-				public void onPageSelected(int position) {
-					// on changing the page
-					// make respected tab selected
-					actionBar.setSelectedNavigationItem(position);
-				}
-				@Override
-				public void onPageScrolled(int arg0, float arg1, int arg2) {
-				}
-
-				@Override
-				public void onPageScrollStateChanged(int arg0) {
-				}
-			});
-		viewPager.setOffscreenPageLimit(mAdapter.getCount());
+		setupButtons();
 	}
-	@Override
-    public void onTabReselected(Tab tab, FragmentTransaction ft) {
-    }
-    @Override
-    public void onTabSelected(Tab tab, FragmentTransaction ft) {
-        // on tab selected
-        // show respected fragment view
-        viewPager.setCurrentItem(tab.getPosition());
-    }
-    @Override
-    public void onTabUnselected(Tab tab, FragmentTransaction ft) {
-    }
 	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -77,6 +26,11 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 		MenuInflater inflater = getMenuInflater();
 		inflater.inflate(R.menu.main_actions, menu);
 		return super.onCreateOptionsMenu(menu);
+	}
+	
+	private void openSettings() {
+		Intent intent = new Intent(this, PreferenceMenu.class);
+	    startActivity(intent);
 	}
 	
 	@Override
@@ -91,9 +45,67 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 		}
 	}
 	
-	private void openSettings() {
-		Intent intent = new Intent(this, PreferenceHelper.class);
+	@Override
+    public void onClick(View v) {
+		switch (v.getId()) {
+			case R.id.main_toolButton:
+				launchTools();
+				break;
+			case R.id.main_paychequeButton:
+				launchPayCalc();
+				break;
+			case R.id.main_linkButton:
+				launchLinks();
+				break;
+			case R.id.main_settingsButton:
+				openSettings();
+				break;
+			case R.id.main_aboutButton:
+				launchAbout();
+				break;
+		}
+    }
+	
+	Button toolButton;
+	Button paychequeButton;
+	Button linkButton;
+	Button settingsButton;
+	Button aboutButton;
+	Button[] buttonArr;
+	private void setupButtons(){
+		this.toolButton = (Button) findViewById(R.id.main_toolButton);
+		this.paychequeButton = (Button) findViewById(R.id.main_paychequeButton);
+		this.linkButton = (Button) findViewById(R.id.main_linkButton);
+		this.settingsButton = (Button) findViewById(R.id.main_settingsButton);
+		this.aboutButton = (Button) findViewById(R.id.main_aboutButton);
+		this.buttonArr = new Button[]{toolButton, paychequeButton, linkButton, settingsButton, aboutButton};
+		for(Button b: buttonArr){
+			b.setOnClickListener(this);
+		}
+	}
+		
+	private void launchTools(){
+		Intent intent = new Intent(this, ToolsActivity.class);
 	    startActivity(intent);
 	}
+	
+	private void launchPayCalc(){
+		Intent intent = new Intent(this, FragFramer.class);
+		intent.putExtra("launch_frag", FragFramer.PAY_CALC);
+	    startActivity(intent);
+	}
+	
+	private void launchLinks(){
+		Intent intent = new Intent(this, FragFramer.class);
+		intent.putExtra("launch_frag", FragFramer.HALL);
+	    startActivity(intent);
+	}
+	
+	private void launchAbout(){
+		Intent intent = new Intent(this, FragFramer.class);
+		intent.putExtra("launch_frag", FragFramer.ABOUT);
+	    startActivity(intent);	
+	}
+	
 }
 
