@@ -26,10 +26,10 @@ public class AtaTimePicker {
 		populatePicker(minPick, MINUTES);
 		
 		//Prevents outOfBounds bug on orientation change.
-		hourPick.setSaveFromParentEnabled(false);
-		minPick.setSaveFromParentEnabled(false);
-		hourPick.setSaveEnabled(true);
-		minPick.setSaveEnabled(true);
+		//hourPick.setSaveFromParentEnabled(false);
+		//minPick.setSaveFromParentEnabled(false);
+		//hourPick.setSaveEnabled(true);
+		//minPick.setSaveEnabled(true);
 		
 		/*   Just incase I use something like this again. It bugged on orientation change though.
 		this.pickLay = new LinearLayout(ctx);
@@ -68,8 +68,8 @@ public class AtaTimePicker {
 	public void setPickerValue(int[] timeSet){
 		timeSet = validateTime(timeSet);
 		hourPick.setValue(timeSet[0]);
-		hourPick.setValue(timeSet[1]);
-		Log.w("AtaTimePicker", String.format("Set value to %2d:%2d", timeSet[0], timeSet[1]));
+		minPick.setValue(timeSet[1]);
+		//Log.w("AtaTimePicker", String.format("Set value to %2d:%2d", timeSet[0], timeSet[1]));
 		return;
 	}
 	

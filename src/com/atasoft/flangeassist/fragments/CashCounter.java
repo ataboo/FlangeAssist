@@ -18,8 +18,7 @@ public class CashCounter extends Fragment implements OnClickListener {
 	
 	boolean tickPause = true;
 	View thisFrag;
-	Context context;
-	private SharedPreferences prefs; 
+	Context context; 
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -28,8 +27,6 @@ public class CashCounter extends Fragment implements OnClickListener {
 		View v = inflater.inflate(R.layout.cash_counter, container, false);
         this.thisFrag = v;
 		this.context = getActivity().getApplicationContext();
-		prefs = PreferenceManager.getDefaultSharedPreferences(context);
-		
 		setupViews();
 		this.tickPause = false;
 		setupTicker();
@@ -119,8 +116,10 @@ public class CashCounter extends Fragment implements OnClickListener {
 	CounterDigit thousandDigit;
 	float wageRate;
 	CounterDigit[] counterDigits;
-	//SharedPreferences prefs;
+	SharedPreferences prefs;
 	private void setupViews(){
+		this.prefs = PreferenceManager.getDefaultSharedPreferences(context);
+		
 		this.timeNow = new Time(Time.getCurrentTimezone());
 		this.wageLabel = (TextView) thisFrag.findViewById(R.id.cash_wageLabel);
 		this.wageEdit = (EditText) thisFrag.findViewById(R.id.cash_wageEdit);
@@ -238,6 +237,8 @@ public class CashCounter extends Fragment implements OnClickListener {
 		}
 		float shiftLengthFloat = AtaMathUtils.bracketFloat(weekdayHours[0] + weekdayHours[1] + weekdayHours[2], 0, 24);
 		timeNow.setToNow();
+		//Log.w("CashCounter", String.format("hour is %2d, day is %2d.", timeNow.hour, timeNow.weekDay));
+		
 		currentTimeArr = new int[]{timeNow.hour, timeNow.minute, timeNow.second};
 		shiftDuration[0] = (int) shiftLengthFloat;
 		shiftDuration[1] = (int) (shiftLengthFloat - (float) shiftDuration[0]) * 60;
@@ -258,13 +259,28 @@ public class CashCounter extends Fragment implements OnClickListener {
 	}
 	
 	private void recallSettings(){
+		startAtaPicker.setPickerValue(new int[]{prefs.getInt("ATA_counterStartHour", 8), prefs.getInt("ATA_counterStartMin", 0)});
+		wageEdit.setText(Float.toString(prefs.getFloat("ATA_counterWageRate", 43.25f)));
+		nightToggle.setChecked(prefs.getBoolean("ATA_counterNightShift", false));
+		holidayToggle.setChecked(prefs.getBoolean("ATA_counterHoliday", false));
+		fourTenToggle.setChecked(prefs.getBoolean("ATA_counterFourTens", false));
+		
 		//going to be via preferences eventually
-		startAtaPicker.setPickerValue(shiftStartVal);
+		//startAtaPicker.setPickerValue(shiftStartVal);
 	}
 	
 	private void saveSettings(){
 		//preferences eventually
 		this.shiftStartVal = startAtaPicker.getVals();
+		SharedPreferences.Editor prefEdit = prefs.edit();
+		prefEdit.putInt("ATA_counterStartHour", shiftStartVal[0]);
+		prefEdit.putInt("ATA_counterStartMin", shiftStartVal[1]);
+		prefEdit.putFloat("ATA_counterWageRate", wageRate);
+		prefEdit.putBoolean("ATA_counterNightShift", nightToggle.isChecked());
+		prefEdit.putBoolean("ATA_counterHoliday", holidayToggle.isChecked());
+		prefEdit.putBoolean("ATA_counterFourTens", fourTenToggle.isChecked());
+		prefEdit.apply();
+		
 	}
 	
 	private boolean isInTimeRange(int[] rangeStart, int[] rangeEnd, int[] timeCheck){
@@ -280,25 +296,34 @@ public class CashCounter extends Fragment implements OnClickListener {
 		}
 	}
 	
-	private double getEarnings(int[] timeNow, int[] shiftStart, float wageVal){
+	private double getEarnings(int[] timeNowArr, int[] shiftStart, float wageVal){
 		//used float for comparisons but keep into for calcs incase of rounding shenanigans
-		float floatNow = getFloatTime(timeNow);
+		float floatNow = getFloatTime(timeNowArr);
 		float floatStart = getFloatTime(shiftStart);
-		int secondsIntoShift = timeNow[2];
-		secondsIntoShift += (timeNow[1] - shiftStart[1]) * 60;
+		int secondsIntoShift = timeNowArr[2];
+		secondsIntoShift += (timeNowArr[1] - shiftStart[1]) * 60;
 		//already checked that it's mid shift
 		if(floatNow > floatStart) {
-			secondsIntoShift += (timeNow[0] - shiftStart[0]) * 3600;
+			secondsIntoShift += (timeNowArr[0] - shiftStart[0]) * 3600;
 		} else {  //start-->now range stradles midnight
-			secondsIntoShift += (timeNow[0] - shiftStart[0] + 24) * 3600;
+			secondsIntoShift += (timeNowArr[0] - shiftStart[0] + 24) * 3600;
 		}
 		double hoursIntoShift = secondsIntoShift / 3600d;
 		double earnings = 0;
 		
 		boolean isFriday = false;
 		boolean isWeekend = false;
+		
+		//during shift now is checked before
+		// if shift doesn't stradle midnight and its saturday or sunday now...
+	    if(floatNow > floatStart && (timeNow.weekDay == Time.SATURDAY || timeNow.weekDay == Time.SUNDAY)){
+			isWeekend = true;
+		}
+		// if nightshift and after midnight sunday is sat shift and monday is sun shift
+		if(floatNow < floatStart && (timeNow.weekDay == Time.SUNDAY || timeNow.weekDay == Time.MONDAY)){
+			isWeekend = true;
+		}
 		if(holidayToggle.isChecked()) isWeekend = true;
-		//if() isWeekend = true;
 		double[] hours = new double[3];  //single, ot, double
 		if(fourTenToggle.isActivated()){
 			hours[2] = AtaMathUtils.bracketDouble(hoursIntoShift - 10, 0, 24);
