@@ -12,6 +12,7 @@ import android.view.animation.*;
 import android.widget.*;
 import com.atasoft.flangeassist.*;
 import com.atasoft.helpers.*;
+import android.graphics.*;
 
 
 public class CashCounter extends Fragment implements OnClickListener {
@@ -92,6 +93,7 @@ public class CashCounter extends Fragment implements OnClickListener {
 	Button setExpand;
 	EditText wageEdit;
 	TextView wageLabel;
+	TextView otIndicator;
 	LinearLayout setLay;
 	CheckBox nightToggle;
 	CheckBox holidayToggle;
@@ -114,6 +116,10 @@ public class CashCounter extends Fragment implements OnClickListener {
 	CounterDigit tenDigit;
 	CounterDigit hundredDigit;
 	CounterDigit thousandDigit;
+	private static final String goldColor = "#FFDF00";
+	private static final String silverColor = "#C0C0C0";
+	private static final String bronzeColor = "#CD7F32";
+	
 	float wageRate;
 	CounterDigit[] counterDigits;
 	SharedPreferences prefs;
@@ -122,6 +128,7 @@ public class CashCounter extends Fragment implements OnClickListener {
 		
 		this.timeNow = new Time(Time.getCurrentTimezone());
 		this.wageLabel = (TextView) thisFrag.findViewById(R.id.cash_wageLabel);
+		this.otIndicator = (TextView) thisFrag.findViewById(R.id.cash_counterOTIndicator);
 		this.wageEdit = (EditText) thisFrag.findViewById(R.id.cash_wageEdit);
 		//if(wageEdit.getText().toString() == "") 
 		this.wageRate = prefs.getFloat("cashcount_wage", 43.25f);
@@ -252,6 +259,8 @@ public class CashCounter extends Fragment implements OnClickListener {
 		if(isInTimeRange(shiftStartVal, shiftEnd, currentTimeArr)){
 			double earnings = getEarnings(currentTimeArr, shiftStartVal, wageRate);
 			newCountVals = makeValsFromDouble(earnings);
+		} else {
+			otIndicate(OFF_SHIFT);
 		}
 		
 		//------Write to counter------
@@ -264,6 +273,9 @@ public class CashCounter extends Fragment implements OnClickListener {
 		nightToggle.setChecked(prefs.getBoolean("ATA_counterNightShift", false));
 		holidayToggle.setChecked(prefs.getBoolean("ATA_counterHoliday", false));
 		fourTenToggle.setChecked(prefs.getBoolean("ATA_counterFourTens", false));
+		weekdayEdits[0].setText(Float.toString(prefs.getFloat("ATA_counterWeekdayST", 8f)));
+		weekdayEdits[1].setText(Float.toString(prefs.getFloat("ATA_counterWeekdayOT", 2f)));
+		weekdayEdits[2].setText(Float.toString(prefs.getFloat("ATA_counterWeekdayDT", 2f)));
 		
 		//going to be via preferences eventually
 		//startAtaPicker.setPickerValue(shiftStartVal);
@@ -279,6 +291,9 @@ public class CashCounter extends Fragment implements OnClickListener {
 		prefEdit.putBoolean("ATA_counterNightShift", nightToggle.isChecked());
 		prefEdit.putBoolean("ATA_counterHoliday", holidayToggle.isChecked());
 		prefEdit.putBoolean("ATA_counterFourTens", fourTenToggle.isChecked());
+		prefEdit.putFloat("ATA_counterWeekdayST", weekdayHours[0]);
+		prefEdit.putFloat("ATA_counterWeekdayOT", weekdayHours[1]);
+		prefEdit.putFloat("ATA_counterWeekdayDT", weekdayHours[2]);
 		prefEdit.apply();
 		
 	}
@@ -344,6 +359,15 @@ public class CashCounter extends Fragment implements OnClickListener {
 			hours[1] = 0;
 			hours[2] = AtaMathUtils.bracketDouble(hoursIntoShift, 0, 24);
 		}
+		if(hours[2] > 0){
+		    otIndicate(DOUBLE_TIME);
+		} else {
+			if(hours[1] > 0){
+				otIndicate(OVER_TIME);
+			} else {
+				otIndicate(STRAIGHT_TIME);
+			}
+		}
 		double hoursEquivelant = 1d * hours[0] + 1.5d * hours[1] + 2d * hours[2];
 		Log.w("CashCounter",String.format("weekdayhours[0]:%.3f, weekdayhours[1]:%.3f, weekdayhours[2]:%.3f", weekdayHours[0], weekdayHours[1], weekdayHours[2]));
 		
@@ -354,7 +378,32 @@ public class CashCounter extends Fragment implements OnClickListener {
 		return earnings;
 	}
 	
+	private static final int STRAIGHT_TIME = 0;
+	private static final int DOUBLE_TIME = 1;
+	private static final int OVER_TIME = 2;
+	private static final int OFF_SHIFT = 3;
 	
+	private void otIndicate(int rateCode){
+		switch(rateCode){
+			case DOUBLE_TIME:
+				otIndicator.setText("Double Time (x2)");
+				otIndicator.setTextColor(Color.parseColor(goldColor));
+				break;
+			case OVER_TIME:
+				otIndicator.setText("Overtime (x1.5)");
+				otIndicator.setTextColor(Color.parseColor(silverColor));
+				break;
+			case STRAIGHT_TIME:
+				otIndicator.setText("Straight Time (x1)");
+				otIndicator.setTextColor(Color.parseColor(bronzeColor));
+				break;
+			case OFF_SHIFT:
+				otIndicator.setText("Off Shift");
+				otIndicator.setTextColor(Color.RED);
+				break;
+			
+		}
+	}
 	
 	private int[] makeValsFromDouble(double earnings){
 		String valString = String.format("%.2f", earnings);
