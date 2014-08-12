@@ -5,10 +5,11 @@ Boilermaker Toolbox is a FREE reference tool designed to help Boilermakers in Al
 Tell your jealous friends with IPhones about the JavaScript (cross-device) rewrite at
 http://atasoft.altervista.org
 
-Main features so far (v0.19):
--NEW Shape Calculator: finds volume/surface area.
--NEW Welding Electrode Reference: gives information based on AWS code.
--NEW Cash Counter: estimates your cash as you earn it
+Main features so far (v0.20):
+-NEW Rigging Calculator: finds load on slings, nylon sling table.
+-Shape Calculator: finds volume/surface area.
+-Welding Electrode Reference: gives information based on AWS code.
+-Cash Counter: estimates your cash as you earn it
 -Unit Converter (length, pressure, volume, mass)
 -Paycheque Calculator (based on 146 Maintenance Agreement)
 -ASME flange tool (provides details based on flange size and rating)
@@ -25,7 +26,11 @@ Feel free to send feedback or suggestions to bmtoolbox@gmail.com
 
 Changes:
 ==================
-v0.19 (06/02/14):
+V0.20 (08/12/14):
+-Added Rigging Calculator
+-Added rate indicator, weekend double toggle on Cash Counter
+
+v0.19 (08/10/14):
 -Added Geometric Shape Calculator on unit converter
 -Added Welding Electrode reference
 -Added Cash Counter

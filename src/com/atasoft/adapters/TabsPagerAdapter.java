@@ -8,7 +8,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 public class TabsPagerAdapter extends FragmentPagerAdapter {
-	public static final String[] TABS = {"Flange\nTables", "Torque\nPattern", "CPI Raise\nEstimator", "Unit\nConverter", "Shape\nCalculator", "Welding\nReference","Cash\nCounter", "Rigging\nCalculator"};
+	public static final String[] TABS = {"Flange\nTables", "Torque\nPattern", "CPI Raise\nEstimator", "Unit\nConverter", "Shape\nCalculator", "Welding\nReference","Cash\nCounter", "Rigging\nCalculator", "Nozzle\nCalculator"};
 	public static int TAB_COUNT = TABS.length;
 	
     public TabsPagerAdapter(FragmentManager fm) {
@@ -43,6 +43,9 @@ public class TabsPagerAdapter extends FragmentPagerAdapter {
 			case 7:
 				// Rigging Calculator
 				return new RigTrig();
+			case 8:
+				// Nozzle Calculator
+				return new NozzleCalc();
 		}
 
         return null;
