@@ -74,15 +74,21 @@
                 android:text="0"
                 android:textSize="80sp" />
         </LinearLayout>
-        <TextView
-			android:id="@+id/cash_counterOTIndicator"
-			android:layout_width="wrap_content"
+		<LinearLayout
+			android:id="@+id/cash_counterOTLayout"
+			android:layout_width="fill_parent"
 			android:layout_height="wrap_content"
-			android:text="Straight Time (1x)"
-			android:textSize="24sp"
-			android:layout_marginLeft="10dp"
-			android:textColor="#CD7F32"/>
-        <Button
+			android:gravity="center_horizontal">
+    	    <TextView
+				android:id="@+id/cash_counterOTIndicator"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="Straight Time (1x)"
+				android:textSize="24sp"
+				android:layout_marginLeft="10dp"
+				android:textColor="#CD7F32"/>
+        </LinearLayout>
+		<Button
             android:id="@+id/cash_settingsBut"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
