@@ -98,6 +98,7 @@ public class CashCounter extends Fragment implements OnClickListener {
 	CheckBox nightToggle;
 	CheckBox holidayToggle;
 	CheckBox fourTenToggle;
+	CheckBox weekendDoubleToggle;
 	EditText[] weekdayEdits = new EditText[3];
 	AtaTimePicker startAtaPicker;
 	
@@ -138,6 +139,7 @@ public class CashCounter extends Fragment implements OnClickListener {
 		setExpand.setOnClickListener(this);
 		this.nightToggle = (CheckBox) thisFrag.findViewById(R.id.cash_nightshiftCheck);
 		this.holidayToggle = (CheckBox) thisFrag.findViewById(R.id.cash_holidayCheck);
+		this.weekendDoubleToggle = (CheckBox) thisFrag.findViewById(R.id.cash_weekendDoubleCheck);
 		this.fourTenToggle = (CheckBox) thisFrag.findViewById(R.id.cash_fourTensCheck);
 		fourTenToggle.setOnClickListener(this);
 		this.weekdayEdits = new EditText[3];
@@ -271,6 +273,7 @@ public class CashCounter extends Fragment implements OnClickListener {
 		startAtaPicker.setPickerValue(new int[]{prefs.getInt("ATA_counterStartHour", 8), prefs.getInt("ATA_counterStartMin", 0)});
 		wageEdit.setText(Float.toString(prefs.getFloat("ATA_counterWageRate", 43.25f)));
 		nightToggle.setChecked(prefs.getBoolean("ATA_counterNightShift", false));
+		weekendDoubleToggle.setChecked(prefs.getBoolean("ATA_counterWeekendDouble", true));
 		holidayToggle.setChecked(prefs.getBoolean("ATA_counterHoliday", false));
 		fourTenToggle.setChecked(prefs.getBoolean("ATA_counterFourTens", false));
 		weekdayEdits[0].setText(Float.toString(prefs.getFloat("ATA_counterWeekdayST", 8f)));
@@ -289,6 +292,7 @@ public class CashCounter extends Fragment implements OnClickListener {
 		prefEdit.putInt("ATA_counterStartMin", shiftStartVal[1]);
 		prefEdit.putFloat("ATA_counterWageRate", wageRate);
 		prefEdit.putBoolean("ATA_counterNightShift", nightToggle.isChecked());
+		prefEdit.putBoolean("ATA_counterWeekendDouble", weekendDoubleToggle.isChecked());
 		prefEdit.putBoolean("ATA_counterHoliday", holidayToggle.isChecked());
 		prefEdit.putBoolean("ATA_counterFourTens", fourTenToggle.isChecked());
 		prefEdit.putFloat("ATA_counterWeekdayST", weekdayHours[0]);
@@ -328,6 +332,7 @@ public class CashCounter extends Fragment implements OnClickListener {
 		
 		boolean isFriday = false;
 		boolean isWeekend = false;
+		boolean isHoliday = false;
 		
 		//during shift now is checked before
 		// if shift doesn't stradle midnight and its saturday or sunday now...
@@ -338,7 +343,7 @@ public class CashCounter extends Fragment implements OnClickListener {
 		if(floatNow < floatStart && (timeNow.weekDay == Time.SUNDAY || timeNow.weekDay == Time.MONDAY)){
 			isWeekend = true;
 		}
-		if(holidayToggle.isChecked()) isWeekend = true;
+		if(holidayToggle.isChecked()) isHoliday = true;
 		double[] hours = new double[3];  //single, ot, double
 		if(fourTenToggle.isActivated()){
 			hours[2] = AtaMathUtils.bracketDouble(hoursIntoShift - 10, 0, 24);
@@ -354,13 +359,21 @@ public class CashCounter extends Fragment implements OnClickListener {
 			hours[2] = AtaMathUtils.bracketDouble(hoursIntoShift - weekdayHours[0] - weekdayHours[1], 0, 24);
 			hours[1] = AtaMathUtils.bracketDouble(hoursIntoShift - hours[0] - hours[2], 0, 24);	
 		}
-		if(isWeekend){
+		if((isWeekend && weekendDoubleToggle.isChecked()) || isHoliday){
 			hours[0] = 0;
 			hours[1] = 0;
 			hours[2] = AtaMathUtils.bracketDouble(hoursIntoShift, 0, 24);
 		}
 		if(hours[2] > 0){
-		    otIndicate(DOUBLE_TIME);
+		    if(isHoliday){
+				otIndicate(HOLIDAY_TIME);
+			} else {
+				if(isWeekend){
+					otIndicate(WEEKEND_DOUBLE);
+				} else {
+					otIndicate(DOUBLE_TIME);
+				}
+			}
 		} else {
 			if(hours[1] > 0){
 				otIndicate(OVER_TIME);
@@ -382,6 +395,8 @@ public class CashCounter extends Fragment implements OnClickListener {
 	private static final int DOUBLE_TIME = 1;
 	private static final int OVER_TIME = 2;
 	private static final int OFF_SHIFT = 3;
+	private static final int HOLIDAY_TIME = 4;
+	private static final int WEEKEND_DOUBLE = 5;
 	
 	private void otIndicate(int rateCode){
 		switch(rateCode){
@@ -401,7 +416,14 @@ public class CashCounter extends Fragment implements OnClickListener {
 				otIndicator.setText("Off Shift");
 				otIndicator.setTextColor(Color.RED);
 				break;
-			
+			case WEEKEND_DOUBLE:
+				otIndicator.setText("Weekend Double (2x)");
+				otIndicator.setTextColor(Color.parseColor(goldColor));
+				break;
+			case HOLIDAY_TIME:
+				otIndicator.setText("Holiday Double (2x)");
+				otIndicator.setTextColor(Color.parseColor(goldColor));
+				break;
 		}
 	}
 	

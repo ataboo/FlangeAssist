@@ -154,7 +154,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Nightshift" />
-
+			<CheckBox
+				android:id="@+id/cash_weekendDoubleCheck"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="Weekend Doubletime"
+				/>
             <CheckBox
                 android:id="@+id/cash_holidayCheck"
                 android:layout_width="wrap_content"
