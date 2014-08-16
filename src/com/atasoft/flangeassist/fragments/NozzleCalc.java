@@ -15,18 +15,35 @@ public class NozzleCalc extends Fragment
 {
     View thisFrag;
 	Context context;
-
+	SharedPreferences prefs;
+	
 	@Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View v = inflater.inflate(R.layout.nozzlecalc_layout, container, false);
         this.thisFrag = v;
 		this.context = getActivity().getApplicationContext();
-
+		this.prefs = PreferenceManager.getDefaultSharedPreferences(context);
+		
 		setupViews();
 		setListeners();
 	
 		return v;
     }
+
+	@Override
+	public void onPause()
+	{
+		savePrefs();
+		super.onPause();
+	}
+	
+
+	@Override
+	public void onResume()
+	{
+		loadPrefs();
+		super.onResume();
+	}
 
 
 	//-------------------Startup Functions-----------
@@ -84,10 +101,13 @@ public class NozzleCalc extends Fragment
 	}
 
 	//----------------Updating Functions---------------
+	private double shellOD;
+	private double centAngle;
+	private double nozzleOD;
 	private void updateNozzleCalc(){
-		double shellOD = getDoubleFromEdit(shellODEdit, 0.01d, 1000000000);
-		double centAngle = getDoubleFromEdit(nozzleCentAngleEdit, 0, 180);
-		double nozzleOD = getDoubleFromEdit(nozzleODEdit, 0.01d, shellOD / 2);
+		this.shellOD = getDoubleFromEdit(shellODEdit, 0.01d, 1000000000);
+		this.centAngle = getDoubleFromEdit(nozzleCentAngleEdit, 0, 180);
+		this.nozzleOD = getDoubleFromEdit(nozzleODEdit, 0.01d, shellOD / 2);
 		String nozEdgeAng = "error";
 		String nozEdgeArc = "error";
 		String nozCentArc = "error";
@@ -135,5 +155,19 @@ public class NozzleCalc extends Fragment
 			eText.setTextColor(Color.WHITE);
 		}
 		return parseVal;
+	}
+	
+	private void savePrefs(){
+		SharedPreferences.Editor prefEdit = prefs.edit();
+		prefEdit.putFloat("ATA_nozzleShellOD", (float) shellOD);
+		prefEdit.putFloat("ATA_nozzleAngle", (float) centAngle);
+		prefEdit.putFloat("ATA_nozzleOD", (float) nozzleOD);
+		prefEdit.apply();
+	}
+	
+	private void loadPrefs(){
+		prefs.getFloat("ATA_nozzleShellOD", 10f);
+		prefs.getFloat("ATA_nozzleAngle", 45f);
+		prefs.getFloat("ATA_nozzleOD", 2f);
 	}
 }
