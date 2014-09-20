@@ -94,7 +94,7 @@ public class FlangeFragment extends Fragment {
 		driftVal.setText(studVals[1] + "\"");
 		sCountVal.setText(flangeVals[2]);
 		sLengthVal.setText(flangeVals[3] + "\"");
-		b7Val.setText(studVals[2] + " ft-lbs");
-		b7mVal.setText(studVals[3] + " ft-lbs");
+		b7Val.setText(studVals[3] + " ft-lbs");
+		b7mVal.setText(studVals[2] + " ft-lbs");
 	}
 }

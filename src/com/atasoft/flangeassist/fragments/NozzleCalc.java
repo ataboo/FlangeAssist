@@ -166,8 +166,8 @@ public class NozzleCalc extends Fragment
 	}
 	
 	private void loadPrefs(){
-		prefs.getFloat("ATA_nozzleShellOD", 10f);
-		prefs.getFloat("ATA_nozzleAngle", 45f);
-		prefs.getFloat("ATA_nozzleOD", 2f);
+		shellODEdit.setText(Float.toString(prefs.getFloat("ATA_nozzleShellOD", 10f)));
+		nozzleCentAngleEdit.setText(Float.toString(prefs.getFloat("ATA_nozzleAngle", 45f)));
+		nozzleODEdit.setText(Float.toString(prefs.getFloat("ATA_nozzleOD", 2f)));
 	}
 }
