@@ -5,7 +5,6 @@ import android.support.v4.app.*;
 import android.view.*;
 import android.widget.*;
 import com.atasoft.flangeassist.*;
-import java.util.*;
 
 public class WeldingFrag extends Fragment implements NumberPicker.OnValueChangeListener
 {

@@ -3,7 +3,6 @@ package com.atasoft.flangeassist;
 import android.annotation.*;
 import android.app.*;
 import android.os.*;
-import com.atasoft.flangeassist.*;
 import com.atasoft.flangeassist.fragments.*;
 
 public class FragFramer extends Activity {

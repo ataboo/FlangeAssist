@@ -1,10 +1,6 @@
 package com.atasoft.helpers;
 
-//Used by CashCounter to make choose times
-//----------------------AtaTimePick class--------------------
-import android.content.*;
 import android.util.*;
-import android.view.*;
 import android.widget.*;
 
 public class AtaTimePicker {

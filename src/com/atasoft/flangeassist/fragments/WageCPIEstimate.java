@@ -94,7 +94,7 @@ public class WageCPIEstimate extends Fragment implements OnClickListener
 	private NumberPicker wtcPricePick;
 	private String[] cpiValStrings;
 	private String[] wtcValStrings;
-	private TextView textStartWage;
+	//private TextView textStartWage;
 	private TextView textAnnualRate;
 	private TextView textSemiRate;
 	private TextView textSemiAmount;
@@ -116,7 +116,7 @@ public class WageCPIEstimate extends Fragment implements OnClickListener
 		this.textSemiAmount = (TextView) thisFrag.findViewById(R.id.cpi_amountsemi);
 		this.textFinalWage = (TextView) thisFrag.findViewById(R.id.cpi_ratefinal);
 		this.textMessages = (TextView) thisFrag.findViewById(R.id.cpi_messages);
-		this.textStartWage = (TextView) thisFrag.findViewById(R.id.cpi_wageval);
+		//this.textStartWage = (TextView) thisFrag.findViewById(R.id.cpi_wageval);
 	
 		this.cpiValStrings = makePickerVals(cpiRatePick, "CPI Rate", "%.1f%%", 0f, 10f, 0.1f);		
 		this.wtcValStrings = makePickerVals(wtcPricePick, "Oil Price", "%.0f$", 30f, 200f, 1f);

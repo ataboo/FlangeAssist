@@ -18,6 +18,7 @@ public class JsonPuller
 	public static final int STUD_ARRAY_LENGTH = 4;
 	public static final int RATE_ARRAY_LENGTH = 4;
 	private static final String jFileName = "FlangeValues.json";
+	private static final String jFileNameXL = "FlangeValuesXL.json";
 	
 	private boolean failFlag = false;
 	private JSONObject masterObj;
@@ -32,10 +33,26 @@ public class JsonPuller
 	private HashMap<String, String[]> fStats900;
 	private HashMap<String, String[]> fStats1500;
 	private HashMap<String, HashMap<String, String[]>> fStatHashes;
+	
+	private JSONObject masterXL;
+	private String[] fSizesXL;
+	private String[] fRatingsXL;
+	private String[] studSizesXL;
+	private HashMap<String, String[]> studStatsXL;
+	private HashMap<String, String[]> fStats150XL;
+	private HashMap<String, String[]> fStats400XL;
+	private HashMap<String, String[]> fStats900XL;
+	
 	public void populateValues(){
-		this.masterObj = loadJSON();
+		this.masterObj = loadJSON(jFileName);
+		this.masterXL = loadJSON(jFileNameXL);
 		if(this.masterObj == null) {
 			Log.e("JSON Puller", "masterObj is null. oops.");
+			this.failFlag = true;
+			return;
+		}
+		if(this.masterXL == null) {
+			Log.e("JSON Puller", "masterXL is null. oops.");
 			this.failFlag = true;
 			return;
 		}
@@ -43,24 +60,44 @@ public class JsonPuller
 		this.fSizes = getJSONStringArray(masterObj, "fSizes");
 		this.fRatings = getJSONStringArray(masterObj, "fRatings");
 		this.studSizeOrdered = getJSONStringArray(masterObj, "studSizeOrdered");
-		this.studStats = makeHash("studSizes", studSizeOrdered, STUD_ARRAY_LENGTH);
-		this.fStats150 = makeHash("fStats150", fSizes, RATE_ARRAY_LENGTH);
+		this.studStats = makeHash(masterObj, "studSizes", studSizeOrdered, STUD_ARRAY_LENGTH);
+		this.fStats150 = makeHash(masterObj, "fStats150", fSizes, RATE_ARRAY_LENGTH);
 		fStatHashes.put("150", fStats150);
-		this.fStats300 = makeHash("fStats300", fSizes, RATE_ARRAY_LENGTH);
+		this.fStats300 = makeHash(masterObj, "fStats300", fSizes, RATE_ARRAY_LENGTH);
 		fStatHashes.put("300", fStats300);
-		this.fStats400 = makeHash("fStats400", fSizes, RATE_ARRAY_LENGTH);
+		this.fStats400 = makeHash(masterObj, "fStats400", fSizes, RATE_ARRAY_LENGTH);
 		fStatHashes.put("400", fStats400);
-		this.fStats600 = makeHash("fStats600", fSizes, RATE_ARRAY_LENGTH);
+		this.fStats600 = makeHash(masterObj, "fStats600", fSizes, RATE_ARRAY_LENGTH);
 		fStatHashes.put("600", fStats600);
-		this.fStats900 = makeHash("fStats900", fSizes, RATE_ARRAY_LENGTH);
+		this.fStats900 = makeHash(masterObj, "fStats900", fSizes, RATE_ARRAY_LENGTH);
 		fStatHashes.put("900", fStats900);
-		this.fStats1500 = makeHash("fStats1500", fSizes, RATE_ARRAY_LENGTH);
+		this.fStats1500 = makeHash(masterObj, "fStats1500", fSizes, RATE_ARRAY_LENGTH);
 		fStatHashes.put("1500", fStats1500);
+		
+		//XL for sizes above 24"
+		this.fSizesXL = getJSONStringArray(masterXL, "fSizes");
+		this.fRatingsXL = getJSONStringArray(masterXL, "fRatings");
+		this.studSizesXL = getJSONStringArray(masterXL, "studSizeOrdered");
+		this.studStatsXL = makeHash(masterXL, "studSizes", studSizesXL, STUD_ARRAY_LENGTH);
+		this.fStats150XL = makeHash(masterXL, "fStats150", fSizesXL, RATE_ARRAY_LENGTH);
+		fStatHashes.put("150XL", fStats150XL);
+		this.fStats400XL = makeHash(masterXL, "fStats400", fSizesXL, RATE_ARRAY_LENGTH);
+		fStatHashes.put("400XL", fStats400XL);
+		this.fStats900XL = makeHash(masterXL, "fStats900", fSizesXL, RATE_ARRAY_LENGTH);
+		fStatHashes.put("900XL", fStats900XL);
+		
 	}
 	
 	public String[] getSizes() {
 		if(fSizes == null) return new String[]{"err"};
-		return fSizes;
+		String[] fSizeReturn = new String[fSizes.length + fSizesXL.length];
+		for(int i=0; i<fSizes.length; i++){
+			fSizeReturn[i] = fSizes[i];
+		}
+		for(int i=0; i < fSizesXL.length; i++) {
+			fSizeReturn[i + fSizes.length] = fSizesXL[i];
+		}
+		return fSizeReturn;
 	}
 	
 	public String[] getRates() {
@@ -71,7 +108,7 @@ public class JsonPuller
 	//Stud Diameter, Stud Size Index (not used), Stud Count, Stud Length  
 	public String[] pullFlangeVal(String size, String rating){
 		//Log.w("JSON Puller", "Checking: " + size + " " + rating);
-		if(failFlag) return null;
+		//if(failFlag) return null;
 		String[] retString = new String[RATE_ARRAY_LENGTH];
 		HashMap<String, String[]> fStatHash = fStatHashes.get(rating);
 		retString = (String[]) fStatHash.get(size);
@@ -79,11 +116,19 @@ public class JsonPuller
 	}
 	
 	//Wrench size, Drift pin size, B7M torque val, B7 torque val
-	public String[] pullStudVal(String studSize){
+	public String[] pullStudVal(String studSize, boolean isXL){
 		if(failFlag) return null;
 		String[] retString;
-		retString = studStats.get(studSize);
+		if(isXL){
+			retString = studStatsXL.get(studSize);
+		} else {
+			retString = studStats.get(studSize);
+		}
 		return retString;
+	}
+	
+	public String[] getRatesXL(){
+		return fRatingsXL;
 	}
 	
 	private String[] getJSONStringArray(JSONObject parentObj, String jKey){
@@ -113,10 +158,10 @@ public class JsonPuller
 		return retStr;
 	}
 	
-	private JSONObject getJObject(String jKey){
+	private JSONObject getJObject(String jKey, JSONObject mastObject){
 		JSONObject retObj = null;
 		try{
-			retObj = masterObj.getJSONObject(jKey);
+			retObj = mastObject.getJSONObject(jKey);
 		} catch(JSONException jE){
 			jE.printStackTrace();
 			Log.e("JSON Puller", "getJObject JSON exception. looking for: " + jKey);
@@ -125,10 +170,10 @@ public class JsonPuller
 		return retObj;
 	}
 	
-	private HashMap<String, String[]> makeHash(String arrayKey, String[] hashKey, int arrayLength){
+	private HashMap<String, String[]> makeHash(JSONObject mastObject, String arrayKey, String[] hashKey, int arrayLength){
 		HashMap<String, String[]> retHash = new HashMap<String, String[]>(arrayLength);
 		
-		JSONObject arrayMaster = getJObject(arrayKey);
+		JSONObject arrayMaster = getJObject(arrayKey, mastObject);
 		for(int i = 0; i < hashKey.length; i++){
 			String[] fullStringArr = getJSONStringArray(arrayMaster, hashKey[i]);
 			retHash.put(hashKey[i], fullStringArr);
@@ -136,11 +181,11 @@ public class JsonPuller
 		return retHash;
 	}
 		
-	private JSONObject loadJSON() {
+	private JSONObject loadJSON(String fileName) {
 		JSONObject jObj = null;		
 		try {
 			String jStr = null;
-			InputStream inStr = pView.getContext().getAssets().open(jFileName);
+			InputStream inStr = pView.getContext().getAssets().open(fileName);
 			int size = inStr.available();
 			byte[] buffer = new byte[size];
 			inStr.read(buffer);

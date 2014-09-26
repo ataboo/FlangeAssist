@@ -1,6 +1,6 @@
 Boilermaker Toolbox
 ===================
-Boilermaker Toolbox is a FREE reference tool designed to help Boilermakers in Alberta.  This tool is still early in development so more features will be added in the future.
+Boilermaker Toolbox is a FREE reference tool designed to help Boilermakers in Canada.  This tool is still early in development so more features will be added in the future.
 
 Tell your jealous friends with IPhones about the JavaScript (cross-device) rewrite at
 http://atasoft.altervista.org
@@ -11,7 +11,7 @@ Main features so far (v0.20):
 -Welding Electrode Reference: gives information based on AWS code.
 -Cash Counter: estimates your cash as you earn it
 -Unit Converter (length, pressure, volume, mass)
--Paycheque Calculator (based on 146 Maintenance Agreement)
+-Paycheque Calculator (AB, ON, BC Maintenance agreements)
 -ASME flange tool (provides details based on flange size and rating)
 -Torque pattern generator
 -CPI/Oil price wage increase estimator
@@ -29,6 +29,8 @@ Changes:
 V0.20 (08/12/14):
 -Added Rigging Calculator
 -Added rate indicator, weekend double toggle on Cash Counter
+-Fixed B7/B7M Torques being switched in Flange Table
+-Added Larger ASME Flanges
 
 v0.19 (08/10/14):
 -Added Geometric Shape Calculator on unit converter

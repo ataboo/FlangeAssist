@@ -8,7 +8,6 @@ import android.os.*;
 import android.view.*;
 import android.view.View.*;
 import android.widget.*;
-import com.atasoft.adapters.*;
 
 @SuppressLint("NewApi")
 public class MainActivity extends Activity implements OnClickListener {

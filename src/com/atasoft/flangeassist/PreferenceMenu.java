@@ -1,6 +1,5 @@
 package com.atasoft.flangeassist;
 
-import com.atasoft.flangeassist.*;
 import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
