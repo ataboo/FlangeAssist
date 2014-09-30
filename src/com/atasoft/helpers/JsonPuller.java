@@ -88,8 +88,8 @@ public class JsonPuller
 		
 	}
 	
-	public String[] getSizes() {
-		if(fSizes == null) return new String[]{"err"};
+	public String[] getSizesCombined() {
+		if(fSizes == null || fSizesXL == null) return new String[]{"err"};
 		String[] fSizeReturn = new String[fSizes.length + fSizesXL.length];
 		for(int i=0; i<fSizes.length; i++){
 			fSizeReturn[i] = fSizes[i];
@@ -98,6 +98,14 @@ public class JsonPuller
 			fSizeReturn[i + fSizes.length] = fSizesXL[i];
 		}
 		return fSizeReturn;
+	}
+	
+	public String[] getSizes(){
+		return fSizes;
+	}
+	
+	public String[] getSizesXL(){
+		return fSizesXL;
 	}
 	
 	public String[] getRates() {

@@ -1,8 +1,10 @@
 package com.atasoft.flangeassist.fragments;
 
+import android.content.*;
 import android.os.*;
+import android.preference.*;
 import android.support.v4.app.*;
-import android.util.Log;
+import android.util.*;
 import android.view.*;
 import android.widget.*;
 import com.atasoft.flangeassist.*;
@@ -10,17 +12,33 @@ import com.atasoft.helpers.*;
 
 public class FlangeFragment extends Fragment {
     View thisFrag;
-
-    @Override
+	Context context;
+	@Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
 							 Bundle savedInstanceState) {
 
         View v = inflater.inflate(R.layout.flanges, container, false);
         thisFrag = v;
-        setupSpinners();
+        this.context = v.getContext();
+		
+		setupSpinners();
 
         return v;
     }
+
+	@Override
+	public void onResume()
+	{
+		loadPrefs();
+		super.onResume();
+	}
+
+	@Override
+	public void onPause()
+	{
+		savePrefs();
+		super.onPause();
+	}
 	
 	Spinner rateS;
 	Spinner sizeS;
@@ -32,22 +50,30 @@ public class FlangeFragment extends Fragment {
 	TextView sLengthVal;
 	TextView b7Val;
 	TextView b7mVal;
+	String[] fSizesCombined;
 	String[] fSizes;
+	String[] fSizesXL;
 	String[] fRates;
 	String[] fRatesXL;
-    private void setupSpinners() {
+	SharedPreferences prefs;
+	private void setupSpinners() {
+		this.prefs = PreferenceManager.getDefaultSharedPreferences(context);
 		this.jPuller = new JsonPuller(thisFrag);
+		this.fSizesCombined = jPuller.getSizesCombined();
 		this.fSizes = jPuller.getSizes();
+		this.fSizesXL = jPuller.getSizesXL();
 		this.fRates= jPuller.getRates();
 		this.fRatesXL = jPuller.getRatesXL();
-		this.sizeS = (Spinner) thisFrag.findViewById(R.id.sizeSpinner);
-		ArrayAdapter<String> adaptor2 = new ArrayAdapter<String>(getActivity().getApplicationContext(),
-																 android.R.layout.simple_spinner_item, fSizes);
-		sizeS.setAdapter(adaptor2);
-		this.rateS = (Spinner) thisFrag.findViewById(R.id.rateSpinner);
-		rateSpinnerUpdate();
-		
 
+		this.sizeS = (Spinner) thisFrag.findViewById(R.id.sizeSpinner);
+		ArrayAdapter<String> adaptorSize = new ArrayAdapter<String>(getActivity().getApplicationContext(),
+																 android.R.layout.simple_spinner_item, fSizesCombined);
+		sizeS.setAdapter(adaptorSize);
+		
+		this.rateS = (Spinner) thisFrag.findViewById(R.id.rateSpinner);
+		
+		loadPrefs(); //includes setup for rate adaptor
+		
 		rateS.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 		        public void onItemSelected(AdapterView<?> parent, View view,
 										   int pos, long id) {
@@ -60,6 +86,7 @@ public class FlangeFragment extends Fragment {
 		sizeS.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 			public void onItemSelected(AdapterView<?> parent, View view,
 										   int pos, long id) {
+				updateRateSpin(sizeS.getSelectedItemPosition(), rateS.getSelectedItemPosition());
 				spinSend();
 			}
 
@@ -77,22 +104,56 @@ public class FlangeFragment extends Fragment {
 		
 	}
 	
+	private boolean xlFlag;
+	private void updateRateSpin(int sizeIndex, int rateIndex){
+		//fRates, fRatesXL
+		if(rateS.getSelectedItem() != null) {
+			if(xlFlag == (sizeIndex >= fSizes.length)) return;
+		}
+		this.xlFlag = sizeIndex >= fSizes.length;
+		String[] fRatesOut;
+		fRatesOut = (xlFlag) ? fRatesXL : fRates;	
+		rateIndex = (rateIndex >= fRatesOut.length) ? fRatesOut.length-1 : rateIndex;
+		
+		Log.w("FlangeFrag",String.format("xlFlag is %b, sizeIndex is %d, fSizes.length is %d", xlFlag, sizeIndex, fSizes.length));
+		
+		
+		ArrayAdapter<String> adapterRate = new ArrayAdapter<String>(getActivity().getApplicationContext(),
+			android.R.layout.simple_spinner_item, fRatesOut);
+		rateS.setAdapter(adapterRate);
+		rateS.setSelection(rateIndex);
+		return;
+	}
+	
 	String[] flangeVals;
 	String[] studVals;
-	boolean xlMode = false;
 	private void spinSend() {
 		String fSize = (String) sizeS.getSelectedItem();
 		String fRate = (String) rateS.getSelectedItem();
-		rateSpinnerUpdate();
-		if(xlMode){
-			fRate = fRate + "XL";
-		}
+		fRate = (xlFlag) ? fRate + "XL": fRate;
 		//Stud Diameter, Stud Size Index (not used), Stud Count, Stud Length  
-		Log.w("FlangeFrag", String.format("rate is: %s. size is: %s. xlMode is: %b", fRate, fSize, xlMode));
+		Log.w("FlangeFrag", String.format("rate is: %s. size is: %s. xlMode is: %b", fRate, fSize, xlFlag));
 		this.flangeVals = jPuller.pullFlangeVal(fSize, fRate);
-		
+		Log.w("FlangeFrag", String.format("flangeVals[0]: %s", flangeVals[0]));
 		//Wrench size, Drift pin size, B7M torque val, B7 torque val
-		this.studVals = jPuller.pullStudVal(flangeVals[0], xlMode);
+		if(flangeVals == null){
+			Log.e("FlangeFragment", "jPuller Returning null flangeVal");
+			displayErr(true);
+			return;
+		}
+		
+		if(flangeVals[0].startsWith("-")){
+			displayErr(false);
+			return;
+		}
+		this.studVals = jPuller.pullStudVal(flangeVals[0], xlFlag);
+		
+		if(studVals == null){
+			displayErr(true);
+			Log.e("FlangeFragment","jPuller returning null studVals");
+			return;
+		}
+		
 		displayVals();
 	}
 	
@@ -104,19 +165,41 @@ public class FlangeFragment extends Fragment {
 		sLengthVal.setText(flangeVals[3] + "\"");
 		b7Val.setText(studVals[3] + " ft-lbs");
 		b7mVal.setText(studVals[2] + " ft-lbs");
+		return;
 	}
 	
-	private void rateSpinnerUpdate(){
-		boolean currentIsXL = sizeS.getSelectedItemPosition() >= fSizes.length;
-		if(rateS != null && xlMode == currentIsXL) return;
-		int oldPos = rateS.getSelectedItemPosition();
-		String[] rateArray = (currentIsXL) ? fRatesXL : fRates;
-		ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity().getApplicationContext(),
-				android.R.layout.simple_spinner_item, rateArray);
-		rateS.setAdapter(adapter);
-		oldPos = (oldPos < rateArray.length) ? oldPos: rateArray.length - 1;
-		rateS.setSelection(oldPos);
-		this.xlMode = currentIsXL; 
-		Log.w("FlangeFrag RateSPinnerUpdate", String.format("xlMode is: %b, currentIsXl is: %b, equation is: %b", xlMode, currentIsXL, sizeS.getSelectedItemPosition() >= fSizes.length));
+	private void displayErr(boolean realError){
+		if(realError){
+			sDiamVal.setText("err\"");
+			wrenchVal.setText("err\"");
+			driftVal.setText("err\"");
+			sCountVal.setText("err");
+			sLengthVal.setText("err\"");
+			b7Val.setText("err ft-lbs");
+			b7mVal.setText("err ft-lbs");
+		} else {
+			sDiamVal.setText("-\"");
+			wrenchVal.setText("-\"");
+			driftVal.setText("-\"");
+			sCountVal.setText("-");
+			sLengthVal.setText("-\"");
+			b7Val.setText("- ft-lbs");
+			b7mVal.setText("- ft-lbs");	
+		}
 	}
+	
+	private void loadPrefs(){
+		if(sizeS.getSelectedItem() != null) sizeS.setSelection(prefs.getInt("ATA_flangeSize", 0));
+		xlFlag = prefs.getBoolean("ATA_flangeXLFlag", false);
+		updateRateSpin(prefs.getInt("ATA_flangeSize", 0), prefs.getInt("ATA_flangeRate", 0));
+	}
+	
+	private void savePrefs(){
+		SharedPreferences.Editor prefEdit = prefs.edit();
+		prefEdit.putInt("ATA_flangeSize", sizeS.getSelectedItemPosition());
+		prefEdit.putInt("ATA_flangeRate", rateS.getSelectedItemPosition());
+		prefEdit.putBoolean("ATA_flangeXLFlag", xlFlag);
+		prefEdit.apply();
+	}
+	
 }
