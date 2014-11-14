@@ -37,6 +37,7 @@ public class JsonPuller
 	private JSONObject masterXL;
 	private String[] fSizesXL;
 	private String[] fRatingsXL;
+	private String[] fRatingsXXL;
 	private String[] studSizesXL;
 	private HashMap<String, String[]> studStatsXL;
 	private HashMap<String, String[]> fStats150XL;
@@ -85,6 +86,10 @@ public class JsonPuller
 		fStatHashes.put("400XL", fStats400XL);
 		this.fStats900XL = makeHash(masterXL, "fStats900", fSizesXL, RATE_ARRAY_LENGTH);
 		fStatHashes.put("900XL", fStats900XL);
+		
+		//XXL for sizes above 48"
+		//Hardcoded for simplicity's sake
+		this.fRatingsXXL = new String[]{"150", "400"};
 		
 	}
 	
@@ -137,6 +142,10 @@ public class JsonPuller
 	
 	public String[] getRatesXL(){
 		return fRatingsXL;
+	}
+	
+	public String[] getRatesXXL(){
+		return fRatingsXXL;
 	}
 	
 	private String[] getJSONStringArray(JSONObject parentObj, String jKey){

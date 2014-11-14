@@ -55,6 +55,7 @@ public class FlangeFragment extends Fragment {
 	String[] fSizesXL;
 	String[] fRates;
 	String[] fRatesXL;
+	String[] fRatesXXL;
 	SharedPreferences prefs;
 	private void setupSpinners() {
 		this.prefs = PreferenceManager.getDefaultSharedPreferences(context);
@@ -64,6 +65,7 @@ public class FlangeFragment extends Fragment {
 		this.fSizesXL = jPuller.getSizesXL();
 		this.fRates= jPuller.getRates();
 		this.fRatesXL = jPuller.getRatesXL();
+		this.fRatesXXL = jPuller.getRatesXXL();
 
 		this.sizeS = (Spinner) thisFrag.findViewById(R.id.sizeSpinner);
 		ArrayAdapter<String> adaptorSize = new ArrayAdapter<String>(getActivity().getApplicationContext(),
@@ -104,18 +106,22 @@ public class FlangeFragment extends Fragment {
 		
 	}
 	
-	private boolean xlFlag;
+	private static final int RATE_NORMAL = 0;
+	private static final int RATE_XL = 1;
+	private static final int RATE_XXL = 2;
+	private int xlFlag;
 	private void updateRateSpin(int sizeIndex, int rateIndex){
 		//fRates, fRatesXL
+		int xlState = (sizeIndex < fSizes.length) ? RATE_NORMAL: (sizeIndex < fSizesCombined.length - 6) ? RATE_XL: RATE_XXL;
 		if(rateS.getSelectedItem() != null) {
-			if(xlFlag == (sizeIndex >= fSizes.length)) return;
+			if(xlFlag == xlState) return;
 		}
-		this.xlFlag = sizeIndex >= fSizes.length;
+		this.xlFlag = xlState;
 		String[] fRatesOut;
-		fRatesOut = (xlFlag) ? fRatesXL : fRates;	
+		fRatesOut = (xlFlag == RATE_NORMAL) ? fRates : (xlFlag == RATE_XL) ? fRatesXL: fRatesXXL;	
 		rateIndex = (rateIndex >= fRatesOut.length) ? fRatesOut.length-1 : rateIndex;
 		
-		Log.w("FlangeFrag",String.format("xlFlag is %b, sizeIndex is %d, fSizes.length is %d", xlFlag, sizeIndex, fSizes.length));
+		//Log.w("FlangeFrag",String.format("xlFlag is %b, sizeIndex is %d, fSizes.length is %d", xlFlag, sizeIndex, fSizes.length));
 		
 		
 		ArrayAdapter<String> adapterRate = new ArrayAdapter<String>(getActivity().getApplicationContext(),
@@ -130,7 +136,7 @@ public class FlangeFragment extends Fragment {
 	private void spinSend() {
 		String fSize = (String) sizeS.getSelectedItem();
 		String fRate = (String) rateS.getSelectedItem();
-		fRate = (xlFlag) ? fRate + "XL": fRate;
+		fRate = (xlFlag != RATE_NORMAL) ? fRate + "XL": fRate;
 		//Stud Diameter, Stud Size Index (not used), Stud Count, Stud Length  
 		Log.w("FlangeFrag", String.format("rate is: %s. size is: %s. xlMode is: %b", fRate, fSize, xlFlag));
 		this.flangeVals = jPuller.pullFlangeVal(fSize, fRate);
@@ -146,7 +152,7 @@ public class FlangeFragment extends Fragment {
 			displayErr(false);
 			return;
 		}
-		this.studVals = jPuller.pullStudVal(flangeVals[0], xlFlag);
+		this.studVals = jPuller.pullStudVal(flangeVals[0], xlFlag != RATE_NORMAL);
 		
 		if(studVals == null){
 			displayErr(true);
@@ -190,7 +196,7 @@ public class FlangeFragment extends Fragment {
 	
 	private void loadPrefs(){
 		if(sizeS.getSelectedItem() != null) sizeS.setSelection(prefs.getInt("ATA_flangeSize", 0));
-		xlFlag = prefs.getBoolean("ATA_flangeXLFlag", false);
+		xlFlag = prefs.getInt("ATA_flangeXLFlagInt", 0);
 		updateRateSpin(prefs.getInt("ATA_flangeSize", 0), prefs.getInt("ATA_flangeRate", 0));
 	}
 	
@@ -198,7 +204,7 @@ public class FlangeFragment extends Fragment {
 		SharedPreferences.Editor prefEdit = prefs.edit();
 		prefEdit.putInt("ATA_flangeSize", sizeS.getSelectedItemPosition());
 		prefEdit.putInt("ATA_flangeRate", rateS.getSelectedItemPosition());
-		prefEdit.putBoolean("ATA_flangeXLFlag", xlFlag);
+		prefEdit.putInt("ATA_flangeXLFlagInt", xlFlag);
 		prefEdit.apply();
 	}
 	
