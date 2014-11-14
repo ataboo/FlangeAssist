@@ -20,15 +20,16 @@ Main features so far (v0.20):
 Features to come:
 -Component weight estimator
 -More general trade reference material
--Shop fitting calculations (nozzle location/measure-back for pipe joints, etc.)
+-Larger flange sizes in table
 
 Feel free to send feedback or suggestions to bmtoolbox@gmail.com
 
 Changes:
 ==================
-V0.20 (08/12/14):
+V0.20 (14/11/14):
 -Added Rigging Calculator
 -Added rate indicator, weekend double toggle on Cash Counter
+-Updated AB Wage Rates
 
 v0.19 (08/10/14):
 -Added Geometric Shape Calculator on unit converter

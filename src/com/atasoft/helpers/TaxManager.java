@@ -119,10 +119,11 @@ public class TaxManager {
 		};
 		bcStats.defaultWageIndex = 7; //Journeyman
 		bcStats.vacRate = 0.12d;
-		
-		abStats.wageRates = new double[]{
-			31.76, 24.86, 31.76, 38.65, 42.75, 43.25, 46.40, 48.75, 50.75
-		};
+
+        //Updated November 14
+        abStats.wageRates = new double[]{
+                32.24, 25.25, 32.24, 39.24, 43.15, 43.90, 47.05, 49.40, 51.40
+        };
 		abStats.wageNames = new String[]{
 			"Helper", "1st Year", "2nd Year", "3rd Year", "Journeyman (S)", "Journeyman (N)", "Lead Hand", "Foreman", "GF"
 		};
