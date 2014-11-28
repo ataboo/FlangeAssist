@@ -45,10 +45,12 @@
     <string-array name="taxYears">
         <item name="2013">2013 Tax Rate</item>
         <item name="2014">2014 Tax Rate</item>
+        <item name="2015">2015 Tax Rate</item>
     </string-array>
     <string-array name="taxYearVals">
         <item name="2013">2013</item>
         <item name="2014">2014</item>
+        <item name="2015">2015</item>
     </string-array>
     <string-array name="taxProv">
         <item name="AB">Alberta</item>

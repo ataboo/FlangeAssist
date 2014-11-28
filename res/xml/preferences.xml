@@ -25,7 +25,7 @@
 			android:key="list_taxYear"
             android:title="Tax Year"
             android:summary="Change the tax year."
-            android:defaultValue="2014"
+            android:defaultValue="2015"
             android:entries="@array/taxYears"
             android:entryValues="@array/taxYearVals" />
 		<EditTextPreference

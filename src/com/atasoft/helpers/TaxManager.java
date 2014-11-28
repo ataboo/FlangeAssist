@@ -6,6 +6,7 @@ public class TaxManager {
 	//Tax Years
 	public static final int TY_2013 = 0;
 	public static final int TY_2014 = 1;
+    public static final int TY_2015 = 2;
 	
 	//Provinces
 	public static final int PROV_BC = 0;
@@ -143,7 +144,7 @@ public class TaxManager {
 		bcStats.defaultWageIndex = 7; //Journeyman
 		bcStats.vacRate = 0.12d;
 
-        //Updated November 14
+        //Updated November 2014
         abStats.wageRates = new double[]{
                 32.24, 25.25, 32.24, 39.24, 43.15, 43.90, 47.05, 49.40, 51.40
         };
@@ -274,9 +275,7 @@ public class TaxManager {
 			(anGross<bracket[3] ? 2 : 3));
 		double rate = fedStats.rates[year][taxIndex];
 		double constK = fedStats.constK[year][taxIndex];
-		double fedTax = anGross * rate -
-			constK - 
-			fedStats.taxCred[year];
+		double fedTax = anGross * rate - constK - fedStats.taxCred[year];
 		return fedTax;
 	}
 	
@@ -289,10 +288,7 @@ public class TaxManager {
 			(anGross<bracket[5] ? 4 : 5))));
 		double rate = bcStats.rates[year][taxIndex];  //Rate and constant will share same index
 		double constK = bcStats.constK[year][taxIndex];	
-		double taxTotal = rate * anGross - 
-			constK -
-			bcStats.taxCred[year] -
-			bcTaxReduction(anGross, year);	
+		double taxTotal = rate * anGross - constK - bcStats.taxCred[year] - bcTaxReduction(anGross, year);
 		return taxTotal;
 	}
 	
@@ -304,14 +300,20 @@ public class TaxManager {
 	
 	private double getONTax(double anGross, int year){
 		double[] bracket = onStats.brackets[year];
-		int taxIndex = (anGross<bracket[1]) ? 0:
-			(anGross<bracket[2] ? 1 :
-			(anGross<bracket[3] ? 2 : 3));
+        int taxIndex;
+        if(year == TY_2013 || year == TY_2014) {
+            taxIndex = (anGross < bracket[1]) ? 0 :
+                    (anGross < bracket[2] ? 1 :
+                            (anGross < bracket[3] ? 2 : 3));
+        } else { //5th tax bracket in 2015
+            taxIndex = (anGross < bracket[1]) ? 0 :
+                    (anGross < bracket[2] ? 1 :
+                            (anGross < bracket[3] ? 2 :
+                                    (anGross < bracket[4]) ? 3 : 4));
+        }
 		double rate = onStats.rates[year][taxIndex];  //Rate and constant will share same index
 		double constK = onStats.constK[year][taxIndex];	
-		double taxTotal = rate * anGross - 
-			constK -
-			onStats.taxCred[year];
+		double taxTotal = rate * anGross - constK - onStats.taxCred[year];
 		taxTotal = ontarioSpecific(anGross, year, taxTotal);	//includes health premium, surcharge
 		return taxTotal;
 	}

@@ -475,11 +475,13 @@ public class PaychequeFragment extends Fragment implements OnClickListener
 		
 		String yearString = prefs.getString("list_taxYear", "2014");
 		String provString = prefs.getString("list_provwage", "AB");
-		
-		int taxYear = TaxManager.TY_2014;
+
+        //TODO: turn down the suck on the prefs
+		int taxYear = TaxManager.TY_2015;
 		int taxProv = TaxManager.PROV_AB;
 		
 		if(yearString.contains("2013")) taxYear = TaxManager.TY_2013;
+        if(yearString.contains("2014")) taxYear = taxManager.TY_2014;
 		
 		if(provString.contains("BC")) taxProv = TaxManager.PROV_BC;
 		if(provString.contains("ON")) taxProv = TaxManager.PROV_ON;
