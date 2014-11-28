@@ -271,7 +271,7 @@ public class CashCounter extends Fragment implements OnClickListener {
 	
 	private void recallSettings(){
 		startAtaPicker.setPickerValue(new int[]{prefs.getInt("ATA_counterStartHour", 8), prefs.getInt("ATA_counterStartMin", 0)});
-		wageEdit.setText(Float.toString(prefs.getFloat("ATA_counterWageRate", 43.25f)));
+		wageEdit.setText(Float.toString(prefs.getFloat("ATA_counterWageRate", 43.90f)));
 		nightToggle.setChecked(prefs.getBoolean("ATA_counterNightShift", false));
 		weekendDoubleToggle.setChecked(prefs.getBoolean("ATA_counterWeekendDouble", true));
 		holidayToggle.setChecked(prefs.getBoolean("ATA_counterHoliday", false));
@@ -328,7 +328,7 @@ public class CashCounter extends Fragment implements OnClickListener {
 			secondsIntoShift += (timeNowArr[0] - shiftStart[0] + 24) * 3600;
 		}
 		double hoursIntoShift = secondsIntoShift / 3600d;
-		double earnings = 0;
+		double earnings;
 		
 		boolean isFriday = false;
 		boolean isWeekend = false;
@@ -382,9 +382,9 @@ public class CashCounter extends Fragment implements OnClickListener {
 			}
 		}
 		double hoursEquivelant = 1d * hours[0] + 1.5d * hours[1] + 2d * hours[2];
-		Log.w("CashCounter",String.format("weekdayhours[0]:%.3f, weekdayhours[1]:%.3f, weekdayhours[2]:%.3f", weekdayHours[0], weekdayHours[1], weekdayHours[2]));
+		//Log.w("CashCounter",String.format("weekdayhours[0]:%.3f, weekdayhours[1]:%.3f, weekdayhours[2]:%.3f", weekdayHours[0], weekdayHours[1], weekdayHours[2]));
 		
-		Log.w("CashCounter",String.format("hours[0]:%.3f, hours[1]:%.3f, hours[2]:%.3f, intoShift: %.3f", hours[0], hours[1], hours[2], hoursIntoShift));
+		//Log.w("CashCounter",String.format("hours[0]:%.3f, hours[1]:%.3f, hours[2]:%.3f, intoShift: %.3f", hours[0], hours[1], hours[2], hoursIntoShift));
 		earnings = hoursEquivelant * wageVal;
 		if(nightToggle.isChecked()) earnings += hoursIntoShift * 3d;
 		earnings = Math.floor(earnings * 100) / 100;

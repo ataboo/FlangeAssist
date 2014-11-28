@@ -45,7 +45,10 @@ public class TaxManager {
 	public TaxManager.TaxStats onStats;
 	public double[][] cppEi;
 	private void setupTaxStats(){
+		
+		//2013, 2014, 2015
 		this.cppEi = new double[][]{
+			{0.0495, 3500, 0.0188},
 			{0.0495, 3500, 0.0188},
 			{0.0495, 3500, 0.0188}
 		};
@@ -53,51 +56,70 @@ public class TaxManager {
 		this.fedStats = new TaxManager.TaxStats();
 		fedStats.brackets = new double[][]{
 			{0,43561,87123,135054},
-			{0,43953,87907,136370}};
+			{0,43953,87907,136370},
+			{0,44701,89401,138586}
+		};
 		fedStats.rates = new double[][]{
 			{0.15, 0.22, 0.26, 0.29},
-			{0.15, 0.22, 0.26, 0.29}};
+			{0.15, 0.22, 0.26, 0.29},
+			{0.15, 0.22, 0.26, 0.29}
+		};
 		fedStats.constK = new double[][]{
 			{0,3049,6534,10586},
-			{0,3077,6593,10681}};
-		fedStats.taxCred = new double[]{2310.35, 2340.63};
+			{0,3077,6593,10681},
+			{0,3129,6705,10863}};
+		
+		//(cpp max + ei max) * .15 [K2] + tax cred * .15 [K4]
+		fedStats.taxCred = new double[]{2310.35, 2340.63, 2382.53};
 		
 		this.bcStats = new TaxManager.TaxStats();
 		bcStats.brackets = new double[][]{
 			{0, 37568, 75138, 86268, 104754.01, 150000},
-			{0, 37606, 75213, 86354, 104858, 150000}};
+			{0, 37606, 75213, 86354, 104858, 150000},
+			{0, 37869, 75740, 86958, 105592, 151050}};
 		bcStats.rates = new double[][]{
+			{0.0506, 0.0770, 0.1050, 0.1229, 0.1470, 0.1680},
 			{0.0506, 0.0770, 0.1050, 0.1229, 0.1470, 0.1680},
 			{0.0506, 0.0770, 0.1050, 0.1229, 0.1470, 0.1680}};
 		bcStats.constK = new double[][]{
 			{0, 992, 3096, 4640, 7164, 10322},
-			{0, 993, 3099, 4644, 7172, 10322}};
-		bcStats.taxCred = new double[]{684.28, 668.33};
+			{0, 993, 3099, 4644, 7172, 10322},
+			{0, 1000, 3120, 4677, 7222, 10394}};
+		
+		//(cpp max + ei max + BC1 amount) * .0506
+		bcStats.taxCred = new double[]{684.28, 668.33, 675.44};
 		bcStats.taxReduction = new double[][]{
 			{18181, 409, 0.032},  //under 18181 gets 409 over gets 409 - difference * %3.2
-			{18200, 409, 0.032}
+			{18200, 409, 0.032},
+			{18327, 412, 0.032}
 		};
 		
 		//Simplicity is key
 		this.abStats = new TaxManager.TaxStats();
-		abStats.rates = new double[][]{{0.10},{0.10}};
-		abStats.taxCred = new double[]{2084.03, 2112.62};
+		abStats.rates = new double[][]{{0.10},{0.10}, {0.10}};
+		
+		//(cpp max + ei max + AB1) * 0.1
+		abStats.taxCred = new double[]{2084.03, 2112.62, 2162.46};
 		
 		this.onStats = new TaxManager.TaxStats();
+		//Ontario adding a bracket is lame
 		onStats.brackets = new double[][]{
 			{0, 39723, 79448, 509000},
-			{0, 40120, 80242, 514090}};
-			// stopped here
+			{0, 40120, 80242, 514090},
+			{0, 40922, 81847, 150000, 220000}};
 		onStats.rates = new double[][]{
 			{0.0505, 0.0915, 0.1116, 0.1316},
-			{0.0505, 0.0915, 0.1116, 0.1316}};
+			{0.0505, 0.0915, 0.1116, 0.1316},
+			{0.0505, 0.0915, 0.1116, 0.1216, 0.1316}};
 		onStats.constK = new double[][]{
 			{0, 1629, 3226, 13406},
-			{0, 1645, 3258, 13540}};
-		onStats.taxCred = new double[]{647.48, 656.96};
+			{0, 1645, 3258, 13540},
+			{0, 1678, 3323, 4823, 7023}};
+		onStats.taxCred = new double[]{647.48, 656.96, 670.31};
 		onStats.taxReduction = new double[][]{
 			{221},  //basic personal amount
-			{223}
+			{223},
+			{228}
 		};
 		onStats.healthPrem = new double[][]{  //doesn't support years yet
 			{20000, 36000, 48000, 72000, 200000},
@@ -106,7 +128,8 @@ public class TaxManager {
 		};
 		onStats.surtax = new double[][]{
 			{4289, 5489, 0.2, 0.36},
-			{4331, 5543, 0.2, 0.36}
+			{4331, 5543, 0.2, 0.36},
+			{4418, 5654, 0.2, 0.36}
 		};
 		//I threw these in here so I only have to update one spot
 		//-------------------------Wages------------------
@@ -119,10 +142,11 @@ public class TaxManager {
 		};
 		bcStats.defaultWageIndex = 7; //Journeyman
 		bcStats.vacRate = 0.12d;
-		
-		abStats.wageRates = new double[]{
-			31.76, 24.86, 31.76, 38.65, 42.75, 43.25, 46.40, 48.75, 50.75
-		};
+
+        //Updated November 14
+        abStats.wageRates = new double[]{
+                32.24, 25.25, 32.24, 39.24, 43.15, 43.90, 47.05, 49.40, 51.40
+        };
 		abStats.wageNames = new String[]{
 			"Helper", "1st Year", "2nd Year", "3rd Year", "Journeyman (S)", "Journeyman (N)", "Lead Hand", "Foreman", "GF"
 		};
