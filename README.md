@@ -5,8 +5,8 @@ Boilermaker Toolbox is a FREE reference tool designed to help Boilermakers in Ca
 Tell your jealous friends with IPhones about the JavaScript (cross-device) rewrite at
 http://atasoft.altervista.org
 
-Main features so far (v0.20):
--NEW Rigging Calculator: finds load on slings, nylon sling table.
+Main features so far (v0.21):
+-Rigging Calculator: finds load on slings, nylon sling table.
 -Shape Calculator: finds volume/surface area.
 -Welding Electrode Reference: gives information based on AWS code.
 -Cash Counter: estimates your cash as you earn it
@@ -25,16 +25,17 @@ Features to come:
 Feel free to send feedback or suggestions to bmtoolbox@gmail.com
 
 Changes:
-==================
+===========================================================
+V0.21 (09/12/14):
+-Added flange table by stud size
+-Added 2015 tax rates (AB, BC, ON)
+
 V0.20 (14/11/14):
 -Added Rigging Calculator
 -Added rate indicator, weekend double toggle on Cash Counter
-<<<<<<< HEAD
 -Fixed B7/B7M Torques being switched in Flange Table
 -Added Larger ASME Flanges
-=======
 -Updated AB Wage Rates
->>>>>>> ae07369fb855504b8e7dcc87c611494794abb600
 
 v0.19 (08/10/14):
 -Added Geometric Shape Calculator on unit converter

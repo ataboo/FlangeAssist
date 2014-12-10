@@ -2,8 +2,8 @@
 <resources>
 
     <!-- Update Values (last checked Oct.26/13) -->
-    <string name="version_info">Boilermaker Toolbox v0.20
-		\nLast updated November 14, 2014
+    <string name="version_info">Boilermaker Toolbox v0.21
+		\nLast updated December 9, 2014
 		\nAB Wages updated: Nov 2/14</string>
 
     <!-- Main Menu -->
