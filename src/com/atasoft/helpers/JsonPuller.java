@@ -112,6 +112,8 @@ public class JsonPuller
 	public String[] getSizesXL(){
 		return fSizesXL;
 	}
+
+    public String[] getStudSizes(){ return studSizeOrdered; }
 	
 	public String[] getRates() {
 		if(fRatings == null) return new String[]{"err"};
@@ -129,15 +131,9 @@ public class JsonPuller
 	}
 	
 	//Wrench size, Drift pin size, B7M torque val, B7 torque val
-	public String[] pullStudVal(String studSize, boolean isXL){
+	public String[] pullStudVal(String studSize){
 		if(failFlag) return null;
-		String[] retString;
-		if(isXL){
-			retString = studStatsXL.get(studSize);
-		} else {
-			retString = studStats.get(studSize);
-		}
-		return retString;
+		return studStats.get(studSize);
 	}
 	
 	public String[] getRatesXL(){

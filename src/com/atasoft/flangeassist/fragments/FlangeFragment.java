@@ -22,6 +22,7 @@ public class FlangeFragment extends Fragment {
         this.context = v.getContext();
 		
 		setupSpinners();
+        loadPrefs();
 
         return v;
     }
@@ -52,49 +53,58 @@ public class FlangeFragment extends Fragment {
 	TextView b7mVal;
 	String[] fSizesCombined;
 	String[] fSizes;
-	String[] fSizesXL;
 	String[] fRates;
-	String[] fRatesXL;
-	String[] fRatesXXL;
+
+    Spinner studSizeSpinner;
+    TextView studWrenchVal;
+    TextView studDriftVal;
+    TextView studB7Val;
+    TextView studB7MVal;
+    String[] fStuds;
+
 	SharedPreferences prefs;
 	private void setupSpinners() {
 		this.prefs = PreferenceManager.getDefaultSharedPreferences(context);
 		this.jPuller = new JsonPuller(thisFrag);
-		this.fSizesCombined = jPuller.getSizesCombined();
 		this.fSizes = jPuller.getSizes();
-		this.fSizesXL = jPuller.getSizesXL();
-		this.fRates= jPuller.getRates();
-		this.fRatesXL = jPuller.getRatesXL();
-		this.fRatesXXL = jPuller.getRatesXXL();
+		this.fRates = jPuller.getRates();
+        this.fStuds = jPuller.getStudSizes();
 
 		this.sizeS = (Spinner) thisFrag.findViewById(R.id.sizeSpinner);
 		ArrayAdapter<String> adaptorSize = new ArrayAdapter<String>(getActivity().getApplicationContext(),
-																 android.R.layout.simple_spinner_item, fSizesCombined);
+																 android.R.layout.simple_spinner_item, fSizes);
 		sizeS.setAdapter(adaptorSize);
 		
 		this.rateS = (Spinner) thisFrag.findViewById(R.id.rateSpinner);
-		
-		loadPrefs(); //includes setup for rate adaptor
-		
-		rateS.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-		        public void onItemSelected(AdapterView<?> parent, View view,
-										   int pos, long id) {
-					spinSend();
-				}
+        ArrayAdapter<String> adapterRate = new ArrayAdapter<String>(getActivity().getApplicationContext(),
+                android.R.layout.simple_spinner_item, fRates);
+        rateS.setAdapter(adapterRate);
 
-				public void onNothingSelected(AdapterView<?> parent) {
-				}
-			});
-		sizeS.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-			public void onItemSelected(AdapterView<?> parent, View view,
-										   int pos, long id) {
-				updateRateSpin(sizeS.getSelectedItemPosition(), rateS.getSelectedItemPosition());
-				spinSend();
+        this.studSizeSpinner = (Spinner) thisFrag.findViewById(R.id.stud_spinner);
+        ArrayAdapter<String> adapterStud = new ArrayAdapter<String>(getActivity().getApplicationContext(),
+            android.R.layout.simple_spinner_item, fStuds);
+        studSizeSpinner.setAdapter(adapterStud);
+
+        //Set Listeners on spinners to update stats
+        rateS.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+		    public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+                spinSend();
 			}
-
+			public void onNothingSelected(AdapterView<?> parent){}
+		});
+		sizeS.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+			public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+                spinSend();
+            }
 			public void onNothingSelected(AdapterView<?> parent) {
 			}
 		});
+        studSizeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
+            public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+                studSpinSend();
+            }
+            public void onNothingSelected(AdapterView<?> parent){}
+        });
 
 		this.sDiamVal = (TextView) thisFrag.findViewById(R.id.sDiamVal);
 		this.wrenchVal = (TextView) thisFrag.findViewById(R.id.wrenchVal);
@@ -103,45 +113,19 @@ public class FlangeFragment extends Fragment {
 		this.sLengthVal = (TextView) thisFrag.findViewById(R.id.sLengthVal);
 		this.b7Val = (TextView) thisFrag.findViewById(R.id.b7Val);
 		this.b7mVal = (TextView) thisFrag.findViewById(R.id.b7MVal);
-		
+
+        this.studWrenchVal = (TextView) thisFrag.findViewById(R.id.stud_wrenchVal);
+        this.studDriftVal = (TextView) thisFrag.findViewById(R.id.stud_driftVal);
+        this.studB7Val = (TextView) thisFrag.findViewById(R.id.stud_b7Val);
+        this.studB7MVal = (TextView) thisFrag.findViewById(R.id.stud_b7mVal);
 	}
-	
-	private static final int RATE_NORMAL = 0;
-	private static final int RATE_XL = 1;
-	private static final int RATE_XXL = 2;
-	private int xlFlag;
-	private void updateRateSpin(int sizeIndex, int rateIndex){
-		//fRates, fRatesXL
-		int xlState = (sizeIndex < fSizes.length) ? RATE_NORMAL: (sizeIndex < fSizesCombined.length - 6) ? RATE_XL: RATE_XXL;
-		if(rateS.getSelectedItem() != null) {
-			if(xlFlag == xlState) return;
-		}
-		this.xlFlag = xlState;
-		String[] fRatesOut;
-		fRatesOut = (xlFlag == RATE_NORMAL) ? fRates : (xlFlag == RATE_XL) ? fRatesXL: fRatesXXL;	
-		rateIndex = (rateIndex >= fRatesOut.length) ? fRatesOut.length-1 : rateIndex;
-		
-		//Log.w("FlangeFrag",String.format("xlFlag is %b, sizeIndex is %d, fSizes.length is %d", xlFlag, sizeIndex, fSizes.length));
-		
-		
-		ArrayAdapter<String> adapterRate = new ArrayAdapter<String>(getActivity().getApplicationContext(),
-			android.R.layout.simple_spinner_item, fRatesOut);
-		rateS.setAdapter(adapterRate);
-		rateS.setSelection(rateIndex);
-		return;
-	}
-	
+
 	String[] flangeVals;
 	String[] studVals;
 	private void spinSend() {
 		String fSize = (String) sizeS.getSelectedItem();
 		String fRate = (String) rateS.getSelectedItem();
-		fRate = (xlFlag != RATE_NORMAL) ? fRate + "XL": fRate;
-		//Stud Diameter, Stud Size Index (not used), Stud Count, Stud Length  
-		Log.w("FlangeFrag", String.format("rate is: %s. size is: %s. xlMode is: %b", fRate, fSize, xlFlag));
 		this.flangeVals = jPuller.pullFlangeVal(fSize, fRate);
-		Log.w("FlangeFrag", String.format("flangeVals[0]: %s", flangeVals[0]));
-		//Wrench size, Drift pin size, B7M torque val, B7 torque val
 		if(flangeVals == null){
 			Log.e("FlangeFragment", "jPuller Returning null flangeVal");
 			displayErr(true);
@@ -152,7 +136,7 @@ public class FlangeFragment extends Fragment {
 			displayErr(false);
 			return;
 		}
-		this.studVals = jPuller.pullStudVal(flangeVals[0], xlFlag != RATE_NORMAL);
+		this.studVals = jPuller.pullStudVal(flangeVals[0]);
 		
 		if(studVals == null){
 			displayErr(true);
@@ -193,19 +177,36 @@ public class FlangeFragment extends Fragment {
 			b7mVal.setText("- ft-lbs");	
 		}
 	}
+
+    private void studSpinSend(){
+        // wrench size, drift pin, b7m, b7
+        String[] studValArray = jPuller.pullStudVal(studSizeSpinner.getSelectedItem().toString());
+        if(studValArray == null){
+            studValArray = new String[]{"-","-","-","-"};
+            studWrenchVal.setText(studValArray[0]);
+            studDriftVal.setText(studValArray[1]);
+            studB7Val.setText(studValArray[3]);
+            studB7MVal.setText(studValArray[2]);
+            return;
+        }
+
+        studWrenchVal.setText(studValArray[0] + "\"");
+        studDriftVal.setText(studValArray[1] + "\"");
+        studB7Val.setText(studValArray[3] + " ft-lbs");
+        studB7MVal.setText(studValArray[2] + " ft-lbs");
+    }
 	
 	private void loadPrefs(){
-		if(sizeS.getSelectedItem() != null) sizeS.setSelection(prefs.getInt("ATA_flangeSize", 0));
-		xlFlag = prefs.getInt("ATA_flangeXLFlagInt", 0);
-		updateRateSpin(prefs.getInt("ATA_flangeSize", 0), prefs.getInt("ATA_flangeRate", 0));
+		sizeS.setSelection(prefs.getInt("ATA_flangeSize", 0));
+		rateS.setSelection(prefs.getInt("ATA_flangeRate", 0));
+        studSizeSpinner.setSelection(prefs.getInt("ATA_flangeStud", 0));
 	}
 	
 	private void savePrefs(){
 		SharedPreferences.Editor prefEdit = prefs.edit();
 		prefEdit.putInt("ATA_flangeSize", sizeS.getSelectedItemPosition());
 		prefEdit.putInt("ATA_flangeRate", rateS.getSelectedItemPosition());
-		prefEdit.putInt("ATA_flangeXLFlagInt", xlFlag);
+        prefEdit.putInt("ATA_flangeStud", studSizeSpinner.getSelectedItemPosition());
 		prefEdit.apply();
 	}
-	
 }
